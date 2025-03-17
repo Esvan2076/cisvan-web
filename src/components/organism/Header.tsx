@@ -1,12 +1,12 @@
-import { useState } from "react";
 import { FaRegFileAlt, FaUserCircle, FaGlobe } from "react-icons/fa";
 import CisvanButton from "../atom/CisvanButton";
 import SearchBar from "../mol/SearchBar";
+import { useTranslation } from "react-i18next";
 import IconButton from "../atom/IconButton";
 import DropdownMenu from "../mol/DropdownMenuProps";
 
 const Header: React.FC = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("Español");
+  const { t } = useTranslation(); // Para traducir textos en el header
 
   return (
     <header className="h-18 w-full bg-neutral-800 flex items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8">
@@ -21,16 +21,14 @@ const Header: React.FC = () => {
 
         {/* Botones Derechos */}
         <div className="flex items-center gap-2 ml-auto">
-          <IconButton icon={FaRegFileAlt} text="Historial" />
-          <IconButton icon={FaUserCircle} text="Iniciar Sesión" />
+          <IconButton icon={FaRegFileAlt} text={t("history")} />
+          <IconButton icon={FaUserCircle} text={t("login")} />
 
           {/* Menú desplegable de idioma con indicador */}
           <DropdownMenu
             icon={FaGlobe}
-            text="Idioma"
-            options={["Español", "Inglés"]}
-            selectedOption={selectedLanguage}
-            onSelect={setSelectedLanguage}
+            text={t("language")}
+            options={["es", "en"]} // Idiomas en clave para traducir dinámicamente
           />
         </div>
       </div>

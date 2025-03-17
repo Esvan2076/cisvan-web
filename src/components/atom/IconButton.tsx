@@ -14,7 +14,7 @@ const IconButton: React.FC<IconButtonProps> = ({ icon: Icon, text, onClick }) =>
       bg-neutral-800 text-white transition-all hover:bg-neutral-700 whitespace-nowrap"
     >
       <Icon className="text-xl lg:text-2xl" />
-      <span className="hidden lg:inline">{text}</span>
+      <span className="hidden lg:inline select-none">{text}</span>
     </button>
   );
 };
