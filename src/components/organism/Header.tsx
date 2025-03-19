@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   const { t } = useTranslation(); // Para traducir textos en el header
 
   return (
-    <header className="h-18 w-full bg-neutral-800 flex items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8">
+    <header className="h-20 sm:h-18 w-full bg-neutral-800 flex items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8">
       <div className="w-full max-w-7xl mx-auto flex items-center justify-between">
         {/* Botón Izquierdo */}
         <CisvanButton />

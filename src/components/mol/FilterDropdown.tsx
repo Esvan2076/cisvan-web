@@ -39,7 +39,7 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ options }) => {
   };
 
   return (
-    <div className="relative" ref={menuRef}>
+    <div className="relative z-50" ref={menuRef}>
       {/* Botón que activa el menú */}
       <button
         onClick={() => setIsOpen(!isOpen)}

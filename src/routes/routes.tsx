@@ -1,8 +1,16 @@
-import Movie from "../components/Movie";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "../components/Home";
+import SubjectPage from "../components/SubjectPage";
 
-const routes = [
-  { path: "/", element: <Movie children={undefined} /> },
-  { path: "*", element: <Movie children={undefined}/> }, // Ruta por defecto si no se encuentra una página
-];
+const AppRoutes = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/subject/:contentId" element={<SubjectPage />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default routes;
+export default AppRoutes;

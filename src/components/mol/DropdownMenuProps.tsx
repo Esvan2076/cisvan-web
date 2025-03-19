@@ -20,7 +20,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ icon: Icon, text, options }
   useClickOutside(menuRef, () => setIsOpen(false));
 
   return (
-    <div className="relative" ref={menuRef}>
+    <div className="relative z-50" ref={menuRef}>
       {/* Botón que activa el menú */}
       <button
         onClick={() => setIsOpen(!isOpen)}

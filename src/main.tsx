@@ -1,11 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './app.css'
-import App from './App.tsx'
 import "./i18n";
+import AppRoutes from './routes/routes.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <AppRoutes />
   </StrictMode>,
 )
