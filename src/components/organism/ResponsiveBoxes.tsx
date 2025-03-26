@@ -59,10 +59,15 @@ const ResponsiveBoxes: React.FC = () => {
 
       {/* Caja Derecha con Ratings */}
       <div className="flex-1 mt-6 sm:mt-0">
-        <Ratings
-          score={content.ratings.averageRating}
-          votes={content.ratings.numVotes}
-        />
+      <Ratings
+        score={content.ratings.averageRating}
+        votes={content.ratings.numVotes}
+        platforms={content.streamingServices?.map(service => ({
+          nombre: service.name,
+          color: service.color,
+          url: service.url
+        })) ?? []}
+      />
       </div>
     </div>
   );

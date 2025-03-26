@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 
 const API_URL = "http://localhost:8080/title-basics/title/";
 
+interface StreamingService {
+  id: number;
+  name: string;
+  color: string;
+  url: string;
+}
+
 interface Content {
   tconst: string;
   titleType: string;
@@ -19,6 +26,7 @@ interface Content {
   };
   directos: { nconst: string; primaryName: string }[];
   writers: { nconst: string; primaryName: string }[];
+  streamingServices?: StreamingService[]; // Ahora incluye los servicios de streaming
 }
 
 const useFetchContent = (contentId: string) => {
@@ -34,7 +42,12 @@ const useFetchContent = (contentId: string) => {
           throw new Error("Error al obtener los datos");
         }
         const data = await response.json();
-        setContent(data);
+
+        // Verificamos que `streamingServices` sea un array antes de asignarlo
+        setContent({
+          ...data,
+          streamingServices: data.streamingServices ?? [] // Si no existe, lo dejamos como un array vacío
+        });
       } catch (err) {
         setError((err as Error).message);
       } finally {

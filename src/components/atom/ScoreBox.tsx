@@ -11,7 +11,7 @@ interface ScoreBoxProps {
 
 const ScoreBox: React.FC<ScoreBoxProps> = ({ score = 0, votes = 0, className = "" }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const { t } = useTranslation(); // Traducción
+  const { t, i18n } = useTranslation(); // Traducción con idioma
 
   return (
     <div
@@ -26,7 +26,9 @@ const ScoreBox: React.FC<ScoreBoxProps> = ({ score = 0, votes = 0, className = "
       <div className="flex items-center gap-2 select-none">
         <FaStar className="text-red-500 text-lg sm:text-xl md:text-2xl lg:text-3xl pointer-events-none" /> {/* Sin eventos */}
         <TextAtom className="text-white select-none">
-          {isHovered ? votes : score.toFixed(2)}
+          {isHovered 
+            ? votes.toLocaleString(i18n.language) // Agrega comas a los votos según el idioma
+            : score.toFixed(2)}
           {!isHovered && <span className="text-gray-400 select-none">/10.00</span>}
         </TextAtom>
       </div>
