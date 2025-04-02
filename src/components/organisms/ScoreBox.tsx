@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
-import TextAtom from "../atom/TextAtomProps";
+import TextAtom from "../atoms/TextAtomProps";
 
 interface ScoreBoxProps {
   score: number; // Calificación numérica

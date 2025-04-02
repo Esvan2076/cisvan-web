@@ -1,5 +1,5 @@
-import Header from "./organism/Header";
 import { useTranslation } from "react-i18next";
+import Header from "../templates/Header";
 
 const Home: React.FC = () => {
   const { t } = useTranslation(); // Hook para traducción

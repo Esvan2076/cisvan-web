@@ -2,7 +2,7 @@ import { FaSearch } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FilterDropdown from "../mol/FilterDropdown";
+import FilterDropdown from "../organisms/FilterDropdown";
 
 const SearchBar: React.FC = () => {
   const { t } = useTranslation();

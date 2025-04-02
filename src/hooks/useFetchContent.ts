@@ -1,33 +1,5 @@
 import { useState, useEffect } from "react";
-
-const API_URL = "http://localhost:8080/title-basics/title/";
-
-interface StreamingService {
-  id: number;
-  name: string;
-  color: string;
-  url: string;
-}
-
-interface Content {
-  tconst: string;
-  titleType: string;
-  primaryTitle: string;
-  originalTitle: string;
-  isAdult: boolean;
-  startYear?: number | null;
-  endYear?: number | null;
-  runtimeMinutes: number;
-  genres: string[];
-  posterUrl: string;
-  ratings: {
-    averageRating: number;
-    numVotes: number;
-  };
-  directos: { nconst: string; primaryName: string }[];
-  writers: { nconst: string; primaryName: string }[];
-  streamingServices?: StreamingService[]; // Ahora incluye los servicios de streaming
-}
+import { fetchContentById, Content } from "../services/contentService";
 
 const useFetchContent = (contentId: string) => {
   const [content, setContent] = useState<Content | null>(null);
@@ -35,27 +7,30 @@ const useFetchContent = (contentId: string) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        const response = await fetch(`${API_URL}${contentId}`);
-        if (!response.ok) {
-          throw new Error("Error al obtener los datos");
-        }
-        const data = await response.json();
+    let isMounted = true;
 
-        // Verificamos que `streamingServices` sea un array antes de asignarlo
-        setContent({
-          ...data,
-          streamingServices: data.streamingServices ?? [] // Si no existe, lo dejamos como un array vacío
-        });
+    const getContent = async () => {
+      try {
+        const data = await fetchContentById(contentId);
+        if (isMounted) {
+          setContent(data);
+        }
       } catch (err) {
-        setError((err as Error).message);
+        if (isMounted) {
+          setError((err as Error).message);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
-    fetchContent();
+    getContent();
+
+    return () => {
+      isMounted = false; // Evita actualizar el estado si el componente se desmonta
+    };
   }, [contentId]);
 
   return { content, loading, error };

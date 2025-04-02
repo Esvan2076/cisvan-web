@@ -1,7 +1,7 @@
-import DividerAtom from "../atom/DividerAtom";
-import ScoreBox from "../atom/ScoreBox";
-import StreamingPlatformsBox from "../atom/StreamingPlatformsBox";
-import UserScoreBox from "../atom/UserScoreBox";
+import DividerAtom from "../atoms/Divider";
+import ScoreBox from "../organisms/ScoreBox";
+import StreamingPlatformsBox from "../organisms/StreamingPlatformsBox";
+import UserScoreBox from "../organisms/UserScoreBox";
 
 interface Platform {
   nombre: string;  // Cambiado de name a nombre

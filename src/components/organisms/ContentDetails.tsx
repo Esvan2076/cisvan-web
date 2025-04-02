@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import TextAtom from "../atom/TextAtomProps";
-import DividerAtom from "../atom/DividerAtom";
+import TextAtom from "../atoms/TextAtomProps";
+import DividerAtom from "../atoms/Divider";
 
 interface Person {
   nconst: string;
@@ -34,13 +34,16 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
   const { t } = useTranslation(); // Hook para traducción
 
   return (
+    
     <div className="text-white flex flex-col w-full h-full lg:pt-4">
       {/* Título principal */}
-      {primaryTitle && <TextAtom>{primaryTitle}</TextAtom>}
+      {primaryTitle && <TextAtom className="text-2xl">{primaryTitle}</TextAtom>}
 
-      {/* Nombre original */}
+      {/* Nombre original o serie original para episodios */}
       {originalTitle && (
-        <TextAtom>{t("originalTitle")}: {originalTitle}</TextAtom>
+        <TextAtom>
+          {t(titleType === "tvEpisode" ? "originalSeries" : "originalTitle")}: {originalTitle}
+        </TextAtom>
       )}
 
       {/* Tipo de título, años y duración */}

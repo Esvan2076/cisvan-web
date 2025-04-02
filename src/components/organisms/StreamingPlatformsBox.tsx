@@ -1,5 +1,5 @@
 import { JSX, useState } from "react";
-import TextAtom from "./TextAtomProps";
+import TextAtom from "../atoms/TextAtomProps";
 
 interface Platform {
   nombre: string;

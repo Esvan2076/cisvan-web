@@ -1,9 +1,9 @@
 import { FaRegFileAlt, FaUserCircle, FaGlobe } from "react-icons/fa";
-import CisvanButton from "../atom/CisvanButton";
-import SearchBar from "../mol/SearchBar";
+import CisvanButton from "../molecules/CisvanButton";
+import SearchBar from "../molecules/SearchBar";
 import { useTranslation } from "react-i18next";
-import IconButton from "../atom/IconButton";
-import DropdownMenu from "../mol/DropdownMenuProps";
+import IconButton from "../molecules/IconButton";
+import DropdownMenu from "../organisms/DropdownMenuProps";
 
 const Header: React.FC = () => {
   const { t } = useTranslation(); // Para traducir textos en el header
