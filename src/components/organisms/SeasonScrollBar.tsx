@@ -1,59 +1,114 @@
-import { useRef } from "react";
-import { FaArrowRight } from "react-icons/fa";
-import TextAtom from "../atoms/TextAtomProps";
+import { useEffect, useRef, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import SeasonButton from "../molecules/SeasonButton";
 
 interface SeasonScrollBarProps {
-  seriesName: string;
+  seriesTitle: string;
+  seriesId: string;
   totalSeasons: number;
   selectedSeason: number;
   onSelectSeason: (season: number) => void;
 }
 
 const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
-  seriesName,
+  seriesTitle,
+  seriesId,
   totalSeasons,
   selectedSeason,
   onSelectSeason,
 }) => {
+  const { t } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(false);
 
-  const handleScrollRight = () => {
-    scrollRef.current?.scrollBy({ left: 100, behavior: "smooth" });
+  const scrollLeft = () =>
+    scrollRef.current?.scrollBy({ left: -150, behavior: "smooth" });
+
+  const scrollRight = () =>
+    scrollRef.current?.scrollBy({ left: 150, behavior: "smooth" });
+
+  const updateArrowVisibility = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    setShowLeftArrow(scrollLeft > 0);
+    setShowRightArrow(scrollLeft + clientWidth < scrollWidth);
   };
 
+  useEffect(() => {
+    updateArrowVisibility();
+  }, []);
+
+  useEffect(() => {
+    const selectedBtn = buttonsRef.current[selectedSeason - 1];
+    if (selectedBtn && scrollRef.current) {
+      const container = scrollRef.current;
+      const { offsetLeft, offsetWidth } = selectedBtn;
+      const { scrollLeft, clientWidth } = container;
+
+      const isVisible =
+        offsetLeft >= scrollLeft && offsetLeft + offsetWidth <= scrollLeft + clientWidth;
+
+      if (!isVisible) {
+        container.scrollTo({
+          left: offsetLeft - clientWidth / 2 + offsetWidth / 2,
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [selectedSeason]);
+
   return (
-    <div className="w-full bg-neutral-800 p-4 rounded-t-md">
-      <div className="flex items-center gap-2">
-        <TextAtom className="text-white font-semibold text-lg whitespace-nowrap">
-          {seriesName}:
-        </TextAtom>
+    <div className="flex items-center gap-2 mb-4">
+      <p className="text-white font-semibold text-lg whitespace-nowrap select-none">
+        <Link to={`/subject/${seriesId}`} className="hover:underline">
+          {seriesTitle}
+        </Link>
+        <span className="hidden md:inline"> - {t("season")}s:</span>
+      </p>
 
-        <div
-          ref={scrollRef}
-          className="flex gap-2 overflow-x-auto scrollbar-hide"
-        >
-          {Array.from({ length: totalSeasons }, (_, i) => i + 1).map((season) => (
-            <button
-              key={season}
-              onClick={() => onSelectSeason(season)}
-              className={`min-w-[35px] h-[35px] rounded-full border-2 border-red-600 flex items-center justify-center text-white font-semibold text-sm ${
-                selectedSeason === season ? "bg-red-600" : "bg-transparent"
-              }`}
-            >
-              {season}
-            </button>
-          ))}
-        </div>
-
+      {showLeftArrow && (
         <button
-          onClick={handleScrollRight}
+          onClick={scrollLeft}
           className="min-w-[35px] h-[35px] rounded-full border-2 border-red-600 flex items-center justify-center text-white bg-red-600"
+          aria-label="Scroll left"
+        >
+          <FaArrowLeft />
+        </button>
+      )}
+
+      <div
+        ref={scrollRef}
+        onScroll={updateArrowVisibility}
+        className="flex gap-2 overflow-x-auto scrollbar-hide [-ms-overflow-style:none] [scrollbar-width:none]"
+        style={{ scrollbarWidth: "none" }}
+      >
+        {Array.from({ length: totalSeasons }, (_, i) => i + 1).map((season, index) => (
+          <SeasonButton
+            key={season}
+            season={season}
+            isSelected={selectedSeason === season}
+            onClick={() => onSelectSeason(season)}
+            ref={(el: HTMLButtonElement | null) => {
+              buttonsRef.current[index] = el;
+            }}
+          />
+        ))}
+      </div>
+
+
+      {showRightArrow && (
+        <button
+          onClick={scrollRight}
+          className="min-w-[35px] h-[35px] rounded-full border-2 border-red-600 flex items-center justify-center text-white bg-red-600"
+          aria-label="Scroll right"
         >
           <FaArrowRight />
         </button>
-      </div>
-
-      <div className="border-t border-gray-300 mt-2" />
+      )}
     </div>
   );
 };

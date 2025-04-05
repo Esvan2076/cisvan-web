@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import TextAtom from "../atoms/TextAtomProps";
+import TextAtom from "../atoms/TextAtom";
 import DividerAtom from "../atoms/Divider";
 
 interface Person {

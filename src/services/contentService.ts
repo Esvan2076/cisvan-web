@@ -1,4 +1,4 @@
-const API_URL = `${import.meta.env.VITE_API_URL}/title-basics/title/`;
+const API_URL = `${import.meta.env.VITE_API_URL}/title/basic/`;
 
 export interface Content {
   tconst: string;

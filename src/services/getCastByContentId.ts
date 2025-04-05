@@ -1,4 +1,4 @@
-const API_URL = `${import.meta.env.VITE_API_URL}/title-principals`;
+const API_URL = `${import.meta.env.VITE_API_URL}/principal`;
 
 export interface CastMember {
     nconst: string;

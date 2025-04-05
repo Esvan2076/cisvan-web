@@ -1,4 +1,4 @@
-const API_URL = `${import.meta.env.VITE_API_URL}/title-episodes/series/summary`;
+const API_URL = `${import.meta.env.VITE_API_URL}/episode/series/summary`;
 
 export interface SeriesSummary {
   seriesTconst: string;

@@ -51,7 +51,11 @@ i18n
           loading: "Cargando...",
           error: "Error",
           no_data: "No se encontraron datos",
-          not_found: "No se encontro en la BD"
+          not_found: "No se encontró en la BD",
+          cast: "Reparto",
+          next: "Siguiente",
+          previous: "Anterior",
+          season: "Temporada"
         },
       },
       en: {
@@ -98,17 +102,20 @@ i18n
           loading: "Loading...",
           error: "Error",
           no_data: "No data found",
-          not_found: "No data found"
+          not_found: "No data found",
+          cast: "Cast",
+          next: "Next",
+          previous: "Previous",
+          season: "Season"
         },
-      },
+      },      
     },
-    fallbackLng: "es", // Idioma por defecto
-    interpolation: {escapeValue: false},
+    fallbackLng: "es",
+    interpolation: { escapeValue: false },
   });
 
-// Guardar idioma cuando cambie
 i18n.on("languageChanged", (lng) => {
-    localStorage.setItem("language", lng);
+  localStorage.setItem("language", lng);
 });
 
 export default i18n;

@@ -1,5 +1,6 @@
-import { JSX, useState } from "react";
-import TextAtom from "../atoms/TextAtomProps";
+import { useState, JSX } from "react";
+import TextAtom from "../atoms/TextAtom";
+import PlatformLink from "../molecules/PlatformLink";
 
 interface Platform {
   nombre: string;
@@ -8,47 +9,41 @@ interface Platform {
 }
 
 interface StreamingPlatformsBoxProps {
-  platforms: Platform[]; // Ahora recibe un array de objetos Platform
-  className?: string;  // Estilos adicionales
+  platforms: Platform[];
+  className?: string;
 }
 
 const StreamingPlatformsBox: React.FC<StreamingPlatformsBoxProps> = ({ platforms = [], className = "" }) => {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  // Si no hay plataformas, no se muestra "STREAMING"
   if (platforms.length === 0) return null;
 
+  const getDisplayMode = (index: number) => {
+    if (platforms.length <= 2) return true;
+    return hoverIndex === index;
+  };
+
   return (
-    <div className={`flex flex-col items-center w-full rounded-md bg-neutral-900 select-none ${className}`}>
-      {/* Texto superior "STREAMING" */}
+    <div className={`flex flex-col items-center w-full rounded-md bg-neutral-900 ${className}`}>
       <TextAtom className="text-white font-semibold select-none">STREAMING</TextAtom>
 
-      {/* Nombres de plataformas */}
       <div className="flex gap-2 whitespace-nowrap">
         {platforms
           .map((platform, index) => (
-            <a
+            <PlatformLink
               key={index}
-              href={platform.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition duration-200 whitespace-nowrap"
-              style={{ color: platform.color }} // Aplica el color personalizado
+              nombre={platform.nombre}
+              url={platform.url}
+              color={platform.color}
+              isHovered={hoverIndex === index}
               onMouseEnter={() => setHoverIndex(index)}
               onMouseLeave={() => setHoverIndex(null)}
-            >
-              <TextAtom className={hoverIndex === index ? "underline" : ""}>
-                {platforms.length <= 2  
-                  ? platform.nombre // Si hay 1 o 2, mostrar completo
-                  : hoverIndex === index 
-                    ? platform.nombre // Si hay más, expandir en hover
-                    : platform.nombre.charAt(0).toUpperCase()} 
-              </TextAtom>
-            </a>
+              showFullName={getDisplayMode(index)}
+            />
           ))
-          .reduce<JSX.Element[]>((prev, curr, index) => 
-            index === 0 ? [curr] : [...prev, 
-              <TextAtom key={`separator-${index}`} className="whitespace-nowrap text-white"> - </TextAtom>, 
+          .reduce<JSX.Element[]>((acc, curr, idx) => 
+            idx === 0 ? [curr] : [...acc, 
+              <TextAtom key={`separator-${idx}`} className="whitespace-nowrap text-white select-none"> - </TextAtom>, 
               curr
             ], 
             []

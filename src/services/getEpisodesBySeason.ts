@@ -6,7 +6,7 @@ export interface Episode {
     numVotes: number;
   }
 
-  const API_URL = `${import.meta.env.VITE_API_URL}/title-episodes/series`;
+  const API_URL = `${import.meta.env.VITE_API_URL}/episode/series`;
   
   export const getEpisodesBySeason = async (seriesTconst: string, season: number): Promise<Episode[]> => {
     const response = await fetch(`${API_URL}/${seriesTconst}/season/${season}`);
