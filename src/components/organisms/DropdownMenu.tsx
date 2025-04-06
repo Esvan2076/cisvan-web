@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
-import { IconType } from "react-icons";
+import { useState, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { IconType } from "react-icons";
 import DropdownItem from "../molecules/DropdownItem";
-import useClickOutside from "../../hooks/useClickOutside";
+import { useClickOutside } from "../../hooks/shared/useClickOutside";
 
 interface DropdownMenuProps {
   icon: IconType;

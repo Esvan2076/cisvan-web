@@ -1,31 +1,43 @@
-import PersonPanel from "../organisms/PersonPanel";
+import { useTranslation } from "react-i18next";
+import { Person } from "../../services/personService";
 import TextAtom from "../atoms/TextAtom";
 import SplitPanelLayout from "../layouts/SplitPanelLayout";
-import { Person } from "../../services/getPersonById";
+import PersonPanel from "../organisms/PersonPanel";
 
-const PersonBoxes: React.FC<{ person: Person }> = ({ person }) => {
+interface Props {
+  person: Person;
+}
+
+const PersonBoxes: React.FC<Props> = ({ person }) => {
+  const { t } = useTranslation();
+
+  const renderLifeSpan = () =>
+    `${person.birthYear ?? "?"} - ${person.deathYear ?? t("present")}`;
+
+  const hasDates = person.birthYear || person.deathYear;
+  const hasProfession = person.primaryProfession?.length > 0;
 
   return (
     <SplitPanelLayout
       imageUrl={person.imageUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
       leftContent={
         <div className="lg:pt-4 md:pt-2">
-          <TextAtom as="h2" className="text-white text-3xl mb-2">{person.primaryName}</TextAtom>
+          <TextAtom as="h2" className="text-white text-3xl mb-2">
+            {person.primaryName}
+          </TextAtom>
 
-          {(person.birthYear || person.deathYear) && (
+          {hasDates && (
             <TextAtom as="p" className="text-gray-300 text-sm mb-2">
-              {person.birthYear ?? "?"} - {person.deathYear ?? "Actualidad"}
+              {renderLifeSpan()}
             </TextAtom>
           )}
 
-          {person.primaryProfession.length > 0 && (
+          {hasProfession && (
             <TextAtom as="p" className="text-gray-300 text-sm mb-4">
-              <span className="font-semibold text-white">Profesiones:</span>{" "}
+              <span className="font-semibold text-white">{t("professions")}:</span>{" "}
               {person.primaryProfession.join(", ")}
             </TextAtom>
           )}
-
-          {/* knownFor render como antes */}
         </div>
       }
       rightContent={<PersonPanel />}

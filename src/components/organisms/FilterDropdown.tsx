@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FaChevronDown } from "react-icons/fa";
+import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { FaChevronDown } from "react-icons/fa";
 import DropdownItem from "../molecules/DropdownItem";
-import useClickOutside from "../../hooks/useClickOutside";
+import { useClickOutside } from "../../hooks/shared/useClickOutside";
 
 interface FilterDropdownProps {
   options: string[];

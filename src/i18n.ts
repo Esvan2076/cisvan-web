@@ -22,7 +22,7 @@ i18n
             all: "TODO",
             movies: "Películas",
             actors: "Actores",
-            directors: "Directores",
+            directors: "Directores"
           },
           welcomeMessage: "¡Bienvenido a CISVAN!",
           welcomeDescription: "Explora y disfruta de nuestras funciones.",
@@ -55,8 +55,16 @@ i18n
           cast: "Reparto",
           next: "Siguiente",
           previous: "Anterior",
-          season: "Temporada"
-        },
+          season: "Temporada",
+          professions: "Profesiones",
+          present: "Actualidad",
+          error_cast: "Error al obtener el reparto",
+          error_content: "Error al obtener los datos",
+          error_episodes: "Error al obtener episodios",
+          error_series: "Error al obtener resumen de la serie",
+          error_person: "Error al obtener la persona",
+          error_known_for: "Error al obtener películas destacadas"
+        }
       },
       en: {
         translation: {
@@ -73,7 +81,7 @@ i18n
             all: "ALL",
             movies: "Movies",
             actors: "Actors",
-            directors: "Directors",
+            directors: "Directors"
           },
           welcomeMessage: "Welcome to CISVAN!",
           welcomeDescription: "Explore and enjoy our features.",
@@ -106,10 +114,18 @@ i18n
           cast: "Cast",
           next: "Next",
           previous: "Previous",
-          season: "Season"
-        },
-      },      
-    },
+          season: "Season",
+          professions: "Professions",
+          present: "Present",
+          error_cast: "Error fetching cast",
+          error_content: "Error fetching content",
+          error_episodes: "Error fetching episodes",
+          error_series: "Error fetching series summary",
+          error_person: "Error fetching person",
+          error_known_for: "Error fetching known for titles"
+        }
+      }
+    },      
     fallbackLng: "es",
     interpolation: { escapeValue: false },
   });

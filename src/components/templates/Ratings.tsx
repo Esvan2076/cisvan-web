@@ -1,4 +1,4 @@
-import DividerAtom from "../atoms/Divider";
+import Divider from "../atoms/Divider";
 import ScoreBox from "../organisms/ScoreBox";
 import StreamingPlatformsBox from "../organisms/StreamingPlatformsBox";
 import UserScoreBox from "../organisms/UserScoreBox";
@@ -26,7 +26,7 @@ const Ratings: React.FC<RatingsProps> = ({ score, votes, platforms }) => {
       />
 
       {/* Línea divisoria */}
-      <DividerAtom className="w-full hidden sm:block" />
+      <Divider className="w-full hidden sm:block" />
 
       {/* ScoreBox 2 - Puntuación del Usuario */}
       <UserScoreBox 
@@ -37,7 +37,7 @@ const Ratings: React.FC<RatingsProps> = ({ score, votes, platforms }) => {
       />
 
       {/* Línea divisoria */}
-      <DividerAtom className="w-full hidden sm:block" />
+      <Divider className="w-full hidden sm:block" />
 
       {/* ScoreBox 3 - Solo visible en pantallas grandes */}
       <div className="hidden lg:block">
@@ -48,7 +48,7 @@ const Ratings: React.FC<RatingsProps> = ({ score, votes, platforms }) => {
           className="hover:bg-neutral-700" 
         />
         {/* Línea divisoria (también oculta cuando ScoreBox 3 desaparece) */}
-        <DividerAtom className="w-full hidden sm:block" />
+        <Divider className="w-full hidden sm:block" />
       </div>
 
       {/* ScoreBox 4 - Plataformas de Streaming */}

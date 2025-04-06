@@ -1,5 +1,3 @@
-import React from "react";
-
 interface IconProps {
   icon: React.ElementType; // Recibe un componente de ícono (como FaStar)
   color?: string; // Color del ícono

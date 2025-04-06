@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import TextAtom from "../atoms/TextAtom";
-import DividerAtom from "../atoms/Divider";
+import Divider from "../atoms/Divider";
 
 interface Person {
   nconst: string;
@@ -64,7 +64,7 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
       ) : null}
 
       {/* Divider entre géneros y directores (solo si hay ambos) */}
-      {genres?.length && directors?.length ? <DividerAtom /> : null}
+      {genres?.length && directors?.length ? <Divider /> : null}
 
       {/* Directores */}
       {directors?.length ? (
@@ -74,7 +74,7 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
       ) : null}
 
       {/* Divider entre directores y escritores (solo si hay ambos) */}
-      {directors?.length && writers?.length ? <DividerAtom /> : null}
+      {directors?.length && writers?.length ? <Divider /> : null}
 
       {/* Escritores */}
       {writers?.length ? (

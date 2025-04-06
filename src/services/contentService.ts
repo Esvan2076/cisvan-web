@@ -1,4 +1,13 @@
-const API_URL = `${import.meta.env.VITE_API_URL}/title/basic/`;
+import { BASE_API } from "../constants/api";
+import { errorMessages } from "../constants/errors";
+import { fetchJson } from "../utils/fetchJson";
+
+export interface StreamingService {
+  id: number;
+  name: string;
+  color: string;
+  url: string;
+}
 
 export interface Content {
   tconst: string;
@@ -15,29 +24,16 @@ export interface Content {
     averageRating: number;
     numVotes: number;
   };
-  directos: { nconst: string; primaryName: string }[];
+  directors: { nconst: string; primaryName: string }[];
   writers: { nconst: string; primaryName: string }[];
   streamingServices?: StreamingService[];
 }
 
-export interface StreamingService {
-  id: number;
-  name: string;
-  color: string;
-  url: string;
-}
-
-// ✅ Función para obtener contenido desde la API
-export const fetchContentById = async (contentId: string): Promise<Content> => {
-  const response = await fetch(`${API_URL}${contentId}`);
-  if (!response.ok) {
-    throw new Error("Error al obtener los datos.");
-  }
-  const data = await response.json();
-
-  // Retornar contenido con streamingServices como array vacío si no existe
+export const getContentById = async (contentId: string): Promise<Content> => {
+  const url = `${BASE_API}/title/basic/${contentId}`;
+  const data = await fetchJson<Content>(url, errorMessages.content);
   return {
     ...data,
-    streamingServices: data.streamingServices ?? [],
+    streamingServices: Array.isArray(data.streamingServices) ? data.streamingServices : [],
   };
 };

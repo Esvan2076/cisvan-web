@@ -1,6 +1,3 @@
-// components/layouts/SplitPanelLayout.tsx
-
-import React from "react";
 import ImageBox from "../atoms/ImageBox";
 
 interface SplitPanelLayoutProps {

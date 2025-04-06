@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import TextAtom from "../atoms/TextAtom";
 import RatingStarIcon from "../atoms/RatingStarIcon";
+import TextAtom from "../atoms/TextAtom";
 
 interface ScoreBoxProps {
   score: number; // Calificación numérica

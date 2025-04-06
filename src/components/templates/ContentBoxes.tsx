@@ -1,9 +1,9 @@
+import { Content } from "../../services/contentService";
+import SplitPanelLayout from "../layouts/SplitPanelLayout";
 import ContentDetails from "../organisms/ContentDetails";
 import Ratings from "./Ratings";
-import SplitPanelLayout from "../layouts/SplitPanelLayout";
-import { Content } from "../../services/contentService";
 
-const ResponsiveBoxes: React.FC<{ content: Content }> = ({ content }) => {
+const ContentBoxes: React.FC<{ content: Content }> = ({ content }) => {
   return (
     <SplitPanelLayout
       imageUrl={content.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
@@ -16,7 +16,7 @@ const ResponsiveBoxes: React.FC<{ content: Content }> = ({ content }) => {
           endYear={content.endYear ?? null}
           runtimeMinutes={content.runtimeMinutes}
           genres={content.genres}
-          directors={content.directos}
+          directors={content.directors}
           writers={content.writers}
         />
       }
@@ -37,4 +37,4 @@ const ResponsiveBoxes: React.FC<{ content: Content }> = ({ content }) => {
   );
 };
 
-export default ResponsiveBoxes;
+export default ContentBoxes;

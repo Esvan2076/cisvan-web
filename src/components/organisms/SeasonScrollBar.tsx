@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 import SeasonButton from "../molecules/SeasonButton";
 
 interface SeasonScrollBarProps {
