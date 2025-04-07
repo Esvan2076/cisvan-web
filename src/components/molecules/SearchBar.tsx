@@ -11,7 +11,7 @@ const SearchBar: React.FC = () => {
 
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
-      navigate(`/subject/${searchTerm}`);
+      navigate(`/content/${searchTerm}`);
       setSearchTerm("");
     }
   };

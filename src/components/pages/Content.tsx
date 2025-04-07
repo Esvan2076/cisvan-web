@@ -12,10 +12,10 @@ import ContentBoxes from "../templates/ContentBoxes";
 import Header from "../templates/Header";
 import ContentStatus from "../organisms/ContentStatus";
 
-const Subject: React.FC = () => {
-  const { t } = useTranslation();
+const Content: React.FC = () => {
+  const { t, i18n } = useTranslation();
   const { contentId } = useParams<{ contentId: string }>();
-  const { content, loading, error } = useContent(contentId ?? "");
+  const { content, loading, error } = useContent(contentId ?? "", i18n.language);
   const [selectedSeason, setSelectedSeason] = useState(1);
 
   useEffect(() => {
@@ -70,4 +70,4 @@ const Subject: React.FC = () => {
   );
 };
 
-export default Subject;
+export default Content;

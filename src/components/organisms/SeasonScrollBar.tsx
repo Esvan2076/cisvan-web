@@ -64,7 +64,7 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
   return (
     <div className="flex items-center gap-2 mb-4">
       <p className="text-white font-semibold text-lg whitespace-nowrap select-none">
-        <Link to={`/subject/${seriesId}`} className="hover:underline">
+        <Link to={`/content/${seriesId}`} className="hover:underline">
           {seriesTitle}
         </Link>
         <span className="hidden md:inline"> - {t("season")}s:</span>
@@ -74,7 +74,6 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
         <button
           onClick={scrollLeft}
           className="min-w-[35px] h-[35px] rounded-full border-2 border-red-600 flex items-center justify-center text-white bg-red-600"
-          aria-label="Scroll left"
         >
           <FaArrowLeft />
         </button>
@@ -104,7 +103,6 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
         <button
           onClick={scrollRight}
           className="min-w-[35px] h-[35px] rounded-full border-2 border-red-600 flex items-center justify-center text-white bg-red-600"
-          aria-label="Scroll right"
         >
           <FaArrowRight />
         </button>

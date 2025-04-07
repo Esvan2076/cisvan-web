@@ -16,7 +16,6 @@ const CastCard: React.FC<CastCardProps> = ({ nconst, primaryName, characters, im
         <ImageBox
           src={imageUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
           alt={primaryName}
-          loadingText={`Cargando imagen de ${primaryName}`}
           className="rounded-md"
         />
       </div>

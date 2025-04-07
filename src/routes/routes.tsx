@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../components/pages/Home";
-import SubjectPage from "../components/pages/Subject";
-import PersonPage from "../components/pages/Person";
+import Content from "../components/pages/Content";
+import Person from "../components/pages/Person";
 
 
 const AppRoutes = () => {
@@ -9,8 +9,8 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/subject/:contentId" element={<SubjectPage />} />
-        <Route path="/person/:nconst" element={<PersonPage />} />
+        <Route path="/content/:contentId" element={<Content />} />
+        <Route path="/person/:nconst" element={<Person />} />
       </Routes>
     </Router>
   );

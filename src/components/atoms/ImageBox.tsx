@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface ImageBoxProps {
   src: string;
   className?: string;
   alt?: string;
   loadingText?: string;
-  showSkeleton?: boolean; // true por defecto
+  showSkeleton?: boolean;
 }
 
 const ImageBox: React.FC<ImageBoxProps> = ({
@@ -16,6 +17,8 @@ const ImageBox: React.FC<ImageBoxProps> = ({
   showSkeleton = true,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const { t } = useTranslation();
+  const finalLoadingText = loadingText ?? t("loading_image");
 
   return (
     <div className={`relative w-full h-full ${className}`}>
@@ -34,7 +37,7 @@ const ImageBox: React.FC<ImageBoxProps> = ({
         }`}
       />
 
-      {loadingText && <span className="sr-only">{loadingText}</span>}
+      {finalLoadingText && <span className="sr-only">{finalLoadingText}</span>}
     </div>
   );
 };

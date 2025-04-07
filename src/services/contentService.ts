@@ -1,6 +1,5 @@
 import { BASE_API } from "../constants/api";
 import { errorMessages } from "../constants/errors";
-import { fetchJson } from "../utils/fetchJson";
 
 export interface StreamingService {
   id: number;
@@ -29,9 +28,22 @@ export interface Content {
   streamingServices?: StreamingService[];
 }
 
-export const getContentById = async (contentId: string): Promise<Content> => {
+export const getContentById = async (
+  contentId: string,
+  language: string
+): Promise<Content> => {
   const url = `${BASE_API}/title/basic/${contentId}`;
-  const data = await fetchJson<Content>(url, errorMessages.content);
+
+  const response = await fetch(url, {
+    headers: {
+      "Accept-Language": language,
+    },
+  });
+
+  if (!response.ok) throw new Error(errorMessages.content);
+
+  const data = await response.json();
+
   return {
     ...data,
     streamingServices: Array.isArray(data.streamingServices) ? data.streamingServices : [],

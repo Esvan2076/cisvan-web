@@ -1,4 +1,5 @@
 import { Episode } from "../../services/episodeService";
+import { useTranslation } from "react-i18next";
 
 interface EpisodeCardProps {
   episode: Episode;
@@ -6,17 +7,19 @@ interface EpisodeCardProps {
 }
 
 const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, isCurrent }) => {
+  const { t } = useTranslation();
+
   return (
     <li className={`bg-neutral-700 p-3 rounded-md ${isCurrent ? "border-2 border-red-600" : ""}`}>
       <a
-        href={`/subject/${episode.tconst}`}
+        href={`/content/${episode.tconst}`}
         className="font-semibold text-white hover:underline block"
       >
         Ep. {episode.episodeNumber}: {episode.primaryTitle}
       </a>
       <p className="text-xs text-gray-300 mt-1">
         ⭐ {episode.averageRating?.toFixed(2) ?? "?"}/10.00 —{" "}
-        {episode.numVotes?.toLocaleString() ?? 0} votos
+        {episode.numVotes?.toLocaleString() ?? 0} {t("votes_suffix")}
       </p>
     </li>
   );

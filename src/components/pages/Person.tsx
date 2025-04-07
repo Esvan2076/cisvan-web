@@ -1,15 +1,17 @@
+// src/components/pages/Person.tsx (actualizado)
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
-
-import { usePersonDetails } from "../../hooks/usePerson";
+import { usePersonDetails, useKnownFor } from "../../hooks/usePerson";
 import PersonBoxes from "../templates/PersonBoxes";
 import Header from "../templates/Header";
 import ContentStatus from "../organisms/ContentStatus";
+import KnownForList from "../organisms/KnownForList";
 
 const Person: React.FC = () => {
   const { t } = useTranslation();
   const { nconst } = useParams<{ nconst: string }>();
   const { person, loading, error } = usePersonDetails(nconst);
+  const { knownFor } = useKnownFor(nconst);
 
   return (
     <div className="bg-neutral-900 min-h-screen text-white flex flex-col">
@@ -20,7 +22,12 @@ const Person: React.FC = () => {
             <div className="text-red-500 text-center p-4">{t("not_found")}</div>
           ) : (
             <ContentStatus loading={loading} error={error ?? undefined} notFound={!person}>
-              {person && <PersonBoxes person={person} />}
+              {person && (
+                <>
+                  <PersonBoxes person={person} />
+                  <KnownForList knownFor={knownFor} />
+                </>
+              )}
             </ContentStatus>
           )}
         </div>
