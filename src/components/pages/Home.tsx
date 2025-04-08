@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import Header from "../templates/Header";
+import Footer from "../templates/Footer";
 
 const Home: React.FC = () => {
   const { t } = useTranslation(); // Hook para traducción
@@ -14,6 +15,7 @@ const Home: React.FC = () => {
         <h1 className="text-3xl font-bold">{t("welcomeMessage")}</h1>
         <p className="text-lg mt-2">{t("welcomeDescription")}</p>
       </main>
+      <Footer />
     </div>
   );
 };

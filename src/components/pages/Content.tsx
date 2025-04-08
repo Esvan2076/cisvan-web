@@ -11,6 +11,7 @@ import SeasonBrowser from "../organisms/SeasonBrowser";
 import ContentBoxes from "../templates/ContentBoxes";
 import Header from "../templates/Header";
 import ContentStatus from "../organisms/ContentStatus";
+import Footer from "../templates/Footer";
 
 const Content: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -66,6 +67,7 @@ const Content: React.FC = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

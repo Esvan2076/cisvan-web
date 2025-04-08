@@ -6,6 +6,7 @@ import PersonBoxes from "../templates/PersonBoxes";
 import Header from "../templates/Header";
 import ContentStatus from "../organisms/ContentStatus";
 import KnownForList from "../organisms/KnownForList";
+import Footer from "../templates/Footer";
 
 const Person: React.FC = () => {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ const Person: React.FC = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

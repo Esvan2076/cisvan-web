@@ -22,7 +22,7 @@ const SearchBar: React.FC = () => {
 
   return (
     <div className="flex items-center min-w-[250px] w-full max-w-xl bg-neutral-800 border-2 border-white rounded-lg h-10">
-      <FilterDropdown options={["all", "movies", "actors", "directors"]} />
+      <FilterDropdown options={["all", "person", "movie", "serie"]} />
       <div className="w-[2px] bg-white h-3/4 hidden sm:block"></div>
 
       <input

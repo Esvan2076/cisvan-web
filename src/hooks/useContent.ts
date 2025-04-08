@@ -1,7 +1,10 @@
 import { useFetch } from "./shared/useFetch";
-import { getContentById, Content } from "../services/contentService";
+import { getContentById } from "../services/contentService";
+import { Content } from "../models/content";
+import { useTranslation } from "react-i18next";
 
 export const useContent = (contentId: string, language: string) => {
+  const { t } = useTranslation();
   const { data, loading, error } = useFetch<Content>(
     () => getContentById(contentId, language),
     [contentId, language]
@@ -10,6 +13,6 @@ export const useContent = (contentId: string, language: string) => {
   return {
     content: data ?? null,
     loading,
-    error,
+    error: error ? t(error) : null,
   };
 };

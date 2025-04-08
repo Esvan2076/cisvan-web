@@ -1,20 +1,7 @@
 import { BASE_API } from "../constants/api";
 import { errorMessages } from "../constants/errors";
 import { fetchJson } from "../utils/fetchJson";
-
-export interface Episode {
-  episodeNumber: number;
-  tconst: string;
-  primaryTitle: string;
-  averageRating: number;
-  numVotes: number;
-}
-
-export interface SeriesSummary {
-  seriesTconst: string;
-  seriesTitle: string;
-  totalSeasons: number;
-}
+import { Episode, SeriesSummary } from "../models/episode";
 
 export const episodeService = {
   getBySeason: (seriesTconst: string, season: number): Promise<Episode[]> =>

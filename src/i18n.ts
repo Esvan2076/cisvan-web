@@ -1,143 +1,32 @@
+// src/i18n.ts
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
+// importas por separado
+import esTranslation from "./locales/es/translation.json";
+import esLegal from "./locales/es/legal.json";
+import enTranslation from "./locales/en/translation.json";
+import enLegal from "./locales/en/legal.json";
+
 i18n
-  .use(LanguageDetector) // Detecta idioma del navegador
-  .use(initReactI18next) // Integración con React
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
     resources: {
       es: {
-        translation: {
-          login: "Iniciar Sesión",
-          history: "Historial",
-          language: "Idioma",
-          languages: {
-            es: "Español",
-            en: "Inglés"
-          },
-          filter: "TODO",
-          search: "Buscar...",
-          filters: {
-            all: "TODO",
-            movies: "Películas",
-            actors: "Actores",
-            directors: "Directores"
-          },
-          welcomeMessage: "¡Bienvenido a CISVAN!",
-          welcomeDescription: "Explora y disfruta de nuestras funciones.",
-          originalTitle: "Nombre Original",
-          originalSeries: "Serie Original",
-          genres: "Géneros",
-          directors: "Directores",
-          writers: "Escritores",
-          minutes: "min",
-          titleType: {
-            movie: "Película",
-            tvSeries: "Serie de TV",
-            tvMiniSeries: "Miniserie",
-            tvEpisode: "Episodio de TV",
-            tvMovie: "Película para TV",
-            short: "Corto",
-            tvSpecial: "Especial de TV",
-            tvShort: "Corto de TV"
-          },
-          rating: "Puntuación",
-          your_rating: "Tu Puntuación",
-          votes: "Votos",
-          known_for: "Conocido por",
-          votes_suffix: "votos",
-          rate: "Puntúa",
-          unrated: "Sin puntuar",
-          date: "Fecha",
-          loading: "Cargando...",
-          loading_image: "Cargando imagen",
-          error: "Error",
-          no_data: "No se encontraron datos",
-          not_found: "No se encontró en la BD",
-          cast: "Reparto",
-          next: "Siguiente",
-          previous: "Anterior",
-          season: "Temporada",
-          professions: "Profesiones",
-          present: "Actualidad",
-          error_cast: "Error al obtener el reparto",
-          error_content: "Error al obtener los datos",
-          error_episodes: "Error al obtener episodios",
-          error_series: "Error al obtener resumen de la serie",
-          error_person: "Error al obtener la persona",
-          error_known_for: "Error al obtener películas destacadas"
-        }
+        translation: esTranslation,
+        legal: esLegal,
       },
       en: {
-        translation: {
-          login: "Login",
-          history: "Watch history",
-          language: "Language",
-          languages: {
-            es: "Spanish",
-            en: "English"
-          },
-          filter: "ALL",
-          search: "Search...",
-          filters: {
-            all: "ALL",
-            movies: "Movies",
-            actors: "Actors",
-            directors: "Directors"
-          },
-          welcomeMessage: "Welcome to CISVAN!",
-          welcomeDescription: "Explore and enjoy our features.",
-          originalTitle: "Original Title",
-          originalSeries: "Original Series",
-          genres: "Genres",
-          directors: "Directors",
-          writers: "Writers",
-          minutes: "min",
-          titleType: {
-            movie: "Movie",
-            tvSeries: "TV Series",
-            tvMiniSeries: "Miniseries",
-            tvEpisode: "TV Episode",
-            tvMovie: "TV Movie",
-            short: "Short",
-            tvSpecial: "TV Special",
-            tvShort: "TV Short"
-          },
-          rating: "Rating",
-          your_rating: "Your Rating",
-          votes: "Votes",
-          known_for: "Known for",
-          votes_suffix: "votes",
-          rate: "Rate",
-          unrated: "Unrated",
-          date: "Date",
-          loading: "Loading...",
-          loading_image: "Loading image",
-          error: "Error",
-          no_data: "No data found",
-          not_found: "No data found",
-          cast: "Cast",
-          next: "Next",
-          previous: "Previous",
-          season: "Season",
-          professions: "Professions",
-          present: "Present",
-          error_cast: "Error fetching cast",
-          error_content: "Error fetching content",
-          error_episodes: "Error fetching episodes",
-          error_series: "Error fetching series summary",
-          error_person: "Error fetching person",
-          error_known_for: "Error fetching known for titles"
-        }
-      }
-    },      
+        translation: enTranslation,
+        legal: enLegal,
+      },
+    },
     fallbackLng: "es",
-    interpolation: { escapeValue: false },
+    interpolation: {
+      escapeValue: false,
+    },
   });
-
-i18n.on("languageChanged", (lng) => {
-  localStorage.setItem("language", lng);
-});
 
 export default i18n;
