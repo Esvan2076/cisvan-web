@@ -1,9 +1,10 @@
 // src/components/molecules/KnownForCard.tsx
 import { Link } from "react-router-dom";
-import { KnownForItem } from "../../services/personService";
+
 import ImageBox from "../atoms/ImageBox";
 import TextAtom from "../atoms/TextAtom";
 import { useTranslation } from "react-i18next";
+import { KnownForItem } from "../../models/person";
 
 interface KnownForCardProps {
   item: KnownForItem;

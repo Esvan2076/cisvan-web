@@ -1,6 +1,7 @@
 import { useFetch } from "./shared/useFetch";
-import { episodeService, Episode, SeriesSummary } from "../services/episodeService";
+import { episodeService } from "../services/episodeService";
 import { useTranslation } from "react-i18next";
+import { Episode, SeriesSummary } from "../models/episode";
 
 export const useEpisodesBySeason = (seriesTconst?: string, season?: number) => {
   const { t } = useTranslation();

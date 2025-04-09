@@ -1,12 +1,15 @@
 import { BASE_API } from "../constants/api";
 import { errorMessages } from "../constants/errors";
+import { KnownForItem, Person, PersonSearchResult } from "../models/person";
 import { fetchJson } from "../utils/fetchJson";
-import { Episode, SeriesSummary } from "../models/episode";
 
-export const episodeService = {
-  getBySeason: (seriesTconst: string, season: number): Promise<Episode[]> =>
-    fetchJson(`${BASE_API}/episode/series/${seriesTconst}/season/${season}`, errorMessages.episodes),
+export const personService = {
+  getById: async (nconst: string): Promise<Person> =>
+    fetchJson(`${BASE_API}/name/${nconst}`, errorMessages.person),
 
-  getSeriesSummary: (tconst: string): Promise<SeriesSummary> =>
-    fetchJson(`${BASE_API}/episode/series/summary/${tconst}`, errorMessages.series)
+  getKnownFor: async (nconst: string): Promise<KnownForItem[]> =>
+    fetchJson(`${BASE_API}/name/${nconst}/known-for`, errorMessages.knownFor),
+
+  search: async (query: string): Promise<PersonSearchResult[]> =>
+    fetchJson(`${BASE_API}/name/search?query=${encodeURIComponent(query)}`, errorMessages.person),
 };

@@ -1,5 +1,6 @@
+import { KnownForItem, Person } from "../models/person";
 import { useFetch } from "./shared/useFetch";
-import { personService, KnownForItem, Person } from "../services/personService";
+import { personService, } from "../services/personService";
 import { useTranslation } from "react-i18next";
 
 export const usePersonDetails = (nconst?: string) => {

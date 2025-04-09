@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { FaRegFileAlt, FaUserCircle, FaGlobe } from "react-icons/fa";
 import CisvanButton from "../molecules/CisvanButton";
 import IconButton from "../molecules/IconButton";
-import SearchBar from "../molecules/SearchBar";
+import SearchBar from "../organisms/SearchBar";
 import DropdownMenu from "../organisms/DropdownMenu";
 
 const Header: React.FC = () => {
