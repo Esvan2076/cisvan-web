@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { KnownForItem } from "../../services/personService";
 import KnownForCard from "../molecules/KnownForCard";
+import { KnownForItem } from "../../models/person";
 
 interface KnownForListProps {
   knownFor: KnownForItem[];

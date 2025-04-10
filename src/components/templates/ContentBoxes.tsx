@@ -1,4 +1,4 @@
-import { Content } from "../../services/contentService";
+import { Content } from "../../models/content";
 import SplitPanelLayout from "../layouts/SplitPanelLayout";
 import ContentDetails from "../organisms/ContentDetails";
 import Ratings from "./Ratings";

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { usePagination } from "../../hooks/shared/usePagination";
-import { Episode } from "../../services/episodeService";
 import EpisodeCard from "../molecules/EpisodeCard";
 import PaginationButton from "../molecules/PaginationButton";
 import SeasonScrollBar from "./SeasonScrollBar";
+import { Episode } from "../../models/episode";
 
 interface SeasonBrowserProps {
   seriesTitle: string;

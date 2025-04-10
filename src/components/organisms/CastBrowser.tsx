@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { CastMember } from "../../services/castService";
 import CastCard from "../molecules/CastCard";
 import PaginationButton from "../molecules/PaginationButton";
 import { usePagination } from "../../hooks/shared/usePagination";
+import { CastMember } from "../../models/cast";
 
 interface Props {
   cast: CastMember[];

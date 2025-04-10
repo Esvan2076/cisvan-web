@@ -1,4 +1,5 @@
-import { getCastByContentId, CastMember } from "../services/castService";
+import { CastMember } from "../models/cast";
+import { getCastByContentId } from "../services/castService";
 import { useFetch } from "./shared/useFetch";
 import { useTranslation } from "react-i18next";
 

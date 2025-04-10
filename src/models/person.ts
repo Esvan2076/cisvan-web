@@ -20,14 +20,3 @@ export interface KnownForItem {
     numVotes: number;
     };
 }
-
-export interface PersonSearchResult {
-    nconst: string;
-    primaryName: string;
-    primaryProfession: string;
-    principalTitle: {
-        primaryTitle: string;
-        startYear: number;
-        endYear: number | null;
-    };
-}

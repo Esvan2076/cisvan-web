@@ -1,5 +1,5 @@
-import { Episode } from "../../services/episodeService";
 import { useTranslation } from "react-i18next";
+import { Episode } from "../../models/episode";
 
 interface EpisodeCardProps {
   episode: Episode;

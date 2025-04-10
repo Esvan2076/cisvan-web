@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { PersonSearchResult } from "../../models/person";
 import { useTranslation } from "react-i18next";
-
+import { PersonResult } from "../../models/searchResult";
 interface Props {
-  result: PersonSearchResult;
+  result: PersonResult;
   onSelect?: () => void;
 }
 

@@ -1,6 +1,4 @@
-// src/components/molecules/KnownForCard.tsx
 import { Link } from "react-router-dom";
-
 import ImageBox from "../atoms/ImageBox";
 import TextAtom from "../atoms/TextAtom";
 import { useTranslation } from "react-i18next";

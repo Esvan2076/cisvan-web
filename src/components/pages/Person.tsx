@@ -1,4 +1,3 @@
-// src/components/pages/Person.tsx (actualizado)
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { usePersonDetails, useKnownFor } from "../../hooks/usePerson";

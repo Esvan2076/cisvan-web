@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { Person } from "../../services/personService";
 import TextAtom from "../atoms/TextAtom";
 import SplitPanelLayout from "../layouts/SplitPanelLayout";
 import PersonPanel from "../organisms/PersonPanel";
+import { Person } from "../../models/person";
 
 interface Props {
   person: Person;
