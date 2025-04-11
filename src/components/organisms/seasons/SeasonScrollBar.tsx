@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import SeasonButton from "../molecules/SeasonButton";
+import SeasonButton from "../../molecules/button/SeasonButton";
 
 interface SeasonScrollBarProps {
   seriesTitle: string;
@@ -50,7 +50,8 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
       const { scrollLeft, clientWidth } = container;
 
       const isVisible =
-        offsetLeft >= scrollLeft && offsetLeft + offsetWidth <= scrollLeft + clientWidth;
+        offsetLeft >= scrollLeft &&
+        offsetLeft + offsetWidth <= scrollLeft + clientWidth;
 
       if (!isVisible) {
         container.scrollTo({
@@ -85,19 +86,20 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
         className="flex gap-2 overflow-x-auto scrollbar-hide [-ms-overflow-style:none] [scrollbar-width:none]"
         style={{ scrollbarWidth: "none" }}
       >
-        {Array.from({ length: totalSeasons }, (_, i) => i + 1).map((season, index) => (
-          <SeasonButton
-            key={season}
-            season={season}
-            isSelected={selectedSeason === season}
-            onClick={() => onSelectSeason(season)}
-            ref={(el: HTMLButtonElement | null) => {
-              buttonsRef.current[index] = el;
-            }}
-          />
-        ))}
+        {Array.from({ length: totalSeasons }, (_, i) => i + 1).map(
+          (season, index) => (
+            <SeasonButton
+              key={season}
+              season={season}
+              isSelected={selectedSeason === season}
+              onClick={() => onSelectSeason(season)}
+              ref={(el: HTMLButtonElement | null) => {
+                buttonsRef.current[index] = el;
+              }}
+            />
+          )
+        )}
       </div>
-
 
       {showRightArrow && (
         <button

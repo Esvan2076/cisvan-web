@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import ImageBox from "../atoms/ImageBox";
-import TextAtom from "../atoms/TextAtom";
+import ImageBox from "../../atoms/ImageBox";
+import TextAtom from "../../atoms/TextAtom";
 import { useTranslation } from "react-i18next";
-import { KnownForItem } from "../../models/person";
+import { KnownForItem } from "../../../models/person";
 
 interface KnownForCardProps {
   item: KnownForItem;
@@ -10,12 +10,14 @@ interface KnownForCardProps {
 
 const KnownForCard: React.FC<KnownForCardProps> = ({ item }) => {
   const { t } = useTranslation();
-    
+
   return (
     <li className="bg-neutral-700 rounded-md flex items-center gap-4 h-[120px]">
       <div className="w-[90px] h-[120px] rounded-md overflow-hidden shrink-0">
         <ImageBox
-          src={item.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
+          src={
+            item.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"
+          }
           alt={item.primaryTitle}
           className="rounded-md"
         />

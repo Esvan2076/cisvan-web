@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const useSearchWithDebounce = <T>(
   query: string,
   enabled: boolean,
   searchFn: (q: string) => Promise<T[]>,
-  errorMessage: string
+  translationKey: string
 ) => {
+  const { t } = useTranslation()
+
   const [results, setResults] = useState<T[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,14 +26,14 @@ export const useSearchWithDebounce = <T>(
         const res = await searchFn(query);
         setResults(res);
       } catch {
-        setError(errorMessage);
+        setError(t(translationKey));
       } finally {
         setLoading(false);
       }
-    }, 1000); // 1s debounce
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, [query, enabled, searchFn, errorMessage]);
+  }, [query, enabled, searchFn, t, translationKey]);
 
   return { results, loading, error };
 };

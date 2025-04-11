@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MovieResult } from "../../models/searchResult";
+import { MovieResult } from "../../../models/searchResult";
 
 interface Props {
   result: MovieResult;

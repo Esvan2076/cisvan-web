@@ -20,7 +20,10 @@ const PersonList: React.FC<Props> = ({ labelKey, people }) => {
       {t(labelKey)}:{" "}
       {people.map((person, index) => (
         <span key={person.nconst}>
-          <Link to={`/person/${person.nconst}`} className="text-white hover:underline">
+          <Link
+            to={`/person/${person.nconst}`}
+            className="text-white hover:underline"
+          >
             {person.primaryName}
           </Link>
           {index !== people.length - 1 && " - "}

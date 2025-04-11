@@ -12,5 +12,8 @@ export const personService = {
     fetchJson(`${BASE_API}/name/${nconst}/known-for`, errorMessages.knownFor),
 
   search: async (query: string): Promise<PersonResult[]> =>
-    fetchJson(`${BASE_API}/name/search?query=${encodeURIComponent(query)}`, errorMessages.person),
+    fetchJson(
+      `${BASE_API}/name/search?query=${encodeURIComponent(query)}`,
+      errorMessages.person
+    ),
 };

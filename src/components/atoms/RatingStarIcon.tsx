@@ -5,7 +5,10 @@ interface RatingStarIconProps {
   className?: string;
 }
 
-const RatingStarIcon: React.FC<RatingStarIconProps> = ({ filled, className = "" }) => {
+const RatingStarIcon: React.FC<RatingStarIconProps> = ({
+  filled,
+  className = "",
+}) => {
   const Icon = filled ? FaStar : FaRegStar;
 
   return (

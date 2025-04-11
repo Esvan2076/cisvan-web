@@ -6,7 +6,9 @@ import Ratings from "./Ratings";
 const ContentBoxes: React.FC<{ content: Content }> = ({ content }) => {
   return (
     <SplitPanelLayout
-      imageUrl={content.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
+      imageUrl={
+        content.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"
+      }
       leftContent={
         <ContentDetails
           titleType={content.titleType}

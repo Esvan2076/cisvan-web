@@ -8,7 +8,12 @@ interface ContentStatusProps {
   children: React.ReactNode;
 }
 
-const ContentStatus: React.FC<ContentStatusProps> = ({ loading, error, notFound, children }) => {
+const ContentStatus: React.FC<ContentStatusProps> = ({
+  loading,
+  error,
+  notFound,
+  children,
+}) => {
   const { t } = useTranslation();
 
   if (loading) {
@@ -16,7 +21,11 @@ const ContentStatus: React.FC<ContentStatusProps> = ({ loading, error, notFound,
   }
 
   if (error) {
-    return <div className="text-red-500 text-center p-4">{t("error")}: {error}</div>;
+    return (
+      <div className="text-red-500 text-center p-4">
+        {t("error")}: {error}
+      </div>
+    );
   }
 
   if (notFound) {

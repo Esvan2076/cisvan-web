@@ -17,7 +17,7 @@ const PlatformLink: React.FC<PlatformLinkProps> = ({
   isHovered,
   onMouseEnter,
   onMouseLeave,
-  showFullName
+  showFullName,
 }) => {
   return (
     <a

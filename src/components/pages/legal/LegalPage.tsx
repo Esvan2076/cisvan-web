@@ -22,7 +22,9 @@ const LegalPage: React.FC<Props> = ({ sectionKey }) => {
             <Trans
               i18nKey={`${sectionKey}.content`}
               t={t}
-              components={{ strong: <strong className="text-white font-semibold" /> }}
+              components={{
+                strong: <strong className="text-white font-semibold" />,
+              }}
               ns="legal"
             />
           </div>

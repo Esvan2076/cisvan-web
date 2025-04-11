@@ -13,7 +13,10 @@ interface StreamingPlatformsBoxProps {
   className?: string;
 }
 
-const StreamingPlatformsBox: React.FC<StreamingPlatformsBoxProps> = ({ platforms = [], className = "" }) => {
+const StreamingPlatformsBox: React.FC<StreamingPlatformsBoxProps> = ({
+  platforms = [],
+  className = "",
+}) => {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
   if (platforms.length === 0) return null;
@@ -24,8 +27,12 @@ const StreamingPlatformsBox: React.FC<StreamingPlatformsBoxProps> = ({ platforms
   };
 
   return (
-    <div className={`flex flex-col items-center w-full rounded-md bg-neutral-900 ${className}`}>
-      <TextAtom className="text-white font-semibold select-none">STREAMING</TextAtom>
+    <div
+      className={`flex flex-col items-center w-full rounded-md bg-neutral-900 ${className}`}
+    >
+      <TextAtom className="text-white font-semibold select-none">
+        STREAMING
+      </TextAtom>
 
       <div className="flex gap-2 whitespace-nowrap">
         {platforms
@@ -41,11 +48,21 @@ const StreamingPlatformsBox: React.FC<StreamingPlatformsBoxProps> = ({ platforms
               showFullName={getDisplayMode(index)}
             />
           ))
-          .reduce<JSX.Element[]>((acc, curr, idx) => 
-            idx === 0 ? [curr] : [...acc, 
-              <TextAtom key={`separator-${idx}`} className="whitespace-nowrap text-white select-none"> - </TextAtom>, 
-              curr
-            ], 
+          .reduce<JSX.Element[]>(
+            (acc, curr, idx) =>
+              idx === 0
+                ? [curr]
+                : [
+                    ...acc,
+                    <TextAtom
+                      key={`separator-${idx}`}
+                      className="whitespace-nowrap text-white select-none"
+                    >
+                      {" "}
+                      -{" "}
+                    </TextAtom>,
+                    curr,
+                  ],
             []
           )}
       </div>

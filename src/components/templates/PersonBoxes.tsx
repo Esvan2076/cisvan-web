@@ -19,7 +19,9 @@ const PersonBoxes: React.FC<Props> = ({ person }) => {
 
   return (
     <SplitPanelLayout
-      imageUrl={person.imageUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
+      imageUrl={
+        person.imageUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"
+      }
       leftContent={
         <div className="lg:pt-4 md:pt-2">
           <TextAtom as="h2" className="text-white text-3xl mb-2">
@@ -34,7 +36,9 @@ const PersonBoxes: React.FC<Props> = ({ person }) => {
 
           {hasProfession && (
             <TextAtom as="p" className="text-gray-300 text-sm mb-4">
-              <span className="font-semibold text-white">{t("professions")}:</span>{" "}
+              <span className="font-semibold text-white">
+                {t("professions")}:
+              </span>{" "}
               {person.primaryProfession.join(", ")}
             </TextAtom>
           )}

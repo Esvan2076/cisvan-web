@@ -34,7 +34,6 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
   const { t } = useTranslation(); // Hook para traducción
 
   return (
-    
     <div className="text-white flex flex-col w-full h-full lg:pt-4">
       {/* Título principal */}
       {primaryTitle && <TextAtom className="text-2xl">{primaryTitle}</TextAtom>}
@@ -42,7 +41,8 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
       {/* Nombre original o serie original para episodios */}
       {originalTitle && (
         <TextAtom>
-          {t(titleType === "tvEpisode" ? "originalSeries" : "originalTitle")}: {originalTitle}
+          {t(titleType === "tvEpisode" ? "originalSeries" : "originalTitle")}:{" "}
+          {originalTitle}
         </TextAtom>
       )}
 
@@ -50,17 +50,19 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
       {(titleType || startYear || endYear || runtimeMinutes) && (
         <TextAtom>
           {t(`titleType.${titleType}`, titleType)}
-          {(titleType && (startYear || endYear)) && " - "}
+          {titleType && (startYear || endYear) && " - "}
           {startYear && `${startYear}`}
           {endYear && ` - ${endYear}`}
-          {((startYear || endYear) && runtimeMinutes) && " - "}
+          {(startYear || endYear) && runtimeMinutes && " - "}
           {runtimeMinutes && `${runtimeMinutes} ${t("minutes")}`}
         </TextAtom>
       )}
 
       {/* Géneros */}
       {genres?.length ? (
-        <TextAtom>{t("genres")}: {genres.join(" - ")}</TextAtom>
+        <TextAtom>
+          {t("genres")}: {genres.join(" - ")}
+        </TextAtom>
       ) : null}
 
       {/* Divider entre géneros y directores (solo si hay ambos) */}

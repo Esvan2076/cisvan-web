@@ -10,7 +10,11 @@ interface DropdownMenuProps {
   options: string[];
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({ icon: Icon, text, options }) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({
+  icon: Icon,
+  text,
+  options,
+}) => {
   const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);

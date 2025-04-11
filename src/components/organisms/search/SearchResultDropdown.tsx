@@ -1,17 +1,20 @@
 import { useTranslation } from "react-i18next";
-import SearchResultItem from "../molecules/PersonResultItem";
-import MovieResultItem from "../molecules/MovieResultItem";
-import SerieResultItem from "../molecules/SerieResultItem";
-import { SearchResult } from "../../models/searchResult";
+import SearchResultItem from "../../molecules/search/PersonResultItem";
+import MovieResultItem from "../../molecules/search/MovieResultItem";
+import SerieResultItem from "../../molecules/search/SerieResultItem";
+import { SearchResult } from "../../../models/searchResult";
 
 interface Props {
-  filter: string;
   results: SearchResult[];
   loading: boolean;
   onSelect?: () => void;
 }
 
-const SearchResultDropdown: React.FC<Props> = ({ results, loading, onSelect }) => {
+const SearchResultDropdown: React.FC<Props> = ({
+  results,
+  loading,
+  onSelect,
+}) => {
   const { t } = useTranslation();
 
   return (

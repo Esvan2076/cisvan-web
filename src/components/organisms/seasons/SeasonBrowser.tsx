@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { usePagination } from "../../hooks/shared/usePagination";
-import EpisodeCard from "../molecules/EpisodeCard";
-import PaginationButton from "../molecules/PaginationButton";
+import { usePagination } from "../../../hooks/shared/usePagination";
+import EpisodeCard from "../../molecules/card/EpisodeCard";
+import PaginationButton from "../../molecules/button/PaginationButton";
 import SeasonScrollBar from "./SeasonScrollBar";
-import { Episode } from "../../models/episode";
+import { Episode } from "../../../models/episode";
 
 interface SeasonBrowserProps {
   seriesTitle: string;
@@ -35,9 +35,9 @@ const SeasonBrowser: React.FC<SeasonBrowserProps> = ({
     goToPreviousPage,
     hasNextPage,
     hasPreviousPage,
-    setPage 
+    setPage,
   } = usePagination<Episode>(episodes, MAX_EPISODES_SHOWN);
-  
+
   useEffect(() => {
     if (!currentEpisodeId) return;
     const index = episodes.findIndex((ep) => ep.tconst === currentEpisodeId);
@@ -45,7 +45,7 @@ const SeasonBrowser: React.FC<SeasonBrowserProps> = ({
       const page = Math.floor(index / MAX_EPISODES_SHOWN);
       setPage(page);
     }
-  }, [episodes, currentEpisodeId]);  
+  }, [episodes, currentEpisodeId]);
 
   return (
     <div className="w-full mt-6 bg-neutral-800 text-white rounded shadow-sm p-4">
@@ -63,7 +63,9 @@ const SeasonBrowser: React.FC<SeasonBrowserProps> = ({
         </p>
 
         {episodes.length === 0 ? (
-          <p className="text-gray-400 text-sm italic select-none">{t("no_episodes")}</p>
+          <p className="text-gray-400 text-sm italic select-none">
+            {t("no_episodes")}
+          </p>
         ) : (
           <>
             <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-2">
@@ -78,10 +80,17 @@ const SeasonBrowser: React.FC<SeasonBrowserProps> = ({
 
             <div className="flex justify-center gap-4 mt-4">
               {hasPreviousPage && (
-                <PaginationButton label={t("previous")} onClick={goToPreviousPage} />
+                <PaginationButton
+                  label={t("previous")}
+                  onClick={goToPreviousPage}
+                />
               )}
               {hasNextPage && (
-                <PaginationButton label={t("next")} onClick={goToNextPage} isPrimary />
+                <PaginationButton
+                  label={t("next")}
+                  onClick={goToNextPage}
+                  isPrimary
+                />
               )}
             </div>
           </>

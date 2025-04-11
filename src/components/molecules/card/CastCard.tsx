@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import TextAtom from "../atoms/TextAtom";
-import ImageBox from "../atoms/ImageBox";
+import TextAtom from "../../atoms/TextAtom";
+import ImageBox from "../../atoms/ImageBox";
 
 interface CastCardProps {
   nconst: string;
@@ -9,7 +9,12 @@ interface CastCardProps {
   imageUrl?: string;
 }
 
-const CastCard: React.FC<CastCardProps> = ({ nconst, primaryName, characters, imageUrl }) => {
+const CastCard: React.FC<CastCardProps> = ({
+  nconst,
+  primaryName,
+  characters,
+  imageUrl,
+}) => {
   return (
     <li className="bg-neutral-700 rounded-md flex items-center gap-3">
       <div className="w-[80px] h-[100px] rounded-md overflow-hidden">

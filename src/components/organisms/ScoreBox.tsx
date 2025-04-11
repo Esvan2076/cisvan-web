@@ -9,7 +9,11 @@ interface ScoreBoxProps {
   className?: string; // Estilos adicionales
 }
 
-const ScoreBox: React.FC<ScoreBoxProps> = ({ score = 0, votes = 0, className = "" }) => {
+const ScoreBox: React.FC<ScoreBoxProps> = ({
+  score = 0,
+  votes = 0,
+  className = "",
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const { t, i18n } = useTranslation(); // Traducción con idioma
 
@@ -26,10 +30,10 @@ const ScoreBox: React.FC<ScoreBoxProps> = ({ score = 0, votes = 0, className = "
       <div className="flex items-center gap-2 select-none">
         <RatingStarIcon filled className="text-red-500" />
         <TextAtom className="text-white select-none">
-          {isHovered 
-            ? votes.toLocaleString(i18n.language)
-            : score.toFixed(2)}
-          {!isHovered && <span className="text-gray-400 select-none">/10.00</span>}
+          {isHovered ? votes.toLocaleString(i18n.language) : score.toFixed(2)}
+          {!isHovered && (
+            <span className="text-gray-400 select-none">/10.00</span>
+          )}
         </TextAtom>
       </div>
     </div>

@@ -7,7 +7,7 @@ import { useEpisodesBySeason, useSeriesSummary } from "../../hooks/useEpisode";
 import { useContent } from "../../hooks/useContent";
 
 import CastBrowser from "../organisms/CastBrowser";
-import SeasonBrowser from "../organisms/SeasonBrowser";
+import SeasonBrowser from "../organisms/seasons/SeasonBrowser";
 import ContentBoxes from "../templates/ContentBoxes";
 import Header from "../templates/Header";
 import ContentStatus from "../organisms/ContentStatus";
@@ -16,7 +16,10 @@ import Footer from "../templates/Footer";
 const Content: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { contentId } = useParams<{ contentId: string }>();
-  const { content, loading, error } = useContent(contentId ?? "", i18n.language);
+  const { content, loading, error } = useContent(
+    contentId ?? "",
+    i18n.language
+  );
   const [selectedSeason, setSelectedSeason] = useState(1);
 
   useEffect(() => {
@@ -29,8 +32,14 @@ const Content: React.FC = () => {
   const shouldShowSeasons =
     content?.titleType === "tvSeries" || content?.titleType === "tvEpisode";
 
-  const { data: seriesSummary } = useSeriesSummary(content?.tconst, shouldShowSeasons);
-  const { episodes } = useEpisodesBySeason(seriesSummary?.seriesTconst, selectedSeason);
+  const { data: seriesSummary } = useSeriesSummary(
+    content?.tconst,
+    shouldShowSeasons
+  );
+  const { episodes } = useEpisodesBySeason(
+    seriesSummary?.seriesTconst,
+    selectedSeason
+  );
   const { cast } = useCast(content?.tconst);
 
   return (
@@ -41,7 +50,11 @@ const Content: React.FC = () => {
           {!contentId ? (
             <div className="text-red-500 text-center p-4">{t("not_found")}</div>
           ) : (
-            <ContentStatus loading={loading} error={error ?? undefined} notFound={!content}>
+            <ContentStatus
+              loading={loading}
+              error={error ?? undefined}
+              notFound={!content}
+            >
               {content && (
                 <>
                   <ContentBoxes content={content} />
@@ -55,7 +68,9 @@ const Content: React.FC = () => {
                       onSelectSeason={setSelectedSeason}
                       episodes={episodes}
                       currentEpisodeId={
-                        content.titleType === "tvEpisode" ? content.tconst : undefined
+                        content.titleType === "tvEpisode"
+                          ? content.tconst
+                          : undefined
                       }
                     />
                   )}

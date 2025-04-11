@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Episode } from "../../models/episode";
+import { Episode } from "../../../models/episode";
 
 interface EpisodeCardProps {
   episode: Episode;
@@ -10,7 +10,9 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, isCurrent }) => {
   const { t } = useTranslation();
 
   return (
-    <li className={`bg-neutral-700 p-3 rounded-md ${isCurrent ? "border-2 border-red-600" : ""}`}>
+    <li
+      className={`bg-neutral-700 p-3 rounded-md ${isCurrent ? "border-2 border-red-600" : ""}`}
+    >
       <a
         href={`/content/${episode.tconst}`}
         className="font-semibold text-white hover:underline block"

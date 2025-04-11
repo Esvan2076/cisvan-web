@@ -14,7 +14,7 @@ const UserScoreBox: React.FC<UserScoreBoxProps> = ({
   score = 0,
   hasRated,
   ratingDate = "00/00/00",
-  className = ""
+  className = "",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { t } = useTranslation();
@@ -38,7 +38,11 @@ const UserScoreBox: React.FC<UserScoreBoxProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <TextAtom className="text-white select-none">
-        {hasRated ? (isHovered ? t("date") : t("your_rating")) : t("your_rating")}
+        {hasRated
+          ? isHovered
+            ? t("date")
+            : t("your_rating")
+          : t("your_rating")}
       </TextAtom>
 
       <div className="flex items-center gap-2">

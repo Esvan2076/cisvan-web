@@ -21,7 +21,11 @@ const Person: React.FC = () => {
           {!nconst ? (
             <div className="text-red-500 text-center p-4">{t("not_found")}</div>
           ) : (
-            <ContentStatus loading={loading} error={error ?? undefined} notFound={!person}>
+            <ContentStatus
+              loading={loading}
+              error={error ?? undefined}
+              notFound={!person}
+            >
               {person && (
                 <>
                   <PersonBoxes person={person} />

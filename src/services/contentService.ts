@@ -21,30 +21,30 @@ export const contentService = {
 
     return {
       ...data,
-      streamingServices: Array.isArray(data.streamingServices) ? data.streamingServices : [],
+      streamingServices: Array.isArray(data.streamingServices)
+        ? data.streamingServices
+        : [],
     };
   },
 
-  search: async (query: string): Promise<MovieResult[]> =>
-    fetchJson(`${BASE_API}/title/search-movie?query=${encodeURIComponent(query)}`, errorMessages.content), 
+  searchMovie: async (query: string): Promise<MovieResult[]> =>
+    fetchJson(
+      `${BASE_API}/title/search-movie?query=${encodeURIComponent(query)}`,
+      errorMessages.content
+    ),
 
   searchSeries: async (query: string): Promise<SerieResult[]> =>
-    fetchJson(`${BASE_API}/title/search-serie?query=${encodeURIComponent(query)}`, errorMessages.content),
+    fetchJson(
+      `${BASE_API}/title/search-serie?query=${encodeURIComponent(query)}`,
+      errorMessages.content
+    ),
 
   searchAll: async (query: string): Promise<SearchResult[]> => {
     const rawResults = await fetchJson(
       `${BASE_API}/title/search?query=${encodeURIComponent(query)}`,
       errorMessages.content
-    ) as any[];
+    );
 
-    return rawResults.map((item: any) => {
-      if (item.nconst) {
-        return { ...item, type: "person" };
-      } else if ("endYear" in item) {
-        return { ...item, type: "serie" };
-      } else {
-        return { ...item, type: "movie" };
-      }
-    });
-  }
+    return rawResults as SearchResult[];
+  },
 };
