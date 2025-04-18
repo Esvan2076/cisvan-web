@@ -6,6 +6,11 @@ export interface Person {
   primaryProfession: string[];
   knownForTitles: string[];
   imageUrl?: string;
+  nameRatings?: {
+    nconst: string;
+    averageRating: number;
+    numVotes: number;
+  };
 }
 
 export interface KnownForItem {
@@ -14,9 +19,18 @@ export interface KnownForItem {
   primaryTitle: string;
   startYear: number;
   posterUrl: string;
-  ratings: {
+  titleRatings: {
     tconst: string;
     averageRating: number;
     numVotes: number;
   };
+}
+
+export interface PersonSearchResult {
+  nconst: string;
+  primaryName: string;
+  birthYear?: number;
+  deathYear?: number;
+  professions?: string[];
+  posterUrl?: string;
 }

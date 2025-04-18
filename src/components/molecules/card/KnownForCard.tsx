@@ -30,8 +30,8 @@ const KnownForCard: React.FC<KnownForCardProps> = ({ item }) => {
           </TextAtom>
         </Link>
         <p className="text-xs text-gray-300 mt-1">
-          ⭐ {item.ratings?.averageRating?.toFixed(2) ?? "?"}/10.00 —{" "}
-          {item.ratings.numVotes?.toLocaleString() ?? 0} {t("votes_suffix")}
+          ⭐ {item.titleRatings?.averageRating?.toFixed(2) ?? "?"}/10.00 —{" "}
+          {item.titleRatings.numVotes?.toLocaleString() ?? 0} {t("votes_suffix")}
         </p>
       </div>
     </li>

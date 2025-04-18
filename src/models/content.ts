@@ -11,11 +11,26 @@ export interface Content {
   runtimeMinutes: number;
   genres: string[];
   posterUrl: string;
-  ratings: {
+  titleRatings: {
     averageRating: number;
     numVotes: number;
   };
   directors: { nconst: string; primaryName: string }[];
   writers: { nconst: string; primaryName: string }[];
   streamingServices?: StreamingService[];
+}
+
+export interface TitleRatings {
+  tconst: string;
+  averageRating: number;
+  numVotes: number;
+}
+
+export interface TitleSearchResult {
+  tconst: string;
+  titleType: string;
+  primaryTitle: string;
+  startYear: number;
+  posterUrl: string;
+  titleRatings: TitleRatings;
 }

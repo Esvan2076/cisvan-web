@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
-import { SerieResult } from "../../models/searchResult";
+import { FaClock } from "react-icons/fa";
+import { SerieResult } from "../../../models/searchResult";
 
 interface Props {
   result: SerieResult;
   onSelect?: () => void;
+  isRecent?: boolean;
 }
 
-const SerieResultItem: React.FC<Props> = ({ result, onSelect }) => {
+const SerieResultItem: React.FC<Props> = ({ result, onSelect, isRecent }) => {
   return (
     <Link
       to={`/content/${encodeURIComponent(result.tconst)}`}
@@ -21,6 +23,9 @@ const SerieResultItem: React.FC<Props> = ({ result, onSelect }) => {
           {result.actors && ` — ${result.actors}`}
         </span>
       </div>
+      {isRecent && (
+        <FaClock className="ml-3 text-red-500 text-base" title="Reciente" />
+      )}
     </Link>
   );
 };

@@ -34,13 +34,13 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
   const { t } = useTranslation(); // Hook para traducción
 
   return (
-    <div className="text-white flex flex-col w-full h-full lg:pt-4">
+    <div className="text-white flex flex-col w-full h-full pt-4">
       {/* Título principal */}
       {primaryTitle && <TextAtom className="text-2xl">{primaryTitle}</TextAtom>}
 
       {/* Nombre original o serie original para episodios */}
       {originalTitle && (
-        <TextAtom>
+        <TextAtom className="text-gray-300">
           {t(titleType === "tvEpisode" ? "originalSeries" : "originalTitle")}:{" "}
           {originalTitle}
         </TextAtom>
@@ -48,7 +48,7 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
 
       {/* Tipo de título, años y duración */}
       {(titleType || startYear || endYear || runtimeMinutes) && (
-        <TextAtom>
+        <TextAtom className="text-gray-300">
           {t(`titleType.${titleType}`, titleType)}
           {titleType && (startYear || endYear) && " - "}
           {startYear && `${startYear}`}
@@ -60,27 +60,23 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
 
       {/* Géneros */}
       {genres?.length ? (
-        <TextAtom>
+        <TextAtom className="text-gray-300">
           {t("genres")}: {genres.join(" - ")}
         </TextAtom>
       ) : null}
 
-      {/* Divider entre géneros y directores (solo si hay ambos) */}
       {genres?.length && directors?.length ? <Divider /> : null}
 
-      {/* Directores */}
       {directors?.length ? (
-        <TextAtom>
+        <TextAtom className="text-gray-300">
           {t("directors")}: {directors.map((d) => d.primaryName).join(" - ")}
         </TextAtom>
       ) : null}
 
-      {/* Divider entre directores y escritores (solo si hay ambos) */}
       {directors?.length && writers?.length ? <Divider /> : null}
 
-      {/* Escritores */}
       {writers?.length ? (
-        <TextAtom>
+        <TextAtom className="text-gray-300">
           {t("writers")}: {writers.map((w) => w.primaryName).join(" - ")}
         </TextAtom>
       ) : null}

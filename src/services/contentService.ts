@@ -1,9 +1,22 @@
 import { BASE_API } from "../constants/api";
 import { errorMessages } from "../constants/errors";
-import { Content } from "../models/content";
-import { MovieResult, SerieResult } from "../models/searchResult";
-import { SearchResult } from "../models/searchResult";
+import { Content, TitleSearchResult } from "../models/content";
+import { MovieResult, SerieResult, SearchResult } from "../models/searchResult";
 import { fetchJson } from "../utils/fetchJson";
+
+interface TitleSearchPayload {
+  name: string;
+  types?: string[];
+  genres?: string[];
+  streamingServices?: string | null;
+}
+
+interface TitleSearchResponse {
+  content: TitleSearchResult[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+}
 
 export const contentService = {
   getById: async (contentId: string, language: string): Promise<Content> => {
@@ -46,5 +59,22 @@ export const contentService = {
     );
 
     return rawResults as SearchResult[];
+  },
+
+  advancedSearch: async (
+    filters: TitleSearchPayload,
+    page: number = 0
+  ): Promise<TitleSearchResponse> => {
+    const response = await fetch(`${BASE_API}/title/advanced-search?page=${page}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(filters),
+    });
+
+    if (!response.ok) throw new Error(errorMessages.content);
+
+    return response.json();
   },
 };

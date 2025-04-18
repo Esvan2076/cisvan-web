@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
+import { FaClock } from "react-icons/fa";
 import { MovieResult } from "../../../models/searchResult";
 
 interface Props {
   result: MovieResult;
   onSelect?: () => void;
+  isRecent?: boolean;
 }
 
-const MovieResultItem: React.FC<Props> = ({ result, onSelect }) => {
+const MovieResultItem: React.FC<Props> = ({ result, onSelect, isRecent }) => {
   return (
     <Link
       to={`/content/${encodeURIComponent(result.tconst)}`}
@@ -20,6 +22,9 @@ const MovieResultItem: React.FC<Props> = ({ result, onSelect }) => {
           {result.actors && ` — ${result.actors}`}
         </span>
       </div>
+      {isRecent && (
+        <FaClock className="ml-3 text-red-500 text-base" title="Reciente" />
+      )}
     </Link>
   );
 };

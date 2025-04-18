@@ -2,10 +2,15 @@ import Divider from "../atoms/Divider";
 import ScoreBox from "./ScoreBox";
 import UserScoreBox from "./UserScoreBox";
 
-const PersonPanel: React.FC = () => {
+interface Props {
+  score: number;
+  votes: number;
+}
+
+const PersonPanel: React.FC<Props> = ({ score, votes }) => {
   return (
     <div className="flex flex-row sm:flex-col w-full h-full border-4 border-red-500 rounded-lg p-2">
-      <ScoreBox score={9.2} votes={12000} className="hover:bg-neutral-700" />
+      <ScoreBox score={score} votes={votes} className="hover:bg-neutral-700" />
       <Divider className="w-full hidden sm:block" />
       <UserScoreBox
         score={8.7}

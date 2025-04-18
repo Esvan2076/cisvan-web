@@ -16,6 +16,7 @@ const ImageBox: React.FC<ImageBoxProps> = ({
   loadingText,
   showSkeleton = true,
 }) => {
+  const [hasError, setHasError] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const { t } = useTranslation();
   const finalLoadingText = loadingText ?? t("loading_image");
@@ -28,9 +29,10 @@ const ImageBox: React.FC<ImageBoxProps> = ({
 
       <img
         loading="lazy"
-        src={src}
+        src={hasError ? "/default-actor.png" : src}
         alt={alt}
         onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)} // <-- maneja error
         draggable="false"
         className={`w-full h-full object-cover select-none pointer-events-none ${
           showSkeleton && !isLoaded ? "invisible" : "visible"

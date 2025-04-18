@@ -1,4 +1,4 @@
-import ImageBox from "../atoms/ImageBox";
+import ImageBox from "../../atoms/ImageBox";
 
 interface SplitPanelLayoutProps {
   imageUrl: string;

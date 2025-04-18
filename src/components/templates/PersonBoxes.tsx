@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import TextAtom from "../atoms/TextAtom";
-import SplitPanelLayout from "../layouts/SplitPanelLayout";
+import SplitPanelLayout from "./layouts/SplitPanelLayout";
 import PersonPanel from "../organisms/PersonPanel";
 import { Person } from "../../models/person";
 
@@ -10,6 +10,7 @@ interface Props {
 
 const PersonBoxes: React.FC<Props> = ({ person }) => {
   const { t } = useTranslation();
+  const { t: tProf } = useTranslation("professions");
 
   const renderLifeSpan = () =>
     `${person.birthYear ?? "?"} - ${person.deathYear ?? t("present")}`;
@@ -17,13 +18,19 @@ const PersonBoxes: React.FC<Props> = ({ person }) => {
   const hasDates = person.birthYear || person.deathYear;
   const hasProfession = person.primaryProfession?.length > 0;
 
+  const translatedProfessions = person.primaryProfession
+    .map((p) => tProf(p, { defaultValue: p }))
+    .join(", ");
+
+  const hasRating = person.nameRatings?.averageRating !== undefined;
+
   return (
     <SplitPanelLayout
       imageUrl={
         person.imageUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"
       }
       leftContent={
-        <div className="lg:pt-4 md:pt-2">
+        <div className="pt-4">
           <TextAtom as="h2" className="text-white text-3xl mb-2">
             {person.primaryName}
           </TextAtom>
@@ -35,16 +42,23 @@ const PersonBoxes: React.FC<Props> = ({ person }) => {
           )}
 
           {hasProfession && (
-            <TextAtom as="p" className="text-gray-300 text-sm mb-4">
-              <span className="font-semibold text-white">
+            <TextAtom as="p" className="text-gray-300 text-sm mb-2">
+              <span className="font-semibold text-gray-300">
                 {t("professions")}:
               </span>{" "}
-              {person.primaryProfession.join(", ")}
+              {translatedProfessions}
             </TextAtom>
           )}
         </div>
       }
-      rightContent={<PersonPanel />}
+      rightContent={
+        hasRating ? (
+          <PersonPanel
+            score={person.nameRatings!.averageRating}
+            votes={person.nameRatings!.numVotes}
+          />
+        ) : null
+      }      
     />
   );
 };

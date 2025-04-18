@@ -1,24 +1,25 @@
 import { useTranslation } from "react-i18next";
 import { FaRegFileAlt, FaUserCircle, FaGlobe } from "react-icons/fa";
-import CisvanButton from "../molecules/button/CisvanButton";
-import IconButton from "../molecules/button/IconButton";
-import SearchBar from "../organisms/search/SearchBar";
+
 import DropdownMenu from "../organisms/DropdownMenu";
+import CisvanButton from "../molecules/button/CisvanButton";
+import SearchBar from "../organisms/search/SearchBar";
+import IconButton from "../molecules/button/IconButton";
 
 const Header: React.FC = () => {
   const { t } = useTranslation(); // Para traducir textos en el header
 
   return (
-    <header className="h-20 sm:h-18 w-full bg-neutral-800 flex items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8">
-      <nav
-        className="w-full max-w-7xl mx-auto flex items-center justify-between"
-        role="navigation"
-      >
+    <header className="h-18 w-full bg-neutral-800 flex items-center px-2 sm:px-3 md:px-4 lg:px-4 xl:px-4">
+        <nav
+          className="w-full max-w-7xl mx-auto flex items-center justify-between"
+          role="navigation"
+        >
         {/* Botón Izquierdo */}
         <CisvanButton />
 
         {/* Botón Central con margen dinámico */}
-        <div className="flex-1 mx-4 sm:mx-6 md:mx-12 lg:mx-20 xl:mx-32 max-w-lg sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl">
+        <div className="flex-1 mx-2 sm:mx-4 md:mx-6 lg:mx-8 xl:mx-12 max-w-full">
           <SearchBar />
         </div>
 

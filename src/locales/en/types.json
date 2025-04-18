@@ -1,0 +1,10 @@
+{
+    "movie": "Movie",
+    "short": "Short",
+    "tvEpisode": "TV Episode",
+    "tvMiniSeries": "TV Mini-Series",
+    "tvMovie": "TV Movie",
+    "tvSeries": "TV Series",
+    "tvShort": "TV Short",
+    "tvSpecial": "TV Special"
+}

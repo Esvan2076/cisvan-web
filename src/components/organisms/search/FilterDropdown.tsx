@@ -1,15 +1,22 @@
-import { useState, useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { FaChevronDown } from "react-icons/fa";
-import DropdownItem from "../molecules/DropdownItem";
-import { useClickOutside } from "../../hooks/shared/useClickOutside";
+import { HiOutlineDocumentSearch } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useState, useRef, useEffect } from "react";
+import DropdownItem from "../../molecules/DropdownItem";
+import { useClickOutside } from "../../../hooks/shared/useClickOutside";
 
 interface FilterDropdownProps {
   options: string[];
+  redirectOption?: {
+    label: string;
+    route: string;
+  };
 }
 
-const FilterDropdown: React.FC<FilterDropdownProps> = ({ options }) => {
+const FilterDropdown: React.FC<FilterDropdownProps> = ({ options, redirectOption }) => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -38,6 +45,13 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ options }) => {
     setIsOpen(false);
   };
 
+  const handleRedirect = () => {
+    if (redirectOption) {
+      navigate(redirectOption.route);
+      setIsOpen(false);
+    }
+  };
+
   return (
     <div className="relative z-50" ref={menuRef}>
       {/* Botón que activa el menú */}
@@ -63,6 +77,16 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({ options }) => {
               onClick={() => handleSelection(option)}
             />
           ))}
+
+          {redirectOption && (
+            <div
+              onClick={handleRedirect}
+              className="px-4 py-2 text-white cursor-pointer hover:bg-neutral-700 flex justify-between items-center"
+            >
+              {redirectOption.label}
+              <HiOutlineDocumentSearch className="text-white" />
+            </div>
+          )}
         </div>
       )}
     </div>

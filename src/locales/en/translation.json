@@ -12,7 +12,27 @@
         "all": "ALL",
         "person": "People",
         "movie": "Movies",
-        "serie": "Series"
+        "serie": "Series",
+        "advanced_search": "Advanced"
+    },
+    "advanced_search": {
+        "title": "Advanced Search",
+        "description": "Use our advanced search to find movies, series or people based on your preferences. Filter by type, genre or streaming platform and explore more accurate results.",
+        "active_filters": "Filters: Selected filters will appear here",
+        "tabs": {
+            "titles": "Titles",
+            "persons": "Persons",
+            "users": "Users"
+        },
+        "filters": {
+            "type": "Type",
+            "genres": "Genres",
+            "streaming": "Streaming Services",
+            "professions": "Professions"
+        },
+        "results_placeholder": "Filtered results will be displayed here",
+        "results_found": "Results Found",
+        "no_results": "No results available"
     },
     "footer": {
         "about": "About CISVAN",
@@ -68,6 +88,8 @@
     "error_episodes": "Error fetching episodes",
     "error_series": "Error fetching series summary",
     "error_person": "Error fetching person",
-    "error_known_for": "Error fetching known for titles"
+    "error_known_for": "Error fetching known for titles",
+    "prev": "Prev",
+    "page": "Page",
+    "recent_searches": "Recent Searches"
 }
-  

@@ -2,18 +2,51 @@ import { BASE_API } from "../constants/api";
 import { errorMessages } from "../constants/errors";
 import { KnownForItem, Person } from "../models/person";
 import { PersonResult } from "../models/searchResult";
-import { fetchJson } from "../utils/fetchJson";
+
+interface PersonSearchPayload {
+  name?: string;
+  professions?: string[];
+}
+interface PersonSearchResponse {
+  content: PersonResult[];
+  totalPages: number;
+  totalElements: number;
+  number: number;
+}
 
 export const personService = {
-  getById: async (nconst: string): Promise<Person> =>
-    fetchJson(`${BASE_API}/name/${nconst}`, errorMessages.person),
+  getById: async (nconst: string): Promise<Person> => {
+    const response = await fetch(`${BASE_API}/name/basic/${nconst}`);
+    if (!response.ok) throw new Error(errorMessages.person);
+    return response.json();
+  },
 
-  getKnownFor: async (nconst: string): Promise<KnownForItem[]> =>
-    fetchJson(`${BASE_API}/name/${nconst}/known-for`, errorMessages.knownFor),
+  getKnownFor: async (nconst: string): Promise<KnownForItem[]> => {
+    const response = await fetch(`${BASE_API}/name/${nconst}/known-for`);
+    if (!response.ok) throw new Error(errorMessages.knownFor);
+    return response.json();
+  },
 
-  search: async (query: string): Promise<PersonResult[]> =>
-    fetchJson(
-      `${BASE_API}/name/search?query=${encodeURIComponent(query)}`,
-      errorMessages.person
-    ),
+  search: async (query: string): Promise<PersonResult[]> => {
+    const response = await fetch(`${BASE_API}/name/search?query=${encodeURIComponent(query)}`);
+    if (!response.ok) throw new Error(errorMessages.person);
+    return response.json();
+  },
+
+  advancedSearch: async (
+    payload: PersonSearchPayload,
+    page: number = 0
+  ): Promise<PersonSearchResponse> => {
+    const response = await fetch(`${BASE_API}/name/advanced-search?page=${page}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) throw new Error(errorMessages.person);
+
+    return response.json();
+  },
 };

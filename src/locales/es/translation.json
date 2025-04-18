@@ -12,7 +12,27 @@
         "all": "TODO",
         "person": "Personas",
         "movie": "Películas",
-        "serie": "Series"
+        "serie": "Series",
+        "advanced_search": "Avanzada"
+    },
+    "advanced_search": {
+        "title": "Búsqueda Avanzada",
+        "description": "Utiliza nuestra búsqueda avanzada para encontrar películas, series o personas según tus preferencias. Filtra por tipo, género o plataforma de streaming y explora resultados más precisos.",
+        "active_filters": "Filtros: Aquí deben de aparecer los filtros que haya seleccionado",
+        "tabs": {
+            "titles": "Títulos",
+            "persons": "Personas",
+            "users": "Usuarios"
+        },
+        "filters": {
+            "type": "Tipo",
+            "genres": "Géneros",
+            "streaming": "Plataformas de Streaming",
+            "professions": "Profesiones"
+        },
+        "results_placeholder": "Los resultados filtrados se mostrarán aquí",
+        "results_found": "Resultados encontrados",
+        "no_results": "No hay resultados disponibles"
     },
     "footer": {
         "about": "Sobre CISVAN",
@@ -68,6 +88,8 @@
     "error_episodes": "Error al obtener episodios",
     "error_series": "Error al obtener resumen de la serie",
     "error_person": "Error al obtener la persona",
-    "error_known_for": "Error al obtener películas destacadas"
+    "error_known_for": "Error al obtener películas destacadas",
+    "prev": "Anterior",
+    "page": "Página",
+    "recent_searches": "Busquedas Recientes"
 }
-  
