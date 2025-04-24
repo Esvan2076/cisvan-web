@@ -132,6 +132,16 @@ export const useSearchLogic = () => {
     setIsDropdownOpen(false);
   };
 
+  const clearRecentSearches = () => {
+    localStorage.removeItem(RECENT_SEARCH_KEY);
+    setRecentResults([]);
+  };  
+
+  const refreshRecentSearches = () => {
+    const saved = getRecentSearches();
+    setRecentResults(saved);
+  };
+
   return {
     wrapperRef,
     searchTerm,
@@ -146,5 +156,7 @@ export const useSearchLogic = () => {
     currentLoading,
     recentResults,
     handleSelectResult,
+    clearRecentSearches,
+    refreshRecentSearches
   };
 };

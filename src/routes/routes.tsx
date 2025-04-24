@@ -4,6 +4,8 @@ import Content from "../components/pages/Content";
 import Person from "../components/pages/Person";
 import LegalRouter from "../components/pages/legal/Index";
 import AdvancedSearch from "../components/pages/AdvancedSearch";
+import AuthPage from "../components/pages/auth/AuthPage";
+import EmailVerifyPage from "../components/pages/EmailVerifyPage"; // 👈 nueva página
 
 const AppRoutes = () => {
   return (
@@ -14,6 +16,8 @@ const AppRoutes = () => {
         <Route path="/person/:nconst" element={<Person />} />
         <Route path="/legal/:section" element={<LegalRouter />} />
         <Route path="/advanced-search" element={<AdvancedSearch />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/verify/:token" element={<EmailVerifyPage />} />
       </Routes>
     </Router>
   );

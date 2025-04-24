@@ -4,5 +4,8 @@ export const errorMessages = {
     episodes: "error_episodes",
     series: "error_series",
     person: "error_person",
-    knownFor: "error_known_for"
+    knownFor: "error_known_for",
+    login: "Credenciales incorrectas. Intenta de nuevo.",
+    user: "No se pudo obtener la información del usuario.",
+    register: "No se pudo registrar el usuario.",
 };

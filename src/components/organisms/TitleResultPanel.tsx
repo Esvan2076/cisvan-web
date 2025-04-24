@@ -1,10 +1,11 @@
+// components/organisms/TitleResultPanel.tsx
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { TitleSearchResult } from "../../models/content";
 import ImageBox from "../atoms/ImageBox";
-import { PersonSearchResult } from "../../models/person";
 
 interface Props {
-  results: PersonSearchResult[];
+  results: TitleSearchResult[];
   total: number;
   page: number;
   totalPages: number;
@@ -12,7 +13,7 @@ interface Props {
   onPrev: () => void;
 }
 
-const PersonRightPanel: React.FC<Props> = ({
+const TitleResultPanel: React.FC<Props> = ({
   results,
   total,
   page,
@@ -23,8 +24,6 @@ const PersonRightPanel: React.FC<Props> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  if (!results.length) return null;
-
   return (
     <div className="bg-neutral-800 rounded-md p-4 text-white">
       <p className="font-semibold mb-4">
@@ -32,31 +31,26 @@ const PersonRightPanel: React.FC<Props> = ({
       </p>
 
       <div className="space-y-4">
-        {results.map((person) => (
+        {results.map((item) => (
           <div
-            key={person.nconst}
+            key={item.tconst}
             className="flex items-center gap-4 cursor-pointer hover:bg-neutral-700 p-2 rounded"
-            onClick={() => navigate(`/person/${person.nconst}`)}
+            onClick={() => navigate(`/content/${item.tconst}`)}
           >
             <div className="w-16 h-24 shrink-0">
               <ImageBox
-                src={person.posterUrl || "/default-actor.png"}
-                alt={person.primaryName}
+                src={item.posterUrl}
+                alt={item.primaryTitle}
                 className="rounded-md"
               />
             </div>
             <div>
               <p className="font-semibold underline underline-offset-2">
-                {person.primaryName}
+                {item.primaryTitle}
               </p>
               <p className="text-sm text-gray-400">
-                {person.professions?.join(", ") ?? "-"}
+                {item.startYear} — {t("rating")}: {item.titleRatings?.averageRating ?? "N/A"}
               </p>
-              {person.birthYear && (
-                <p className="text-sm text-gray-400">
-                  {t("born")}: {person.birthYear}
-                </p>
-              )}
             </div>
           </div>
         ))}
@@ -64,22 +58,16 @@ const PersonRightPanel: React.FC<Props> = ({
 
       <div className="flex items-center justify-between mt-6 text-sm">
         <span className="text-gray-300">
-          {t("page")}: {page + 1}/{totalPages}
+          {t("page")} {page + 1}/{totalPages}
         </span>
         <div className="flex gap-2">
           {page > 0 && (
-            <button
-              onClick={onPrev}
-              className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition"
-            >
+            <button onClick={onPrev} className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition">
               {t("prev")}
             </button>
           )}
           {page < totalPages - 1 && (
-            <button
-              onClick={onNext}
-              className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition"
-            >
+            <button onClick={onNext} className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition">
               {t("next")}
             </button>
           )}
@@ -89,4 +77,4 @@ const PersonRightPanel: React.FC<Props> = ({
   );
 };
 
-export default PersonRightPanel;
+export default TitleResultPanel;

@@ -1,11 +1,11 @@
+// components/organisms/PersonResultPanel.tsx
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-
-import { TitleSearchResult } from "../../models/content";
+import { PersonSearchResult } from "../../models/person";
 import ImageBox from "../atoms/ImageBox";
 
 interface Props {
-  results: TitleSearchResult[];
+  results: PersonSearchResult[];
   total: number;
   page: number;
   totalPages: number;
@@ -13,7 +13,7 @@ interface Props {
   onPrev: () => void;
 }
 
-const SearchResultPanel: React.FC<Props> = ({
+const PersonResultPanel: React.FC<Props> = ({
   results,
   total,
   page,
@@ -30,31 +30,25 @@ const SearchResultPanel: React.FC<Props> = ({
         {t("advanced_search.results_found")}: {total}
       </p>
 
-      {results.length === 0 && (
-        <p className="text-gray-400">{t("advanced_search.no_results")}</p>
-      )}
-
       <div className="space-y-4">
         {results.map((item) => (
           <div
-            key={item.tconst}
+            key={item.nconst}
             className="flex items-center gap-4 cursor-pointer hover:bg-neutral-700 p-2 rounded"
-            onClick={() => navigate(`/content/${item.tconst}`)}
+            onClick={() => navigate(`/person/${item.nconst}`)}
           >
             <div className="w-16 h-24 shrink-0">
               <ImageBox
-                src={item.posterUrl}
-                alt={item.primaryTitle}
+                src={item.posterUrl ?? "/default-actor.png"}
+                alt={item.primaryName}
                 className="rounded-md"
               />
             </div>
             <div>
               <p className="font-semibold underline underline-offset-2">
-                {item.primaryTitle}
+                {item.primaryName}
               </p>
-              <p className="text-sm text-gray-400">
-                {item.startYear} — {t("rating")}: {item.titleRatings?.averageRating ?? "N/A"}
-              </p>
+              <p className="text-sm text-gray-400">{item.professions?.join(", ")}</p>
             </div>
           </div>
         ))}
@@ -66,18 +60,12 @@ const SearchResultPanel: React.FC<Props> = ({
         </span>
         <div className="flex gap-2">
           {page > 0 && (
-            <button
-              onClick={onPrev}
-              className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition"
-            >
+            <button onClick={onPrev} className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition">
               {t("prev")}
             </button>
           )}
           {page < totalPages - 1 && (
-            <button
-              onClick={onNext}
-              className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition"
-            >
+            <button onClick={onNext} className="px-4 py-1 border border-white rounded hover:bg-neutral-700 transition">
               {t("next")}
             </button>
           )}
@@ -87,4 +75,4 @@ const SearchResultPanel: React.FC<Props> = ({
   );
 };
 
-export default SearchResultPanel;
+export default PersonResultPanel;

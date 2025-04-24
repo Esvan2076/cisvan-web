@@ -1,4 +1,5 @@
 import { BASE_API } from "../constants/api";
+
 import { errorMessages } from "../constants/errors";
 import { fetchJson } from "../utils/fetchJson";
 import { Episode, SeriesSummary } from "../models/episode";

@@ -8,12 +8,14 @@ import esLegal from "./locales/es/legal.json";
 import esProfessions from "./locales/es/professions.json";
 import esGenres from "./locales/es/genres.json";
 import esTypes from "./locales/es/types.json";
+import esAuth from "./locales/es/auth.json";
 
 import enTranslation from "./locales/en/translation.json";
 import enLegal from "./locales/en/legal.json";
 import enProfessions from "./locales/en/professions.json";
 import enGenres from "./locales/en/genres.json";
 import enTypes from "./locales/en/types.json";
+import enAuth from "./locales/en/auth.json";
 
 i18n
   .use(LanguageDetector)
@@ -26,6 +28,7 @@ i18n
         professions: esProfessions,
         genres: esGenres,
         types: esTypes,
+        auth: esAuth, // 👈 agregado
       },
       en: {
         translation: enTranslation,
@@ -33,10 +36,11 @@ i18n
         professions: enProfessions,
         genres: enGenres,
         types: enTypes,
+        auth: enAuth, // 👈 agregado
       },
     },
     fallbackLng: "es",
-    ns: ["translation", "legal", "professions", "genres", "types"],
+    ns: ["translation", "legal", "professions", "genres", "types", "auth"], // 👈 agregado "auth"
     defaultNS: "translation",
     interpolation: {
       escapeValue: false,
