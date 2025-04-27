@@ -4,6 +4,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useFieldErrors } from "../../../hooks/useFieldErrors";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface LoginFormProps {
   onSwitch: () => void;
@@ -14,6 +15,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitch, onForgotPassword }) => 
   const { t } = useTranslation("auth");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
   const { handleApiError } = useFieldErrors();
@@ -58,13 +60,24 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitch, onForgotPassword }) => 
         onChange={(e) => setEmail(e.target.value)}
         className="w-full mb-3 px-4 py-2 rounded bg-neutral-700 text-white placeholder-gray-400 focus:outline-none"
       />
-      <input
-        type="password"
-        placeholder={t("password")}
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="w-full mb-4 px-4 py-2 rounded bg-neutral-700 text-white placeholder-gray-400 focus:outline-none"
-      />
+
+      <div className="relative w-full mb-4">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder={t("password")}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-4 py-2 pr-10 rounded bg-neutral-700 text-white placeholder-gray-400 focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={() => setShowPassword(!showPassword)}
+          className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-white"
+          tabIndex={-1}
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </button>
+      </div>
 
       <button
         onClick={handleLogin}

@@ -31,22 +31,21 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
   directors,
   writers,
 }) => {
-  const { t } = useTranslation(); // Hook para traducción
+  const { t } = useTranslation();
+
+  const isSeries = titleType === "tvSeries" || titleType === "tvMiniSeries";
+  const writersLabel = isSeries ? t("creators") : t("writers");
 
   return (
     <div className="text-white flex flex-col w-full h-full pt-4">
-      {/* Título principal */}
       {primaryTitle && <TextAtom className="text-2xl">{primaryTitle}</TextAtom>}
 
-      {/* Nombre original o serie original para episodios */}
       {originalTitle && (
         <TextAtom className="text-gray-300">
-          {t(titleType === "tvEpisode" ? "originalSeries" : "originalTitle")}:{" "}
-          {originalTitle}
+          {t(titleType === "tvEpisode" ? "originalSeries" : "originalTitle")}: {originalTitle}
         </TextAtom>
       )}
 
-      {/* Tipo de título, años y duración */}
       {(titleType || startYear || endYear || runtimeMinutes) && (
         <TextAtom className="text-gray-300">
           {t(`titleType.${titleType}`, titleType)}
@@ -58,7 +57,6 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
         </TextAtom>
       )}
 
-      {/* Géneros */}
       {genres?.length ? (
         <TextAtom className="text-gray-300">
           {t("genres")}: {genres.join(" - ")}
@@ -77,7 +75,7 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
 
       {writers?.length ? (
         <TextAtom className="text-gray-300">
-          {t("writers")}: {writers.map((w) => w.primaryName).join(" - ")}
+          {writersLabel}: {writers.map((w) => w.primaryName).join(" - ")}
         </TextAtom>
       ) : null}
     </div>

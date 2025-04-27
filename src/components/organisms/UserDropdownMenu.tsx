@@ -28,11 +28,11 @@ const UserDropdownMenu: React.FC<Props> = ({
     <div className="relative z-50" ref={ref}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 font-bold text-white text-sm whitespace-nowrap 
-                    hover:bg-neutral-700 transition-colors duration-200 hidden sm:flex rounded-lg h-full select-none"
+        className="flex items-center gap-2 px-2 sm:px-3 py-2 font-bold text-white text-sm whitespace-nowrap 
+                   hover:bg-neutral-700 transition-colors duration-200 rounded-lg h-full select-none"
       >
-        <FaUserCircle className="text-2xl" />        {/* 👈 esto cambia */}
-        {displayName}
+        <FaUserCircle className="text-xl sm:text-2xl" />
+        <span className="hidden sm:inline">{displayName}</span>
       </button>
 
       {isOpen && (
@@ -44,7 +44,7 @@ const UserDropdownMenu: React.FC<Props> = ({
             }}
             className="w-full px-4 py-2 text-white flex items-center gap-2 hover:bg-neutral-700"
           >
-            <FaCog /> Config
+            <FaCog /> {t("profile")}
           </button>
           <button
             onClick={() => {

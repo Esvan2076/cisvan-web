@@ -8,4 +8,5 @@ export const errorMessages = {
     login: "Credenciales incorrectas. Intenta de nuevo.",
     user: "No se pudo obtener la información del usuario.",
     register: "No se pudo registrar el usuario.",
+    userProfile: "error_user_profile"
 };

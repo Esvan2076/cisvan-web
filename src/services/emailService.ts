@@ -1,5 +1,5 @@
 import emailjs from "@emailjs/browser";
-import { APP_URL, EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_RESET, EMAILJS_TEMPLATE_VERIFY } from "../constants/api";
+import { EMAILJS_PUBLIC_KEY, EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_RESET, EMAILJS_TEMPLATE_VERIFY } from "../constants/api";
 
 export const sendVerificationEmail = async (
   email: string,
@@ -21,7 +21,7 @@ export const sendVerificationEmail = async (
 export const sendPasswordResetEmail = async (
   email: string,
   username: string,
-  token: string
+  code: string
 ) => {
   return emailjs.send(
     EMAILJS_SERVICE_ID,
@@ -29,7 +29,7 @@ export const sendPasswordResetEmail = async (
     {
       email,
       name: username,
-      link: `${APP_URL}/reset-password/${token}`,
+      code,
     },
     EMAILJS_PUBLIC_KEY
   );

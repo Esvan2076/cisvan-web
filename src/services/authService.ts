@@ -1,5 +1,5 @@
 import { BASE_API } from "../constants/api";
-import { sendVerificationEmail } from "./emailService";
+import { sendVerificationEmail, sendPasswordResetEmail } from "./emailService";
 
 const LOGIN_URL = `${BASE_API}/user/login`;
 const ME_URL = `${BASE_API}/user/me`;
@@ -21,7 +21,7 @@ export const authService = {
       body: JSON.stringify({ email, password }),
     });
 
-    if (!res.ok) throw new Error("login_error");
+    if (!res.ok) throw res;
     return await res.text();
   },
 
@@ -43,13 +43,13 @@ export const authService = {
       headers: getLanguageHeader(language),
       body: JSON.stringify({ username, email, password }),
     });
-  
-    if (!res.ok) throw res; // ⬅️ Esto es lo único que cambia
-  
+
+    if (!res.ok) throw res;
+
     const data = await res.json();
     await sendVerificationEmail(data.email, data.username, data.code);
     return { email: data.email, username: data.username };
-  },  
+  },
 
   verifyCode: async (email: string, code: string, language: string): Promise<string> => {
     const res = await fetch(`${BASE_API}/user/verify-email`, {
@@ -58,7 +58,8 @@ export const authService = {
       body: JSON.stringify({ email, code }),
     });
 
-    if (!res.ok) throw new Error("invalid_code");
+    if (!res.ok) throw res;
+
     return await res.text();
   },
 
@@ -82,21 +83,24 @@ export const authService = {
       body: JSON.stringify({ email }),
     });
 
-    if (!res.ok) throw new Error("reset_request_error");
-    return await res.json();
+    if (!res.ok) throw res;
+
+    const data = await res.json(); // { email, username, code }
+
+    // ✉️ Enviar correo de recuperación
+    await sendPasswordResetEmail(data.email, data.username, data.code);
+
+    return { email: data.email, username: data.username };
   },
 
-  resetPassword: async (token: string, newPassword: string, language: string) => {
+  resetPassword: async (email: string, code: string, newPassword: string, language: string) => {
     const res = await fetch(RESET_PASSWORD_URL, {
       method: "POST",
       headers: getLanguageHeader(language),
-      body: JSON.stringify({ token, newPassword }),
+      body: JSON.stringify({ email, code, newPassword }),
     });
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(errorText.toLowerCase().includes("expired") ? "token_expired" : "invalid_token");
-    }
+    if (!res.ok) throw res;
 
     return true;
   }

@@ -64,6 +64,7 @@
         "tvSpecial": "TV Special",
         "tvShort": "TV Short"
     },
+    "creators": "Creators",
     "rating": "Rating",
     "your_rating": "Your Rating",
     "votes": "Votes",
@@ -107,5 +108,6 @@
     "new_password": "New password",
     "required_fields": "All fields are required",
     "password_length": "Password must be between 6 and 100 characters",
-    "error_occurred": "An error occurred, try again" 
+    "error_occurred": "An error occurred, try again",
+    "profile": "Profile"
 }
