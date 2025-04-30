@@ -11,6 +11,7 @@ export interface Content {
   runtimeMinutes: number;
   genres: string[];
   posterUrl: string;
+  inUserList: boolean;
   titleRatings: {
     averageRating: number;
     numVotes: number;
@@ -33,4 +34,12 @@ export interface TitleSearchResult {
   startYear: number;
   posterUrl: string;
   titleRatings: TitleRatings;
+}
+
+export interface TopTitle {
+  tconst: string;
+  primaryTitle: string;
+  posterUrl: string;
+  averageRating: number;
+  inUserList: boolean;
 }

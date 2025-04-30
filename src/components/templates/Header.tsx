@@ -29,7 +29,9 @@ const Header: React.FC = () => {
               username={user.username}
               onLogout={logout}
               onConfig={() => navigate("/config")}
+              className={user.admin ? "border-2 border-red-500 rounded-lg" : ""}
             />
+
           ) : (
             <IconButton
               icon={FaUserCircle}

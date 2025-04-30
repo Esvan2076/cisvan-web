@@ -1,8 +1,10 @@
+// components/templates/PersonBoxes.tsx
 import { useTranslation } from "react-i18next";
 import TextAtom from "../atoms/TextAtom";
 import SplitPanelLayout from "./layouts/SplitPanelLayout";
 import PersonPanel from "../organisms/PersonPanel";
 import { Person } from "../../models/person";
+import ImageBox from "../atoms/ImageBox"; // ✅ Importar ImageBox normal
 
 interface Props {
   person: Person;
@@ -26,8 +28,10 @@ const PersonBoxes: React.FC<Props> = ({ person }) => {
 
   return (
     <SplitPanelLayout
-      imageUrl={
-        person.imageUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"
+      imageComponent={
+        <ImageBox
+          src={person.imageUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
+        />
       }
       leftContent={
         <div className="pt-4">

@@ -33,8 +33,7 @@ const ProfileImageUploader: React.FC<Props> = ({ currentImage, onUploaded }) => 
     handleFileChange,
     handleBlobUpload,
     handleRemoveImage,
-    setSelectedFile,
-    selectedFile,
+    setSelectedFile
   } = useProfileImageUpload(
     async (newUrl) => {
       onUploaded(newUrl);

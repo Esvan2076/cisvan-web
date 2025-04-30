@@ -93,15 +93,21 @@ export const authService = {
     return { email: data.email, username: data.username };
   },
 
-  resetPassword: async (email: string, code: string, newPassword: string, language: string) => {
-    const res = await fetch(RESET_PASSWORD_URL, {
+  resetPassword: async (email: string, code: string, newPassword: string, lang: string): Promise<boolean> => {
+    const res = await fetch(`${BASE_API}/user/reset-password`, {
       method: "POST",
-      headers: getLanguageHeader(language),
-      body: JSON.stringify({ email, code, newPassword }),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept-Language": lang,
+      },
+      body: JSON.stringify({
+        email,
+        code,
+        newPassword,
+      }),
     });
 
-    if (!res.ok) throw res;
-
+    if (!res.ok) throw new Error("Reset password failed");
     return true;
-  }
+  },
 };

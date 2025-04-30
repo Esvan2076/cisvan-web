@@ -1,5 +1,4 @@
 {
-    "login": "Iniciar Sesión",
     "history": "Historial",
     "language": "Idioma",
     "languages": {
@@ -94,20 +93,9 @@
     "page": "Página",
     "recent_searches": "Busquedas Recientes",
     "logout": "Cerrar Sesión",
-    "verifying": "Verificando...",
-    "verification_success": "¡Correo verificado correctamente!",
-    "verification_failed": "El enlace no es válido o ha expirado.",
-    "forgot_password": "Recuperar contraseña",
-    "reset_password": "Restablecer contraseña",
-    "reset_password_button": "Restablecer",
-    "send_reset_link": "Enviar enlace",
-    "reset_link_sent": "¡Enlace de restablecimiento enviado!",
-    "email_if_exists": "Si el correo existe, se enviará un enlace.",
-    "invalid_or_expired_token": "El enlace no es válido o ha expirado.",
-    "password_updated": "Contraseña actualizada exitosamente.",
-    "new_password": "Nueva contraseña",
-    "required_fields": "Todos los campos son obligatorios",
-    "password_length": "La contraseña debe tener entre 6 y 100 caracteres",
-    "error_occurred": "Ocurrió un error, intenta de nuevo",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "trending": "En Tendencia",
+    "my_list": "Mi Lista",
+    "top_series": "Mejores Series",
+    "top_movies": "Mejores Películas"
 }

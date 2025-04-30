@@ -1,5 +1,4 @@
 {
-    "login": "Login",
     "history": "Watch history",
     "language": "Language",
     "languages": {
@@ -94,20 +93,9 @@
     "page": "Page",
     "recent_searches": "Recent Searches",
     "logout": "Log Out",
-    "verifying": "Verifying...",
-    "verification_success": "Email verified successfully!",
-    "verification_failed": "The link is invalid or has expired.",
-    "forgot_password": "Forgot password",
-    "reset_password": "Reset password",
-    "reset_password_button": "Reset",
-    "send_reset_link": "Send reset link",
-    "reset_link_sent": "Reset link sent!",
-    "email_if_exists": "If the email exists, a link will be sent.",
-    "invalid_or_expired_token": "Invalid or expired token.",
-    "password_updated": "Password updated successfully.",
-    "new_password": "New password",
-    "required_fields": "All fields are required",
-    "password_length": "Password must be between 6 and 100 characters",
-    "error_occurred": "An error occurred, try again",
-    "profile": "Profile"
+    "profile": "Profile",
+    "trending": "Trending",
+    "my_list": "My List",
+    "top_series": "Top Series",
+    "top_movies": "Top Movies"
 }

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import { useFieldErrors } from "../../../hooks/useFieldErrors";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -18,7 +17,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitch, onForgotPassword }) => 
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
-  const { handleApiError } = useFieldErrors();
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
@@ -40,17 +38,19 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitch, onForgotPassword }) => 
       } else {
         toast.error(t("invalid_credentials"));
       }
-    } catch (err: any) {
-      if (err instanceof Response) {
-        await handleApiError(err, t("invalid_credentials"));
-      } else {
-        toast.error(t("invalid_credentials"));
-      }
+    } catch {
+      toast.error(t("invalid_credentials"));
     }
   };
 
   return (
-    <div className="w-full max-w-sm bg-neutral-800 p-6 rounded-lg shadow-lg select-none">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin();
+      }}
+      className="w-full max-w-sm bg-neutral-800 p-6 rounded-lg shadow-lg select-none"
+    >
       <h2 className="text-2xl font-bold mb-4 text-white">{t("login_title")}</h2>
 
       <input
@@ -80,7 +80,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitch, onForgotPassword }) => 
       </div>
 
       <button
-        onClick={handleLogin}
+        type="submit"
         className="w-full bg-white text-black font-semibold py-2 rounded hover:bg-gray-300 transition"
       >
         {t("login_button")}
@@ -88,6 +88,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitch, onForgotPassword }) => 
 
       <div className="mt-3 text-center">
         <button
+          type="button"
           className="text-sm text-blue-400 hover:underline"
           onClick={onForgotPassword}
         >
@@ -97,11 +98,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitch, onForgotPassword }) => 
 
       <p className="text-sm text-gray-400 mt-4 text-center">
         {t("no_account")}{" "}
-        <button className="text-red-500 hover:underline" onClick={onSwitch}>
+        <button
+          type="button"
+          className="text-red-500 hover:underline"
+          onClick={onSwitch}
+        >
           {t("signup")}
         </button>
       </p>
-    </div>
+    </form>
   );
 };
 

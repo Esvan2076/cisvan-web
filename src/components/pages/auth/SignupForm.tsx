@@ -48,7 +48,7 @@ const SignupForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       return;
     }
 
-    if (username.length < 5 || username.length > 50) {
+    if (username.length < 3 || username.length > 50) {
       toast.error(t("username_length"));
       return;
     }
@@ -125,7 +125,13 @@ const SignupForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   };
 
   return (
-    <div className="w-full max-w-sm bg-neutral-800 p-6 rounded-lg shadow-lg select-none">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        tempUser ? handleVerify() : handleRegister();
+      }}
+      className="w-full max-w-sm bg-neutral-800 p-6 rounded-lg shadow-lg select-none"
+    >
       <h2 className="text-2xl font-bold mb-4 text-white">{t("signup_title")}</h2>
 
       {!tempUser ? (
@@ -169,7 +175,7 @@ const SignupForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
             className="w-full mb-4 px-4 py-2 rounded bg-neutral-700 text-white placeholder-gray-400 focus:outline-none"
           />
           <button
-            onClick={handleRegister}
+            type="submit"
             disabled={loading}
             className={`w-full bg-white text-black font-semibold py-2 rounded hover:bg-gray-300 transition ${
               loading ? "opacity-50 cursor-not-allowed" : ""
@@ -192,13 +198,14 @@ const SignupForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
             className="w-full mb-3 px-4 py-2 text-center tracking-widest font-mono text-lg rounded bg-neutral-700 text-white placeholder-gray-400 focus:outline-none"
           />
           <button
-            onClick={handleVerify}
+            type="submit"
             disabled={loading}
             className="w-full bg-white text-black font-semibold py-2 rounded hover:bg-gray-300 transition"
           >
             {t("verify")}
           </button>
           <button
+            type="button"
             onClick={handleResend}
             className="mt-3 text-sm text-blue-400 hover:underline"
           >
@@ -209,11 +216,15 @@ const SignupForm: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
 
       <p className="text-sm text-gray-400 mt-4 text-center">
         {t("has_account")}{" "}
-        <button className="text-red-500 hover:underline" onClick={onSwitch}>
+        <button
+          type="button"
+          className="text-red-500 hover:underline"
+          onClick={onSwitch}
+        >
           {t("login")}
         </button>
       </p>
-    </div>
+    </form>
   );
 };
 

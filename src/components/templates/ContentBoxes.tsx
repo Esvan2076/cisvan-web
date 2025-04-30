@@ -2,12 +2,17 @@ import { Content } from "../../models/content";
 import SplitPanelLayout from "./layouts/SplitPanelLayout";
 import ContentDetails from "../organisms/ContentDetails";
 import Ratings from "./Ratings";
+import CardImageFrame from "../molecules/CardImageFrame";
 
 const ContentBoxes: React.FC<{ content: Content }> = ({ content }) => {
   return (
     <SplitPanelLayout
-      imageUrl={
-        content.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"
+      imageComponent={
+        <CardImageFrame
+          imageUrl={content.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
+          isSavedInit={content.inUserList}
+          tconst={content.tconst}
+        />
       }
       leftContent={
         <ContentDetails
