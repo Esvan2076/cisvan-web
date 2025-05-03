@@ -2,6 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import TextAtom from "../atoms/TextAtom";
 import Divider from "../atoms/Divider";
+import { Link } from "react-router-dom";
 
 interface Person {
   nconst: string;
@@ -36,6 +37,16 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
   const isSeries = titleType === "tvSeries" || titleType === "tvMiniSeries";
   const writersLabel = isSeries ? t("creators") : t("writers");
 
+  const renderPersonLinks = (people: Person[]) =>
+    people.map((person, index) => (
+      <React.Fragment key={person.nconst}>
+        <Link to={`/person/${person.nconst}`} className="hover:underline text-blue-300">
+          {person.primaryName}
+        </Link>
+        {index < people.length - 1 && " - "}
+      </React.Fragment>
+    ));
+
   return (
     <div className="text-white flex flex-col w-full h-full pt-4">
       {primaryTitle && <TextAtom className="text-2xl">{primaryTitle}</TextAtom>}
@@ -67,7 +78,7 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
 
       {directors?.length ? (
         <TextAtom className="text-gray-300">
-          {t("directors")}: {directors.map((d) => d.primaryName).join(" - ")}
+          {t("directors")}: {renderPersonLinks(directors)}
         </TextAtom>
       ) : null}
 
@@ -75,7 +86,7 @@ const ContentDetails: React.FC<ContentDetailsProps> = ({
 
       {writers?.length ? (
         <TextAtom className="text-gray-300">
-          {writersLabel}: {writers.map((w) => w.primaryName).join(" - ")}
+          {writersLabel}: {renderPersonLinks(writers)}
         </TextAtom>
       ) : null}
     </div>

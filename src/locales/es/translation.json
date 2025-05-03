@@ -94,8 +94,10 @@
     "recent_searches": "Busquedas Recientes",
     "logout": "Cerrar Sesión",
     "profile": "Perfil",
-    "trending": "En Tendencia",
+    "trending": "Tendencia",
     "my_list": "Mi Lista",
     "top_series": "Mejores Series",
-    "top_movies": "Mejores Películas"
+    "top_movies": "Mejores Películas",
+    "login": "Iniciar Sesión",
+    "historical": "Histórico"
 }

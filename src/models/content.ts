@@ -16,6 +16,10 @@ export interface Content {
     averageRating: number;
     numVotes: number;
   };
+  trendingScore?: {
+    score: number;
+    historicalScore: number;
+  };
   directors: { nconst: string; primaryName: string }[];
   writers: { nconst: string; primaryName: string }[];
   streamingServices?: StreamingService[];

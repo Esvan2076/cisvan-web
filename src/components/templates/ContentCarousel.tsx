@@ -15,12 +15,13 @@ interface ContentCarouselProps {
   items: ContentItem[];
 }
 
+const EPSILON = 4;
+
 const ContentCarousel: React.FC<ContentCarouselProps> = ({ items }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
   const [scrollAmount, setScrollAmount] = useState(900);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   const getScrollAmount = () => {
     const width = window.innerWidth;
@@ -35,42 +36,31 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ items }) => {
     updateArrowVisibility();
   };
 
-  const scrollWithLock = (direction: "left" | "right") => {
-    if (isScrolling) return;
-    const container = containerRef.current;
-    if (!container) return;
-
-    setIsScrolling(true);
-    const start = container.scrollLeft;
-    const change = direction === "left" ? -scrollAmount : scrollAmount;
-    const target = start + change;
-
-    container.scrollTo({
-      left: target,
-      behavior: "smooth",
-    });
-
-    const checkScrollEnd = () => {
-      const current = container.scrollLeft;
-      if (Math.abs(current - target) < 5 || 
-          (direction === "left" && current <= 0) || 
-          (direction === "right" && current + container.clientWidth >= container.scrollWidth)) {
-        setIsScrolling(false);
-        updateArrowVisibility();
-        return;
-      }
-      requestAnimationFrame(checkScrollEnd);
-    };
-
-    requestAnimationFrame(checkScrollEnd);
-  };
-
   const updateArrowVisibility = () => {
     const container = containerRef.current;
     if (!container) return;
     const { scrollLeft, clientWidth, scrollWidth } = container;
-    setShowLeft(scrollLeft > 0);
-    setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
+
+    setShowLeft(scrollLeft > EPSILON);
+    setShowRight(scrollLeft + clientWidth < scrollWidth - EPSILON);
+  };
+
+  const scrollToDirection = (direction: "left" | "right") => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const newScrollLeft =
+      direction === "left"
+        ? container.scrollLeft - scrollAmount
+        : container.scrollLeft + scrollAmount;
+
+    container.scrollTo({
+      left: newScrollLeft,
+      behavior: "smooth",
+    });
+
+    // Forcibly update arrow visibility after slight delay to give scroll time to apply
+    setTimeout(updateArrowVisibility, 400);
   };
 
   useEffect(() => {
@@ -81,9 +71,11 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ items }) => {
     updateArrowVisibility();
 
     window.addEventListener("resize", handleResize);
+    container.addEventListener("scroll", updateArrowVisibility);
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      container.removeEventListener("scroll", updateArrowVisibility);
     };
   }, []);
 
@@ -91,7 +83,6 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ items }) => {
     <div className="relative w-full overflow-hidden">
       <div
         ref={containerRef}
-        onScroll={updateArrowVisibility}
         className="flex gap-4 overflow-x-auto scrollbar-hide py-4 w-full"
         style={{ scrollbarWidth: "none" }}
       >
@@ -109,14 +100,14 @@ const ContentCarousel: React.FC<ContentCarouselProps> = ({ items }) => {
 
       {showLeft && (
         <ArrowButton
-          onClick={() => scrollWithLock("left")}
+          onClick={() => scrollToDirection("left")}
           icon={<FaChevronLeft size={20} />}
           position="left"
         />
       )}
       {showRight && (
         <ArrowButton
-          onClick={() => scrollWithLock("right")}
+          onClick={() => scrollToDirection("right")}
           icon={<FaChevronRight size={20} />}
           position="right"
         />

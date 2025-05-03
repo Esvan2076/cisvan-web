@@ -25,5 +25,14 @@
     "upload_error": "Error al subir imagen.",
     "allow_file_access": "¿Permitir acceso a archivos?",
     "device_not_supported": "Este dispositivo no soporta seleccionar archivos.",
-    "input_not_found": "No se encontró el input de archivos."
+    "input_not_found": "No se encontró el input de archivos.",
+    "followers": "Seguidores",
+    "following": "Seguidos",
+    "ranks": {
+        "1": "Novato del Cine",
+        "2": "Aficionado Celuloide",
+        "3": "Crítico Cinematográfico",
+        "4": "Maestro del Séptimo Arte",
+        "5": "Leyenda del Cine"
+    } 
 }

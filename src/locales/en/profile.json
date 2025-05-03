@@ -25,6 +25,15 @@
     "profile_image_updated": "Profile image updated.",
     "upload_error": "Error uploading image.",
     "device_not_supported": "This device does not support file selection.",
-    "input_not_found": "File input not found."
+    "input_not_found": "File input not found.",
+    "followers": "Followers",
+    "following": "Following",
+    "ranks": {
+        "1": "Movie Novice",
+        "2": "Celluloid Fan",
+        "3": "Film Critic",
+        "4": "Master of Cinema",
+        "5": "Cinema Legend"
+    }
 }
 

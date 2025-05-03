@@ -3,6 +3,7 @@ import { BASE_API } from "../constants/api";
 import { errorMessages } from "../constants/errors";
 import { DefaultImage } from "../models/DefaultImage";
 import { UserImage } from "../models/UserImage";
+import { UserPreview } from "../models/UserPreview";
 
 export const userService = {
   getProfile: async (token: string): Promise<UserProfile> => {
@@ -16,6 +17,31 @@ export const userService = {
 
     return response.json();
   },
+
+  getFollowers: async (): Promise<UserPreview[]> => {
+    const res = await fetch(`${BASE_API}/user/followers`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
+      },
+    });
+  
+    if (!res.ok) throw new Error("Error al obtener seguidores");
+  
+    return res.json();
+  },
+  
+  getFollowing: async (): Promise<UserPreview[]> => {
+    const res = await fetch(`${BASE_API}/user/following`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
+      },
+    });
+  
+    if (!res.ok) throw new Error("Error al obtener seguidos");
+  
+    return res.json();
+  },
+
   // services/userService.ts (añadir)
   uploadProfileImage: async (file: File): Promise<string> => {
     const formData = new FormData();
