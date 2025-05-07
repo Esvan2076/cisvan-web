@@ -12,6 +12,9 @@ import ContentBoxes from "../templates/ContentBoxes";
 import Header from "../templates/Header";
 import ContentStatus from "../organisms/ContentStatus";
 import Footer from "../templates/Footer";
+import ContentLayout from "../templates/layouts/ContentLayout";
+import RecommendationList from "../organisms/RecommendationList";
+import CommentSection from "../organisms/CommentSection";
 
 const Content: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -79,6 +82,12 @@ const Content: React.FC = () => {
                 </>
               )}
             </ContentStatus>
+          )}
+          {content && (
+            <ContentLayout
+              left={<CommentSection contentId={content.tconst} />}
+              right={<RecommendationList contentId={content.tconst} />}
+            />
           )}
         </div>
       </div>

@@ -8,11 +8,13 @@ import AuthPage from "../components/pages/auth/AuthPage";
 import EmailVerifyPage from "../components/pages/EmailVerifyPage";
 import ForgotPasswordPage from "../components/pages/auth/ForgotPasswordPage";
 import UserProfile from "../components/pages/UserProfile";
-
+import UserHistoryPage from "../components/pages/UserHistoryPage";
+import ScrollToTop from "../components/atoms/ScrollToTop";
 
 const AppRoutes = () => {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/content/:contentId" element={<Content />} />
@@ -23,6 +25,7 @@ const AppRoutes = () => {
         <Route path="/verify/:token" element={<EmailVerifyPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/config" element={<UserProfile />} />
+        <Route path="/history/:id" element={<UserHistoryPage />} /> {/* nueva ruta */}
       </Routes>
     </Router>
   );

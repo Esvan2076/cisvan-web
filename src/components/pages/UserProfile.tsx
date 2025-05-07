@@ -1,3 +1,4 @@
+// UserProfile.tsx (actualizado)
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "../../hooks/useUserProfile";
@@ -8,14 +9,13 @@ import ProfileImageUploader from "../organisms/ProfileImageUploader";
 import PrestigeBadge from "../molecules/PrestigeBadge";
 import { FaEnvelope } from "react-icons/fa";
 import FollowStatsModal from "../organisms/FollowStatsModal";
+import NotificationBox from "../organisms/NotificationBox";
 
 const UserProfile = () => {
   const { user, loading, refreshUser } = useUserProfile();
   const navigate = useNavigate();
   const { t } = useTranslation("profile");
-  const [showModal, setShowModal] = useState<"followers" | "following" | null>(
-    null
-  );
+  const [showModal, setShowModal] = useState<"followers" | "following" | null>(null);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -44,33 +44,28 @@ const UserProfile = () => {
           </div>
 
           <div className="flex flex-col justify-start gap-2 text-left min-w-[180px]">
+            <div>
+              <span className="font-bold text-lg">{t("account")}</span>
+              <br />
+              <span className="text-lg select-text">{user?.username}</span>
+            </div>
 
-            <div className="flex flex-col justify-start gap-2 text-left min-w-[180px]">
-              <div>
-                <span className="font-bold text-lg">{t("account")}</span>
-                <br />
-                <span className="text-lg select-text">{user?.username}</span>
-              </div>
+            <div>
+              <button
+                onClick={() => setShowModal("following")}
+                className="font-bold underline text-blue-300 hover:text-blue-500"
+              >
+                {t("following")}: {user?.followStats?.followingCount ?? 0}
+              </button>
+            </div>
 
-              <div>
-                <button
-                  onClick={() => setShowModal("following")}
-                  className="font-bold underline text-blue-300 hover:text-blue-500"
-                >
-                  {t("following")}: {" "}
-                  {user?.followStats?.followingCount ?? 0}
-                </button>
-              </div>
-
-              <div>
-                <button
-                  onClick={() => setShowModal("followers")}
-                  className="font-bold underline text-blue-300 hover:text-blue-500"
-                >
-                  {t("followers")}: {" "}
-                  {user?.followStats?.followersCount ?? 0}
-                </button>
-              </div>
+            <div>
+              <button
+                onClick={() => setShowModal("followers")}
+                className="font-bold underline text-blue-300 hover:text-blue-500"
+              >
+                {t("followers")}: {user?.followStats?.followersCount ?? 0}
+              </button>
             </div>
           </div>
 
@@ -83,17 +78,7 @@ const UserProfile = () => {
                 </button>
               </div>
 
-              <div className="border border-white rounded-lg w-full max-w-sm">
-                <div className="p-2 border-b border-white font-bold">
-                  {t("notifications")}:
-                </div>
-                {[...Array(4)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-10 border-b border-white last:border-b-0"
-                  />
-                ))}
-              </div>
+              <NotificationBox />
             </div>
           </div>
         </div>

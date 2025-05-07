@@ -17,7 +17,7 @@
     "error_loading_default_image": "Error al cargar la imagen predeterminada.",
     "loading_profile": "Cargando perfil...",
     "account": "CUENTA:",
-    "notifications": "notificaciones",
+    "notifications": "Notificaciones",
     "unsupported_format": "Formato no soportado. Usa JPEG o PNG.",
     "file_too_large": "La imagen no puede superar los 2MB.",
     "no_file_to_upload": "No hay archivo para subir.",
@@ -34,5 +34,10 @@
         "3": "Crítico Cinematográfico",
         "4": "Maestro del Séptimo Arte",
         "5": "Leyenda del Cine"
-    } 
+    },
+    "history": "Historial",
+    "follow": "Seguir",
+    "unfollow": "Dejar de seguir", 
+    "loading": "Cargando...",
+    "no_notifications": "Sin notificaciones"
 }

@@ -15,7 +15,10 @@ const Header: React.FC = () => {
 
   return (
     <header className="h-18 w-full bg-neutral-800 flex items-center px-2 sm:px-3 md:px-4 lg:px-4 xl:px-4">
-      <nav className="w-full max-w-7xl mx-auto flex items-center justify-between" role="navigation">
+      <nav
+        className="w-full max-w-7xl mx-auto flex items-center justify-between"
+        role="navigation"
+      >
         <CisvanButton />
 
         <div className="flex-1 mx-2 sm:mx-4 md:mx-6 lg:mx-8 xl:mx-12 max-w-full">
@@ -23,7 +26,18 @@ const Header: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2 ml-auto">
-          <IconButton icon={FaRegFileAlt} text={t("history")} onClick={() => navigate("/history")} />
+          <IconButton
+            icon={FaRegFileAlt}
+            text={t("history")}
+            onClick={() => {
+              if (!user) {
+                navigate("/auth");
+              } else {
+                navigate(`/history/${user.id}`);
+              }
+            }}
+          />
+
           {user ? (
             <UserDropdownMenu
               username={user.username}
@@ -31,7 +45,6 @@ const Header: React.FC = () => {
               onConfig={() => navigate("/config")}
               className={user.admin ? "border-2 border-red-500 rounded-lg" : ""}
             />
-
           ) : (
             <IconButton
               icon={FaUserCircle}
@@ -39,7 +52,11 @@ const Header: React.FC = () => {
               onClick={() => navigate("/auth")}
             />
           )}
-          <DropdownMenu icon={FaGlobe} text={t("language")} options={["es", "en"]} />
+          <DropdownMenu
+            icon={FaGlobe}
+            text={t("language")}
+            options={["es", "en"]}
+          />
         </div>
       </nav>
     </header>

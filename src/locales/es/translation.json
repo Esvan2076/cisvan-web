@@ -99,5 +99,21 @@
     "top_series": "Mejores Series",
     "top_movies": "Mejores Películas",
     "login": "Iniciar Sesión",
-    "historical": "Histórico"
+    "historical": "Histórico",
+    "related_content": "Contenido relacionado",
+    "no_recommendations": "No hay sugerencias disponibles",
+    "comments": "Comentarios",
+    "no_comments": "No hay comentarios aún.",
+    "show_more": "Mostrar más",
+    "show_less": "Mostrar menos",
+    "like": "Me gusta",
+    "reply": "RESPONDER",
+    "delete": "Eliminar",
+    "delete_confirm": "¿Estás seguro de que deseas eliminar este comentario?",
+    "refresh": "Refrescar",
+    "comment": "Comentar",
+    "write_comment": "Escribe tu comentario...",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "contains_spoiler": "Contiene spoilers"
 }

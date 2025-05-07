@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export const useFetch = <T>(
   fetchFn: () => Promise<T>,
@@ -9,29 +9,23 @@ export const useFetch = <T>(
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await fetchFn();
+      setData(result);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchFn]);
+
   useEffect(() => {
     if (skip) return;
-
-    let isMounted = true;
-
-    const fetchData = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const result = await fetchFn();
-        if (isMounted) setData(result);
-      } catch (err) {
-        if (isMounted) setError((err as Error).message);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-
     fetchData();
-    return () => {
-      isMounted = false;
-    };
   }, deps);
 
-  return { data, loading, error };
+  return { data, loading, error, refresh: fetchData };
 };

@@ -24,7 +24,7 @@ const FollowStatsModal: React.FC<FollowStatsModalProps> = ({
   return (
     <ModalPortal>
       <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[1000] select-none">
-        <div className="relative bg-neutral-800 p-6 rounded-lg w-full max-w-md max-w-[95vw] mx-4 max-h-[80vh] overflow-y-auto">
+        <div className="relative bg-neutral-800 p-6 rounded-lg w-full max-w-md max-w-[95vw] mx-4 max-h-[80vh] overflow-y-visible">
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-white text-3xl hover:text-red-500 transition-colors"
@@ -39,7 +39,7 @@ const FollowStatsModal: React.FC<FollowStatsModalProps> = ({
           ) : users.length === 0 ? (
             <p className="text-center text-gray-300">{t("no_results")}</p>
           ) : (
-            <div className="flex flex-col gap-2 w-full">
+            <div className="flex flex-col gap-2 w-full relative overflow-visible">
               {users.map((user) => (
                 <UserPreviewCard key={user.id} user={user} />
               ))}

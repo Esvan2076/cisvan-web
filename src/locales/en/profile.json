@@ -17,7 +17,7 @@
     "error_loading_default_image": "Error loading default image.",
     "loading_profile": "Loading profile...",
     "account": "ACCOUNT:",
-    "notifications": "notifications",
+    "notifications": "Notifications",
     "allow_file_access": "Allow access to files?",
     "unsupported_format": "Unsupported format. Please use JPEG or PNG.",
     "file_too_large": "The image must not exceed 2MB.",
@@ -34,6 +34,11 @@
         "3": "Film Critic",
         "4": "Master of Cinema",
         "5": "Cinema Legend"
-    }
+    },
+    "history": "History",
+    "follow": "Follow",
+    "unfollow": "Unfollow", 
+    "loading": "Loading...",
+    "no_notifications": "No notifications"
 }
 

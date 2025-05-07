@@ -4,6 +4,7 @@ import { errorMessages } from "../constants/errors";
 import { DefaultImage } from "../models/DefaultImage";
 import { UserImage } from "../models/UserImage";
 import { UserPreview } from "../models/UserPreview";
+import { UserPage } from "../models/UserPage";
 
 export const userService = {
   getProfile: async (token: string): Promise<UserProfile> => {
@@ -40,6 +41,33 @@ export const userService = {
     if (!res.ok) throw new Error("Error al obtener seguidos");
   
     return res.json();
+  },
+
+  getUserPage: async (userId: number): Promise<UserPage> => {
+    const res = await fetch(`${BASE_API}/user/${userId}/page`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
+      },
+    });
+  
+    if (!res.ok) {
+      throw new Error("No se pudo cargar la página del usuario");
+    }
+  
+    return res.json();
+  },
+
+  toggleFollow: async (userId: number): Promise<void> => {
+    const res = await fetch(`${BASE_API}/user/${userId}/toggle-follow`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
+      },
+    });
+  
+    if (!res.ok) {
+      throw new Error("Error al intentar seguir/dejar de seguir");
+    }
   },
 
   // services/userService.ts (añadir)
