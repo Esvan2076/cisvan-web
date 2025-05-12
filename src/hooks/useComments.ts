@@ -36,7 +36,6 @@ export const useComments = (contentId?: string) => {
     [navigate, refresh]
   );
 
-  // Dar o quitar like a un comentario
   const toggleLike = useCallback(
     async (commentId: number) => {
       const token = localStorage.getItem("auth_token");
@@ -47,10 +46,10 @@ export const useComments = (contentId?: string) => {
 
       try {
         await commentService.toggleLike(commentId);
-        refresh(); // Actualizar después de dar o quitar like
+        refresh();
         return true;
       } catch (err) {
-        console.error("Error al dar/retirar like:", err);
+        console.error("Error al alternar el estado del like:", err);
         return false;
       }
     },

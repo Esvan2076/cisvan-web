@@ -18,6 +18,12 @@ interface TitleSearchResponse {
   number: number;
 }
 
+const handleFetchError = async (response: Response) => {
+  if (response.status === 403) throw new Error("error.unauthorized");
+  if (!response.ok) throw new Error(errorMessages.content);
+  return await response.json();
+};
+
 export const contentService = {
   getById: async (contentId: string, language: string, token?: string): Promise<Content> => {
     const url = `${BASE_API}/title/basic/${contentId}`;
@@ -83,58 +89,28 @@ export const contentService = {
   },
 
   getTopMovies: async (token?: string): Promise<TopTitle[]> => {
-    const headers: HeadersInit = {
-      "Accept-Language": "es",
-    };
+    const headers: HeadersInit = { "Accept-Language": "es" };
+    if (token) headers.Authorization = `Bearer ${token}`;
 
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-
-    const res = await fetch(`${BASE_API}/title/top-movies`, {
-      headers,
-    });
-
-    if (!res.ok) throw new Error(errorMessages.content);
-
-    return await res.json();
+    const res = await fetch(`${BASE_API}/title/top-movies`, { headers });
+    return handleFetchError(res);
   },
 
   getTopSeries: async (token?: string): Promise<TopTitle[]> => {
-    const headers: HeadersInit = {
-      "Accept-Language": "es",
-    };
-  
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-  
-    const res = await fetch(`${BASE_API}/title/top-series`, {
-      headers,
-    });
-  
-    if (!res.ok) throw new Error(errorMessages.content);
-  
-    return await res.json();
+    const headers: HeadersInit = { "Accept-Language": "es" };
+    if (token) headers.Authorization = `Bearer ${token}`;
+
+    const res = await fetch(`${BASE_API}/title/top-series`, { headers });
+    return handleFetchError(res);
   },
-  
+
   getTopTrending: async (token?: string): Promise<TopTitle[]> => {
-    const headers: HeadersInit = {
-      "Accept-Language": "es",
-    };
-  
-    if (token) {
-      headers.Authorization = `Bearer ${token}`;
-    }
-  
-    const res = await fetch(`${BASE_API}/title/top-trending`, {
-      headers,
-    });
-  
-    if (!res.ok) throw new Error(errorMessages.content);
-  
-    return await res.json();
-  },  
+    const headers: HeadersInit = { "Accept-Language": "es" };
+    if (token) headers.Authorization = `Bearer ${token}`;
+
+    const res = await fetch(`${BASE_API}/title/top-trending`, { headers });
+    return handleFetchError(res);
+  },
 
   getUserList: async (token?: string): Promise<TopTitle[]> => {
     if (!token) return [];

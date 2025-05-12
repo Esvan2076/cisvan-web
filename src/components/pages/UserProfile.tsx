@@ -1,4 +1,3 @@
-// UserProfile.tsx (actualizado)
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useUserProfile } from "../../hooks/useUserProfile";
@@ -10,12 +9,14 @@ import PrestigeBadge from "../molecules/PrestigeBadge";
 import { FaEnvelope } from "react-icons/fa";
 import FollowStatsModal from "../organisms/FollowStatsModal";
 import NotificationBox from "../organisms/NotificationBox";
+import { useNotificationPrompt } from "../../hooks/useNotificationPrompt";
 
 const UserProfile = () => {
   const { user, loading, refreshUser } = useUserProfile();
   const navigate = useNavigate();
   const { t } = useTranslation("profile");
   const [showModal, setShowModal] = useState<"followers" | "following" | null>(null);
+  const { handleToggleNotifications } = useNotificationPrompt();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -29,6 +30,12 @@ const UserProfile = () => {
 
   const rank = (user?.userPrestigeDTO?.currentRank ?? 1) as 1 | 2 | 3 | 4 | 5;
   const trend = user?.userPrestigeDTO?.trendDirection ?? "S";
+
+  const toggleNotifications = async () => {
+    const newStatus = !user?.emailNotifications;
+    await handleToggleNotifications(newStatus);
+    refreshUser(); // Actualizar el perfil después de cambiar la preferencia
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-neutral-900 text-white select-none">
@@ -73,7 +80,19 @@ const UserProfile = () => {
             <div className="flex justify-end items-start gap-2">
               <div className="flex flex-col items-center gap-2">
                 <PrestigeBadge rank={rank} trend={trend} size={30} />
-                <button className="text-blue-400 text-[30px] hover:text-blue-600">
+                <button
+                  onClick={toggleNotifications}
+                  className={`text-[30px] ${
+                    user?.emailNotifications
+                      ? "text-blue-400 hover:text-blue-600"
+                      : "text-gray-500 hover:text-gray-600"
+                  }`}
+                  title={
+                    user?.emailNotifications
+                      ? t("emails_activated")
+                      : t("emails_deactivated")
+                  }
+                >
                   <FaEnvelope />
                 </button>
               </div>

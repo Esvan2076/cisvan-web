@@ -1,11 +1,21 @@
-// components/molecules/CommentForm.tsx
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";  // Importación del toast
 
 interface Props {
   onSubmit: (text: string, containsSpoiler: boolean) => void;
   onCancel: () => void;
 }
+
+const isValidAscii = (text: string): boolean => {
+  // Verifica si cada carácter está en el rango ASCII extendido (0-255)
+  for (let i = 0; i < text.length; i++) {
+    if (text.charCodeAt(i) > 255) {
+      return false;
+    }
+  }
+  return true;
+};
 
 const CommentForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   const { t } = useTranslation();
@@ -13,10 +23,18 @@ const CommentForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   const [containsSpoiler, setContainsSpoiler] = useState(false);
 
   const handleSubmit = () => {
-    if (text.trim()) {
-      onSubmit(text, containsSpoiler);
-      setText("");
+    if (!text.trim()) {  // Verifica que el comentario no esté vacío o tenga solo espacios
+      toast.error(t("empty_comment"));  // Muestra el Toast de error
+      return;
     }
+
+    if (!isValidAscii(text)) {  // Verifica si contiene caracteres fuera del rango ASCII extendido
+      toast.error(t("invalid_characters"));  // Muestra el Toast de error
+      return;
+    }
+
+    onSubmit(text, containsSpoiler);
+    setText("");
   };
 
   return (

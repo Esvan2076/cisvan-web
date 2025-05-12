@@ -8,6 +8,7 @@ interface SeasonScrollBarProps {
   seriesTitle: string;
   seriesId: string;
   totalSeasons: number;
+  totalEpisodes: number;
   selectedSeason: number;
   onSelectSeason: (season: number) => void;
 }
@@ -16,6 +17,7 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
   seriesTitle,
   seriesId,
   totalSeasons,
+  totalEpisodes,
   selectedSeason,
   onSelectSeason,
 }) => {
@@ -68,9 +70,14 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
         <Link to={`/content/${seriesId}`} className="hover:underline">
           {seriesTitle}
         </Link>
-        <span className="hidden md:inline"> - {t("season")}s:</span>
+        <span className="hidden md:inline">
+          {" "}
+        </span>
+        <span className="hidden md:inline">
+          {" "} - {t("episodes")} {totalEpisodes} - {t("season")}s:
+        </span>
       </p>
-
+  
       {showLeftArrow && (
         <button
           onClick={scrollLeft}
@@ -79,12 +86,11 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
           <FaArrowLeft />
         </button>
       )}
-
+  
       <div
         ref={scrollRef}
         onScroll={updateArrowVisibility}
         className="flex gap-2 overflow-x-auto scrollbar-hide [-ms-overflow-style:none] [scrollbar-width:none]"
-        style={{ scrollbarWidth: "none" }}
       >
         {Array.from({ length: totalSeasons }, (_, i) => i + 1).map(
           (season, index) => (
@@ -100,7 +106,7 @@ const SeasonScrollBar: React.FC<SeasonScrollBarProps> = ({
           )
         )}
       </div>
-
+  
       {showRightArrow && (
         <button
           onClick={scrollRight}

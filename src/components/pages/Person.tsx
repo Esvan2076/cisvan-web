@@ -1,10 +1,13 @@
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+
 import { usePersonDetails, useKnownFor } from "../../hooks/usePerson";
-import PersonBoxes from "../templates/PersonBoxes";
-import Header from "../templates/Header";
 import ContentStatus from "../organisms/ContentStatus";
+import PersonBoxes from "../templates/PersonBoxes";
 import KnownForList from "../organisms/KnownForList";
+import PersonWorksPanel from "../organisms/PersonWorksPanel";
+import Header from "../templates/Header";
 import Footer from "../templates/Footer";
 
 const Person: React.FC = () => {
@@ -25,11 +28,20 @@ const Person: React.FC = () => {
               loading={loading}
               error={error ?? undefined}
               notFound={!person}
+              loadingMessage={t("loading_person")}
+              errorMessage={t("error_loading_person")}
+              notFoundMessage={t("person_not_found")}
             >
               {person && (
                 <>
                   <PersonBoxes person={person} />
                   <KnownForList knownFor={knownFor} />
+                  <div className="mt-6">
+                    <h2 className="text-2xl font-semibold mb-2">
+                      {t("all_works")}
+                    </h2>
+                    <PersonWorksPanel nconst={nconst} />
+                  </div>
                 </>
               )}
             </ContentStatus>

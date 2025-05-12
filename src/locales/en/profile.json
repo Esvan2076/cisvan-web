@@ -39,6 +39,8 @@
     "follow": "Follow",
     "unfollow": "Unfollow", 
     "loading": "Loading...",
-    "no_notifications": "No notifications"
+    "no_notifications": "No notifications",
+    "emails_activated": "Emails activated",
+    "emails_deactivated": "Emails deactivated"
 }
 

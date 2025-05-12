@@ -1,3 +1,4 @@
+// hooks/useTopContent.ts
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { TopTitle } from "../models/content";
@@ -29,8 +30,24 @@ export const useTopContent = () => {
         setMovies(movieData);
         setSeries(seriesData);
         setTrending(trendingData);
-      } catch {
-        setError(t("error_loading_content"));
+      } catch (err: any) {
+        if (err.message === "error.unauthorized") {
+          try {
+            // Retry without token
+            const [movieData, seriesData, trendingData] = await Promise.all([
+              contentService.getTopMovies(),
+              contentService.getTopSeries(),
+              contentService.getTopTrending(),
+            ]);
+            setMovies(movieData);
+            setSeries(seriesData);
+            setTrending(trendingData);
+          } catch {
+            setError(t("error_loading_content"));
+          }
+        } else {
+          setError(t("error_loading_content"));
+        }
       } finally {
         setLoading(false);
       }

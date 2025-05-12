@@ -15,21 +15,23 @@ export const useProfileImageUpload = (
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
+  
+    // Verificar formato del archivo
     if (!["image/jpeg", "image/png"].includes(file.type)) {
       toast.error(t("unsupported_format"));
       return;
     }
-
+  
+    // Verificar tamaño del archivo (máximo 2MB)
     if (file.size > 2 * 1024 * 1024) {
       toast.error(t("file_too_large"));
       return;
     }
-
+  
     const url = URL.createObjectURL(file);
     setPreview(url);
     setSelectedFile(file);
-  };
+  };  
 
   const handleUpload = async () => {
     const file = selectedFile || fileInputRef.current?.files?.[0];

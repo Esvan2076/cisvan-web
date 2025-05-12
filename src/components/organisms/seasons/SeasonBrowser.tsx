@@ -10,6 +10,7 @@ interface SeasonBrowserProps {
   seriesTitle: string;
   seriesId: string;
   totalSeasons: number;
+  totalEpisodes: number;  // Añadir el nuevo campo
   selectedSeason: number;
   onSelectSeason: (season: number) => void;
   episodes: Episode[];
@@ -22,6 +23,7 @@ const SeasonBrowser: React.FC<SeasonBrowserProps> = ({
   seriesTitle,
   seriesId,
   totalSeasons,
+  totalEpisodes,
   selectedSeason,
   onSelectSeason,
   episodes,
@@ -55,8 +57,8 @@ const SeasonBrowser: React.FC<SeasonBrowserProps> = ({
         totalSeasons={totalSeasons}
         selectedSeason={selectedSeason}
         onSelectSeason={onSelectSeason}
+        totalEpisodes={totalEpisodes}
       />
-
       <div>
         <p className="text-lg font-semibold mb-2 select-none">
           {t("season")} {selectedSeason}

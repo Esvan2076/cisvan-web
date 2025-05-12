@@ -11,13 +11,15 @@ interface KnownForCardProps {
 const KnownForCard: React.FC<KnownForCardProps> = ({ item }) => {
   const { t } = useTranslation();
 
+  // Verificación segura para evitar errores
+  const averageRating = item.titleRatings?.averageRating !== null ? item.titleRatings?.averageRating?.toFixed(2) : "?";
+  const numVotes = item.titleRatings?.numVotes !== null ? item.titleRatings?.numVotes?.toLocaleString() : "0";
+
   return (
     <li className="bg-neutral-700 rounded-md flex items-center gap-4 h-[120px]">
       <div className="w-[90px] h-[120px] rounded-md overflow-hidden shrink-0">
         <ImageBox
-          src={
-            item.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"
-          }
+          src={item.posterUrl || "https://cisvan.s3.us-west-1.amazonaws.com/1.jpg"}
           alt={item.primaryTitle}
           className="rounded-md"
         />
@@ -30,8 +32,7 @@ const KnownForCard: React.FC<KnownForCardProps> = ({ item }) => {
           </TextAtom>
         </Link>
         <p className="text-xs text-gray-300 mt-1">
-          ⭐ {item.titleRatings?.averageRating?.toFixed(2) ?? "?"}/10.00 —{" "}
-          {item.titleRatings.numVotes?.toLocaleString() ?? 0} {t("votes_suffix")}
+          ⭐ {averageRating}/10.00 — {numVotes} {t("votes_suffix")}
         </p>
       </div>
     </li>

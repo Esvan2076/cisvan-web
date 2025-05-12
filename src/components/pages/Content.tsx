@@ -67,6 +67,7 @@ const Content: React.FC = () => {
                       seriesTitle={seriesSummary.seriesTitle}
                       seriesId={seriesSummary.seriesTconst}
                       totalSeasons={seriesSummary.totalSeasons}
+                      totalEpisodes={seriesSummary.totalEpisodes}
                       selectedSeason={selectedSeason}
                       onSelectSeason={setSelectedSeason}
                       episodes={episodes}

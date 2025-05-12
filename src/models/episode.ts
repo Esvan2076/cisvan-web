@@ -10,4 +10,5 @@ export interface SeriesSummary {
   seriesTconst: string;
   seriesTitle: string;
   totalSeasons: number;
+  totalEpisodes: number;
 }

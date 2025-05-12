@@ -1,14 +1,20 @@
+// components/pages/Home.tsx
+import React from "react";
 import { useTranslation } from "react-i18next";
 import Header from "../templates/Header";
 import Footer from "../templates/Footer";
 import ContentCarousel from "../templates/ContentCarousel";
-import { useTopContent } from "../../hooks/useTopMovies";
+
+import { useTopContent } from "../../hooks/useTopContent";
 import { useUserList } from "../../hooks/useUserList";
+import { useNotificationPrompt } from "../../hooks/useNotificationPrompt";
+import NotificationPreferenceModal from "../organisms/NotificationPreferenceModal";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
   const { movies, series, trending, loading } = useTopContent();
   const { userList, loading: loadingUserList } = useUserList();
+  const { showPrompt, handleToggleNotifications } = useNotificationPrompt();
 
   const mapItems = (list: any[]) =>
     list.map(item => ({
@@ -22,6 +28,13 @@ const Home: React.FC = () => {
   return (
     <div className="bg-neutral-900 min-h-screen w-full flex flex-col">
       <Header />
+
+      {showPrompt && (
+        <NotificationPreferenceModal
+          onClose={() => handleToggleNotifications(false)}
+          onConfirm={() => handleToggleNotifications(true)}
+        />
+      )}
 
       <main className="flex-1 text-white flex flex-col gap-24 px-2 sm:px-3 md:px-4 lg:px-4 xl:px-4">
         <div className="w-full max-w-7xl mx-auto flex flex-col pt-12">

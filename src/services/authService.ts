@@ -5,7 +5,6 @@ const LOGIN_URL = `${BASE_API}/user/login`;
 const ME_URL = `${BASE_API}/user/me`;
 const REGISTER_URL = `${BASE_API}/user/register`;
 const RESEND_CODE_URL = `${BASE_API}/user/resend-code`;
-const RESET_PASSWORD_URL = `${BASE_API}/user/reset-password`;
 const FORGOT_PASSWORD_URL = `${BASE_API}/user/forgot-password`;
 
 const getLanguageHeader = (language: string) => ({
@@ -109,5 +108,19 @@ export const authService = {
 
     if (!res.ok) throw new Error("Reset password failed");
     return true;
+  },
+
+  getNotificationPreference: async () => {
+    const token = localStorage.getItem("auth_token");
+    const response = await fetch(`${BASE_API}/user/notification-preference`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Error fetching notification preference");
+    return response.json();
   },
 };

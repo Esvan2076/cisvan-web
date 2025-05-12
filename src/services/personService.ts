@@ -49,4 +49,12 @@ export const personService = {
 
     return response.json();
   },
+
+  getWorks: async (nconst: string, page: number = 1) => {
+    const response = await fetch(
+      `${BASE_API}/name/${nconst}/works?page=${page-1}`
+    );
+    if (!response.ok) throw new Error("Failed to fetch works");
+    return response.json();
+  },
 };
