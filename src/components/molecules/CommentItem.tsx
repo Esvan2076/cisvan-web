@@ -18,7 +18,8 @@ interface Props {
 const CommentItem: React.FC<Props> = ({ comment }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [expanded, setExpanded] = useState(false);
+  const [textExpanded, setTextExpanded] = useState(false); // Separado para el texto
+  const [repliesExpanded, setRepliesExpanded] = useState(false); // Separado para respuestas
   const [liked, setLiked] = useState(comment.likedByMe);
   const [likes, setLikes] = useState(comment.likeCount);
   const [revealed, setRevealed] = useState(!comment.containsSpoiler);
@@ -30,10 +31,9 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
 
   const maxLength = 255;
   const isLong = comment.commentText.length > maxLength;
-  const textToShow =
-    expanded || !isLong
-      ? comment.commentText
-      : comment.commentText.slice(0, maxLength) + "...";
+  const textToShow = textExpanded || !isLong
+    ? comment.commentText
+    : comment.commentText.slice(0, maxLength) + "...";
 
   const formattedDate = new Date(comment.createdAt).toLocaleDateString();
 
@@ -49,7 +49,7 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
     const confirmed = window.confirm(t("delete_confirm"));
     if (!confirmed) return;
 
-    const success = await deleteComment(comment.id);
+  const success = await deleteComment(comment.id);
     if (success) {
       window.location.reload();
     }
@@ -59,10 +59,12 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
     setRevealed(true);
   };
 
-  const handleExpandClick = () => {
-    if (!expanded) fetchReplies();
-    setExpanded(!expanded);
+
+  const handleExpandReplies = () => {
+    if (!repliesExpanded) fetchReplies();
+    setRepliesExpanded((prev) => !prev);
   };
+
 
   const handleReplyClick = () => {
     if (!user) {
@@ -132,10 +134,10 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
         {textToShow}
         {isLong && (
           <span
-            onClick={() => setExpanded(!expanded)}
+            onClick={() => setTextExpanded((prev) => !prev)}
             className="ml-1 underline text-blue-400 cursor-pointer select-none"
           >
-            {expanded ? t("show_less") : t("show_more")}
+            {textExpanded ? t("show_less") : t("show_more")}
           </span>
         )}
       </div>
@@ -162,8 +164,8 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
           </button>
           {comment.replyCount > 0 && (
             <ExpandButton
-              expanded={expanded}
-              onClick={handleExpandClick}
+              expanded={repliesExpanded}
+              onClick={handleExpandReplies}
               replyCount={comment.replyCount}
             />
           )}
@@ -175,7 +177,7 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
           >
             {t("delete")}
           </button>
-        )}
+        )}
       </div>
 
       {/* Reply Form */}
@@ -188,8 +190,9 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
         </div>
       )}
 
+
       {/* Reply List */}
-      {expanded && (
+      {repliesExpanded && (
         <div className="mt-2 bg-neutral-900 border border-neutral-700 rounded p-3 ml-4">
           {loading ? (
             <p className="text-gray-400 text-sm">{t("loading_replies")}</p>
@@ -212,4 +215,4 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
   );
 };
 
-export default CommentItem;
+export default CommentItem;

@@ -137,5 +137,10 @@
     "reviews": "Reviews",
     "clear_rating": "Clear rating",
     "rating_required": "You must rate at least the main movie.",
-    "actors": "Actors"
+    "actors": "Actors",
+    "review_submitted": "Review submitted successfully.",
+    "select_item": "Select items",
+    "select_category": "Select category",
+    "no_replies": "No replies yet",
+    "no_reviews": "No reviews yet"
 }

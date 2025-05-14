@@ -137,5 +137,10 @@
     "reviews": "Reseñas",
     "clear_rating": "Borrar puntuación",
     "rating_required": "Debe calificar al menos la película en general.",
-    "actors": "Actores"
+    "actors": "Actores",
+    "review_submitted": "Reseña enviada con éxito.",
+    "select_items": "Seleccionar elementos",
+    "select_category": "Seleccionar categoría",
+    "no_replies": "No hay respuestas aún",
+    "no_reviews": "No hay reseñas aún"
 }

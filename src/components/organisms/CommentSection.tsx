@@ -1,12 +1,13 @@
-// components/organisms/CommentSection.tsx
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useComments } from "../../hooks/useComments";
 import { useAuth } from "../../hooks/useAuth";
 import CommentItem from "../molecules/CommentItem";
 import CommentForm from "../molecules/CommentForm";
 import RatingModal from "./RatingModal";
+import ReviewItem from "./ReviewItem";
+import { usePaginatedReviews } from "../../hooks/usePaginatedReviews";
 
 interface Props {
   contentId: string;
@@ -20,10 +21,33 @@ const CommentSection: React.FC<Props> = ({ contentId }) => {
   const [showForm, setShowForm] = useState(false);
   const [showRatingModal, setShowRatingModal] = useState(false);
 
+  const {
+    reviews,
+    loading: reviewLoading,
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    reload,
+  } = usePaginatedReviews(contentId);
+
+  // Estado para la reseña actual
+  const [currentReview, setCurrentReview] = useState<any | null>(null);
+
+  // Actualizar la reseña cuando cambie el contenido o los resultados
+  useEffect(() => {
+    if (reviews && reviews.content.length > 0) {
+      setCurrentReview(reviews.content[0]);
+    } else {
+      setCurrentReview(null); // Reinicia si no hay reseñas
+    }
+  }, [reviews, contentId]);
+
   const handleAddComment = async (text: string, containsSpoiler: boolean) => {
     const success = await addComment(contentId, text, containsSpoiler);
     if (success) {
       setShowForm(false);
+      reload(); // Recargar reseñas después de agregar un comentario
     }
   };
 
@@ -56,6 +80,25 @@ const CommentSection: React.FC<Props> = ({ contentId }) => {
         </button>
       </div>
 
+      {reviewLoading ? (
+        <p className="text-sm text-gray-400">{t("loading")}</p>
+      ) : currentReview ? (
+        <ReviewItem
+          titleName={currentReview.titleName}
+          score={currentReview.score}
+          genres={currentReview.genres}
+          actors={currentReview.actors}
+          directors={currentReview.directors}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onNext={nextPage}
+          onPrev={prevPage}
+          comments={[currentReview.comment]}
+        />
+      ) : (
+        <p className="text-sm text-gray-400">{t("no_reviews")}</p>
+      )}
+
       {/* Comentarios Section */}
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-bold text-white">{t("comments")}</h2>
@@ -85,7 +128,9 @@ const CommentSection: React.FC<Props> = ({ contentId }) => {
       {/* Modal de Calificación */}
       <RatingModal
         open={showRatingModal}
-        onClose={() => setShowRatingModal(false)} tconst={contentId}      />
+        onClose={() => setShowRatingModal(false)}
+        tconst={contentId}
+      />
     </div>
   );
 };
