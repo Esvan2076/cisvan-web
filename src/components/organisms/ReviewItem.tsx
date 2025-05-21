@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CommentItem from "../molecules/CommentItem";
 
-
 interface Item {
   name?: string;
   primaryName?: string;
@@ -61,7 +60,9 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
     { key: "directors", label: t("directors"), items: directors },
   ].filter((category) => category.items.length > 0);
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleCategoryChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedCategory(event.target.value);
     setSelectedItem("");
   };
@@ -77,66 +78,76 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
   return (
     <div className="bg-neutral-800 p-4 rounded-lg text-white mb-4">
       {/* Reseña Header */}
-      <div className="flex justify-between items-center mb-2">
-        <h3 className="text-lg font-bold">
-          {titleName} - {score.toFixed(2)}
-        </h3>
-        <div className="flex gap-2">
-          {/* Categoría */}
-          <select
-            value={selectedCategory}
-            onChange={handleCategoryChange}
-            className="bg-neutral-700 text-white p-1 rounded"
-          >
-            <option value="">{t("select_category")}</option>
-            {categories.map((category) => (
-              <option key={category.key} value={category.key}>
-                {category.label}
-              </option>
-            ))}
-          </select>
+      <div className="mb-2">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+          <h3 className="text-lg font-bold mb-2 sm:mb-0">
+            {titleName} - {score.toFixed(2)}
+          </h3>
 
-          {/* Elemento seleccionado */}
-          {selectedCategory && (
+          <div className="flex flex-wrap gap-2 sm:items-center">
+            {/* Categoría */}
             <select
-              value={selectedItem}
-              onChange={handleItemChange}
+              value={selectedCategory}
+              onChange={handleCategoryChange}
               className="bg-neutral-700 text-white p-1 rounded"
             >
-              <option value="">{t("select_item")}</option>
-              {categories
-                .find((cat) => cat.key === selectedCategory)
-                ?.items.map((item, index) => (
-                  <option key={`${getItemName(item)}-${index}`} value={getItemName(item)}>
-                    {getItemName(item)} - {item.score}
-                  </option>
-                ))}
+              <option value="">{t("select_category")}</option>
+              {categories.map((category) => (
+                <option key={category.key} value={category.key}>
+                  {category.label}
+                </option>
+              ))}
             </select>
-          )}
 
-          {/* Paginación */}
-          <div className="flex items-center gap-2 ml-4">
-            <span className="text-gray-300">
-              {t("page")} {currentPage + 1}/{totalPages}
-            </span>
-            <button
-              onClick={onPrev}
-              disabled={currentPage === 0}
-              className={`px-2 py-1 border rounded ${
-                currentPage === 0 ? "border-gray-500 text-gray-500" : "border-white text-white hover:bg-neutral-700"
-              }`}
-            >
-              {t("prev")}
-            </button>
-            <button
-              onClick={onNext}
-              disabled={currentPage >= totalPages - 1}
-              className={`px-2 py-1 border rounded ${
-                currentPage >= totalPages - 1 ? "border-gray-500 text-gray-500" : "border-white text-white hover:bg-neutral-700"
-              }`}
-            >
-              {t("next")}
-            </button>
+            {/* Elemento seleccionado */}
+            {selectedCategory && (
+              <select
+                value={selectedItem}
+                onChange={handleItemChange}
+                className="bg-neutral-700 text-white p-1 rounded"
+              >
+                <option value="">{t("select_item")}</option>
+                {categories
+                  .find((cat) => cat.key === selectedCategory)
+                  ?.items.map((item, index) => (
+                    <option
+                      key={`${getItemName(item)}-${index}`}
+                      value={getItemName(item)}
+                    >
+                      {getItemName(item)} - {item.score}
+                    </option>
+                  ))}
+              </select>
+            )}
+
+            {/* Paginación */}
+            <div className="flex items-center gap-2 ml-0 sm:ml-4">
+              <span className="text-gray-300 text-sm">
+                {t("page")} {currentPage + 1}/{totalPages}
+              </span>
+              <button
+                onClick={onPrev}
+                disabled={currentPage === 0}
+                className={`px-2 py-1 border rounded text-sm ${
+                  currentPage === 0
+                    ? "border-gray-500 text-gray-500"
+                    : "border-white text-white hover:bg-neutral-700"
+                }`}
+              >
+                {"<"}
+              </button>
+              <button
+                onClick={onNext}
+                disabled={currentPage >= totalPages - 1}
+                className={`px-2 py-1 border rounded text-sm ${
+                  currentPage >= totalPages - 1
+                    ? "border-gray-500 text-gray-500"
+                    : "border-white text-white hover:bg-neutral-700"
+                }`}
+              >
+                {">"}
+              </button>
+            </div>
           </div>
         </div>
       </div>

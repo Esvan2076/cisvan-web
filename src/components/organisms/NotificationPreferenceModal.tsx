@@ -2,19 +2,15 @@
 import { IoClose } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import ModalPortal from "../templates/ModalPortal";
-import { useNotificationPrompt } from "../../hooks/useNotificationPrompt";
-
 interface NotificationPreferenceModalProps {
   onClose: () => void;
   onConfirm: () => void;
 }
 
-const NotificationPreferenceModal: React.FC<NotificationPreferenceModalProps> = ({
-  onClose,
-  onConfirm,
-}) => {
+const NotificationPreferenceModal: React.FC<
+  NotificationPreferenceModalProps
+> = ({ onClose, onConfirm }) => {
   const { t } = useTranslation();
-  const { handleToggleNotifications } = useNotificationPrompt();
 
   return (
     <ModalPortal>
@@ -34,19 +30,14 @@ const NotificationPreferenceModal: React.FC<NotificationPreferenceModalProps> = 
           </p>
           <div className="flex gap-4 justify-center">
             <button
-              onClick={() => {
-                handleToggleNotifications(true);
-                onConfirm();
-              }}
+              onClick={onConfirm} // ← ya no llamamos handleToggleNotifications aquí
               className="px-4 py-2 bg-green-600 text-white font-bold rounded hover:bg-green-700 transition-colors"
             >
               {t("enable_notifications")}
             </button>
+
             <button
-              onClick={() => {
-                handleToggleNotifications(false);
-                onClose();
-              }}
+              onClick={onClose} // ← igual aquí
               className="px-4 py-2 bg-red-600 text-white font-bold rounded hover:bg-red-700 transition-colors"
             >
               {t("disable_notifications")}

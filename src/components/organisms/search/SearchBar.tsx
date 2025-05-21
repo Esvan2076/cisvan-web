@@ -26,14 +26,17 @@ const SearchBar: React.FC = () => {
   const isGlobalFilter = selectedFilter === "all";
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-xl">
+    <div ref={wrapperRef} className="relative w-full max-w-xl min-w-0">
       <div
-        className={`flex items-center min-w-[250px] w-full bg-neutral-800 border-2 border-white h-10
-        ${isDropdownOpen ? "rounded-t-lg rounded-b-none" : "rounded-lg"}`}
+        className={`flex items-center w-full bg-neutral-800 border-2 border-white h-10
+    ${isDropdownOpen ? "rounded-t-lg rounded-b-none" : "rounded-lg"}`}
       >
         <FilterDropdown
           options={["all", "person", "movie", "serie"]}
-          redirectOption={{ label: t("filters.advanced_search"), route: "/advanced-search" }}
+          redirectOption={{
+            label: t("filters.advanced_search"),
+            route: "/advanced-search",
+          }}
         />
 
         <div className="w-[2px] bg-white h-3/4 hidden sm:block" />
@@ -41,7 +44,7 @@ const SearchBar: React.FC = () => {
         <input
           type="text"
           aria-label={t("search")}
-          className="flex-1 px-3 text-white bg-neutral-800 focus:outline-none text-sm placeholder-gray-400 h-full select-none rounded-lg"
+          className="flex-1 px-2 text-white bg-neutral-800 focus:outline-none text-sm placeholder-gray-400 h-full select-none rounded-lg min-w-0"
           placeholder={t("search")}
           value={searchTerm}
           onChange={handleChange}

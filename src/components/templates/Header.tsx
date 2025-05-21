@@ -21,22 +21,24 @@ const Header: React.FC = () => {
       >
         <CisvanButton />
 
-        <div className="flex-1 mx-2 sm:mx-4 md:mx-6 lg:mx-8 xl:mx-12 max-w-full">
+        <div className="flex-1 mx-2 sm:mx-4 lg:mx-8 min-w-0">
           <SearchBar />
         </div>
 
         <div className="flex items-center gap-2 ml-auto">
-          <IconButton
-            icon={FaRegFileAlt}
-            text={t("history")}
-            onClick={() => {
-              if (!user) {
-                navigate("/auth");
-              } else {
-                navigate(`/history/${user.id}`);
-              }
-            }}
-          />
+          <div className="hidden [@media(max-width:340px)]:hidden sm:flex">
+            <IconButton
+              icon={FaRegFileAlt}
+              text={t("history")}
+              onClick={() => {
+                if (!user) {
+                  navigate("/auth");
+                } else {
+                  navigate(`/history/${user.id}`);
+                }
+              }}
+            />
+          </div>
 
           {user ? (
             <UserDropdownMenu
@@ -52,11 +54,14 @@ const Header: React.FC = () => {
               onClick={() => navigate("/auth")}
             />
           )}
-          <DropdownMenu
-            icon={FaGlobe}
-            text={t("language")}
-            options={["es", "en"]}
-          />
+
+          <div className="hidden [@media(max-width:340px)]:hidden sm:flex">
+            <DropdownMenu
+              icon={FaGlobe}
+              text={t("language")}
+              options={["es", "en"]}
+            />
+          </div>
         </div>
       </nav>
     </header>
