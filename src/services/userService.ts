@@ -5,6 +5,7 @@ import { DefaultImage } from "../models/DefaultImage";
 import { UserImage } from "../models/UserImage";
 import { UserPreview } from "../models/UserPreview";
 import { UserPage } from "../models/UserPage";
+import { UserSearchResponse, UserSearchResult } from "../models/user";
 
 export const userService = {
   getProfile: async (token: string): Promise<UserProfile> => {
@@ -155,4 +156,30 @@ export const userService = {
   
     return res.json();
   },  
+  search: async (username: string, page: number = 0): Promise<UserSearchResponse> => {
+    const response = await fetch(`${BASE_API}/user/search?username=${encodeURIComponent(username)}&page=${page}`);
+    if (!response.ok) throw new Error("Error fetching users");
+    return response.json();
+  },
+
+  async getBannedUsers(): Promise<UserSearchResult[]> {
+    const response = await fetch(`${BASE_API}/user/banned`, {
+      headers: {
+         Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
+      },
+    });
+    if (!response.ok) throw new Error("Failed to fetch banned users");
+    return response.json();
+  },
+
+  async toggleBan(userId: number): Promise<{ banned: boolean }> {
+    const response = await fetch(`${BASE_API}/user/${userId}/ban-toggle`, {
+      method: "PUT",
+      headers: {
+         Authorization: `Bearer ${localStorage.getItem("auth_token") || ""}`,
+      },
+    });
+    if (!response.ok) throw new Error("Failed to toggle ban");
+    return response.json();
+  },
 };

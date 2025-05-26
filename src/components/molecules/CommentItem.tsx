@@ -10,6 +10,7 @@ import ExpandButton from "../atoms/ExpandButton";
 import ReplyItem from "./ReplyItem";
 import { useReplies } from "../../hooks/useReplies";
 import CommentForm from "./CommentForm";
+import { useReportComment } from "../../hooks/useReportComment";
 
 interface Props {
   comment: Comment;
@@ -24,24 +25,45 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
   const [likes, setLikes] = useState(comment.likeCount);
   const [revealed, setRevealed] = useState(!comment.containsSpoiler);
   const [showReplyForm, setShowReplyForm] = useState(false);
-  const [activeReplyFormId, setActiveReplyFormId] = useState<number | null>(null);
+  const [activeReplyFormId, setActiveReplyFormId] = useState<number | null>(
+    null
+  );
   const { toggleLike, deleteComment } = useComments();
   const { replies, loading, fetchReplies, addReply } = useReplies(comment.id);
   const { user } = useAuth();
+  const {
+    reportComment,
+  } = useReportComment();
 
   const maxLength = 255;
   const isLong = comment.commentText.length > maxLength;
-  const textToShow = textExpanded || !isLong
-    ? comment.commentText
-    : comment.commentText.slice(0, maxLength) + "...";
+  const textToShow =
+    textExpanded || !isLong
+      ? comment.commentText
+      : comment.commentText.slice(0, maxLength) + "...";
 
   const formattedDate = new Date(comment.createdAt).toLocaleDateString();
+
+  const handleReport = async () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    const confirmed = window.confirm(t("confirm_report"));
+    if (!confirmed) return;
+
+    const success = await reportComment(comment.id);
+    if (success) {
+      alert(t("report_success"));
+    }
+  };
 
   const handleToggle = async () => {
     const success = await toggleLike(comment.id);
     if (success) {
-      setLiked((prev) => !prev);  // Invertir el estado del like
-      setLikes((prev) => prev + (liked ? -1 : 1));  // Actualizar el contador
+      setLiked((prev) => !prev); // Invertir el estado del like
+      setLikes((prev) => prev + (liked ? -1 : 1)); // Actualizar el contador
     }
   };
 
@@ -49,7 +71,7 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
     const confirmed = window.confirm(t("delete_confirm"));
     if (!confirmed) return;
 
-  const success = await deleteComment(comment.id);
+    const success = await deleteComment(comment.id);
     if (success) {
       window.location.reload();
     }
@@ -59,12 +81,10 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
     setRevealed(true);
   };
 
-
   const handleExpandReplies = () => {
     if (!repliesExpanded) fetchReplies();
     setRepliesExpanded((prev) => !prev);
   };
-
 
   const handleReplyClick = () => {
     if (!user) {
@@ -80,7 +100,12 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
       return;
     }
 
-    const success = await addReply(comment.id, comment.user.id, text, containsSpoiler);
+    const success = await addReply(
+      comment.id,
+      comment.user.id,
+      text,
+      containsSpoiler
+    );
     if (success) {
       setShowReplyForm(false);
       fetchReplies();
@@ -114,17 +139,19 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
             </div>
           </div>
         </div>
-        <ReportButton />
+        <ReportButton onClick={handleReport} />
       </div>
 
       {/* Comment Text */}
       <div
-        className={`relative text-gray-300 text-sm select-text transition-all duration-300 ${
+        className={`relative text-gray-300 text-sm select-text transition-all duration-300 break-words ${
           comment.containsSpoiler && !revealed
             ? "blur-md cursor-pointer bg-black/50 text-gray-500 rounded p-2 border"
             : ""
         }`}
-        onClick={comment.containsSpoiler && !revealed ? handleReveal : undefined}
+        onClick={
+          comment.containsSpoiler && !revealed ? handleReveal : undefined
+        }
         title={
           comment.containsSpoiler && !revealed
             ? t("click_to_reveal")
@@ -177,7 +204,7 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
           >
             {t("delete")}
           </button>
-        )}
+        )}
       </div>
 
       {/* Reply Form */}
@@ -189,7 +216,6 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
           />
         </div>
       )}
-
 
       {/* Reply List */}
       {repliesExpanded && (
@@ -215,4 +241,4 @@ const CommentItem: React.FC<Props> = ({ comment }) => {
   );
 };
 
-export default CommentItem;
+export default CommentItem;

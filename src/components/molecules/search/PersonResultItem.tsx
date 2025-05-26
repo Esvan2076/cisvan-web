@@ -9,7 +9,7 @@ interface Props {
   isRecent?: boolean;
 }
 
-const SearchResultItem: React.FC<Props> = ({ result, onSelect, isRecent }) => {
+const PersonResultItem: React.FC<Props> = ({ result, onSelect, isRecent }) => {
   const { t } = useTranslation(["professions"]);
   const hasTitle = !!result.principalTitle?.primaryTitle;
   const hasProfession = !!result.primaryProfession;
@@ -54,4 +54,4 @@ const SearchResultItem: React.FC<Props> = ({ result, onSelect, isRecent }) => {
   );
 };
 
-export default SearchResultItem;
+export default PersonResultItem;

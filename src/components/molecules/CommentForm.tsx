@@ -23,19 +23,24 @@ const CommentForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   const [containsSpoiler, setContainsSpoiler] = useState(false);
 
   const handleSubmit = () => {
-    if (!text.trim()) {  // Verifica que el comentario no esté vacío o tenga solo espacios
-      toast.error(t("empty_comment"));  // Muestra el Toast de error
+    if (!text.trim()) {
+      toast.error(t("empty_comment"));
       return;
     }
 
-    if (!isValidAscii(text)) {  // Verifica si contiene caracteres fuera del rango ASCII extendido
-      toast.error(t("invalid_characters"));  // Muestra el Toast de error
+    if (text.length > 4096) {
+      toast.error(t("comment_too_long"));
+      return;
+    }
+
+    if (!isValidAscii(text)) {
+      toast.error(t("invalid_characters"));
       return;
     }
 
     onSubmit(text, containsSpoiler);
     setText("");
-  };
+};
 
   return (
     <div className="bg-neutral-800 p-3 rounded mb-4">

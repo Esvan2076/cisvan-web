@@ -13,7 +13,7 @@ interface Props {
   onUploaded: (newUrl: string) => void;
 }
 
-const DEFAULT_IMAGE = "/default-user.png";
+const DEFAULT_IMAGE = "/default-actor.jpg";
 
 const ProfileImageUploader: React.FC<Props> = ({ currentImage, onUploaded }) => {
   const [isCameraOpen, setIsCameraOpen] = useState(false);

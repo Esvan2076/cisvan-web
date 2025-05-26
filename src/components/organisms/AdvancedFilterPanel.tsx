@@ -10,12 +10,19 @@ import { PersonSearchFilters } from "../../hooks/usePersonSearch";
 type TabOption = "titles" | "persons" | "users";
 
 interface Props {
-  onSearch: (filters: TitleSearchFilters | PersonSearchFilters, tab: TabOption) => void;
+  onSearch: (
+    filters: TitleSearchFilters | PersonSearchFilters,
+    tab: TabOption
+  ) => void;
   activeTab: TabOption;
   setActiveTab: (tab: TabOption) => void;
 }
 
-const AdvancedFilterPanel: React.FC<Props> = ({ onSearch, activeTab, setActiveTab }) => {
+const AdvancedFilterPanel: React.FC<Props> = ({
+  onSearch,
+  activeTab,
+  setActiveTab,
+}) => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -23,13 +30,21 @@ const AdvancedFilterPanel: React.FC<Props> = ({ onSearch, activeTab, setActiveTa
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
   const [selectedProfessions, setSelectedProfessions] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   const handleSearch = () => {
-    if (!searchTerm.trim() && !hasFilters()) return;
+    // Si está en "users", permitir búsquedas vacías
+    if (activeTab !== "users" && !searchTerm.trim() && !hasFilters()) return;
 
     if (activeTab === "titles") {
       const payload: TitleSearchFilters = {
         name: searchTerm,
+        category:
+          selectedCategory === 1 ||
+          selectedCategory === 2 ||
+          selectedCategory === 3
+            ? selectedCategory
+            : undefined,
         types: selectedTypes.length ? selectedTypes : undefined,
         genres: selectedGenres.length ? selectedGenres : undefined,
         streamingServices: selectedPlatforms[0] ?? undefined,
@@ -40,18 +55,22 @@ const AdvancedFilterPanel: React.FC<Props> = ({ onSearch, activeTab, setActiveTa
     if (activeTab === "persons") {
       const payload: PersonSearchFilters = {
         name: searchTerm,
-        professions: selectedProfessions.length ? selectedProfessions : undefined,
+        professions: selectedProfessions.length
+          ? selectedProfessions
+          : undefined,
       };
       onSearch(payload, "persons");
     }
 
     if (activeTab === "users") {
-      console.log("Consulta para users aún no implementada");
+      const payload = { name: searchTerm }; // puede estar vacío
+      onSearch(payload, "users");
     }
   };
 
   const hasFilters = () => {
     return (
+      selectedCategory !== null || // 👈 añadir esta línea
       selectedTypes.length > 0 ||
       selectedGenres.length > 0 ||
       selectedPlatforms.length > 0 ||
@@ -76,6 +95,8 @@ const AdvancedFilterPanel: React.FC<Props> = ({ onSearch, activeTab, setActiveTa
             setSelectedGenres={setSelectedGenres}
             selectedPlatforms={selectedPlatforms}
             setSelectedPlatforms={setSelectedPlatforms}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
           />
         );
       case "persons":
@@ -108,11 +129,13 @@ const AdvancedFilterPanel: React.FC<Props> = ({ onSearch, activeTab, setActiveTa
         />
         <button
           onClick={handleSearch}
-          disabled={!searchTerm.trim() && !hasFilters()}
+          disabled={
+            activeTab !== "users" && !searchTerm.trim() && !hasFilters()
+          }
           className={`px-4 h-full flex items-center transition-colors duration-200 ${
-            !searchTerm.trim() && !hasFilters()
-              ? "text-gray-500 cursor-not-allowed"
-              : "hover:bg-neutral-700 text-white"
+            activeTab === "users" || searchTerm.trim() || hasFilters()
+              ? "hover:bg-neutral-700 text-white"
+              : "text-gray-500 cursor-not-allowed"
           }`}
         >
           <FaSearch className="text-lg" />

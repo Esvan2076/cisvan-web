@@ -1,4 +1,3 @@
-// hooks/useComments.ts
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { commentService } from "../services/commentService";
@@ -8,16 +7,23 @@ import { useFetch } from "./shared/useFetch";
 export const useComments = (contentId?: string) => {
   const navigate = useNavigate();
 
-  // Obtener lista de comentarios
-  const { data: comments, loading, error, refresh } = useFetch<Comment[]>(
+  const {
+    data: comments,
+    loading,
+    error,
+    refresh,
+  } = useFetch<Comment[]>(
     () => commentService.getByTitleId(contentId!),
     [contentId],
     !contentId
   );
 
-  // Añadir comentario
   const addComment = useCallback(
-    async (tconst: string, commentText: string, containsSpoiler: boolean = false) => {
+    async (
+      tconst: string,
+      commentText: string,
+      containsSpoiler: boolean = false
+    ) => {
       const token = localStorage.getItem("auth_token");
       if (!token) {
         navigate("/auth");
@@ -26,7 +32,7 @@ export const useComments = (contentId?: string) => {
 
       try {
         await commentService.addComment(tconst, commentText, containsSpoiler);
-        refresh(); // Actualizar comentarios después de añadir uno nuevo
+        refresh();
         return true;
       } catch (err) {
         console.error("Error al publicar el comentario:", err);
@@ -56,7 +62,6 @@ export const useComments = (contentId?: string) => {
     [navigate, refresh]
   );
 
-  // Eliminar comentario
   const deleteComment = useCallback(
     async (commentId: number) => {
       const token = localStorage.getItem("auth_token");
@@ -67,10 +72,46 @@ export const useComments = (contentId?: string) => {
 
       try {
         await commentService.deleteById(commentId);
-        refresh(); // Actualizar después de eliminar
+        refresh();
         return true;
       } catch (err) {
         console.error("Error al eliminar el comentario:", err);
+        return false;
+      }
+    },
+    [navigate, refresh]
+  );
+
+  const getReportedComments = useCallback(async () => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) {
+      navigate("/auth");
+      return [];
+    }
+
+    try {
+      const reported = await commentService.getReportedComments(token);
+      return reported;
+    } catch (err) {
+      console.error("Error fetching reported comments:", err);
+      return [];
+    }
+  }, [navigate]);
+
+  const unreportComment = useCallback(
+    async (commentId: number) => {
+      const token = localStorage.getItem("auth_token");
+      if (!token) {
+        navigate("/auth");
+        return false;
+      }
+
+      try {
+        await commentService.unreportComment(commentId);
+        refresh(); // opcional: refrescar lista
+        return true;
+      } catch (err) {
+        console.error("Error al quitar el reporte:", err);
         return false;
       }
     },
@@ -85,5 +126,7 @@ export const useComments = (contentId?: string) => {
     toggleLike,
     deleteComment,
     refresh,
+    getReportedComments,
+    unreportComment,
   };
 };

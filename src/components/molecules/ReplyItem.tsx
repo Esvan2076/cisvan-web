@@ -5,6 +5,7 @@ import { Reply } from "../../models/Reply";
 import { useAuth } from "../../hooks/useAuth";
 import { useComments } from "../../hooks/useComments";
 import { useReplies } from "../../hooks/useReplies";
+import { useReportComment } from "../../hooks/useReportComment";
 import PrestigeBadge from "./PrestigeBadge";
 import ReportButton from "../atoms/ReportButton";
 import CommentForm from "./CommentForm";
@@ -16,12 +17,18 @@ interface Props {
   refreshReplyList: () => void;
 }
 
-const ReplyItem: React.FC<Props> = ({ reply, activeReplyFormId, setActiveReplyFormId, refreshReplyList }) => {
+const ReplyItem: React.FC<Props> = ({
+  reply,
+  activeReplyFormId,
+  setActiveReplyFormId,
+  refreshReplyList,
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toggleLike, deleteComment } = useComments();
   const { addReply } = useReplies(reply.id);
+  const { reportComment } = useReportComment();
   const [liked, setLiked] = useState(reply.likedByMe);
   const [likes, setLikes] = useState(reply.likeCount);
   const [expanded, setExpanded] = useState(false);
@@ -54,6 +61,21 @@ const ReplyItem: React.FC<Props> = ({ reply, activeReplyFormId, setActiveReplyFo
     }
   };
 
+  const handleReport = async () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+
+    const confirmed = window.confirm(t("confirm_report"));
+    if (!confirmed) return;
+
+    const success = await reportComment(reply.id);
+    if (success) {
+      alert(t("report_success"));
+    }
+  };
+
   const handleReplyClick = () => {
     if (!user) {
       navigate("/auth");
@@ -68,7 +90,12 @@ const ReplyItem: React.FC<Props> = ({ reply, activeReplyFormId, setActiveReplyFo
       return;
     }
 
-    const success = await addReply(reply.id, reply.user.id, text, containsSpoiler);
+    const success = await addReply(
+      reply.id,
+      reply.user.id,
+      text,
+      containsSpoiler
+    );
     if (success) {
       setActiveReplyFormId(null);
       refreshReplyList();
@@ -106,21 +133,19 @@ const ReplyItem: React.FC<Props> = ({ reply, activeReplyFormId, setActiveReplyFo
             </div>
           </div>
         </div>
-        <ReportButton />
+        <ReportButton onClick={handleReport} />
       </div>
 
-      {/* Reply Text with Spoiler Handling */}
+      {/* Reply Text */}
       <div
-        className={`relative text-gray-300 text-sm select-text transition-all duration-300 ${
+        className={`relative break-words text-gray-300 text-sm select-text transition-all duration-300 ${
           reply.containsSpoiler && !revealed
             ? "blur-md cursor-pointer bg-black/50 text-gray-500 rounded p-2 border"
             : ""
         }`}
         onClick={reply.containsSpoiler && !revealed ? handleReveal : undefined}
         title={
-          reply.containsSpoiler && !revealed
-            ? t("click_to_reveal")
-            : undefined
+          reply.containsSpoiler && !revealed ? t("click_to_reveal") : undefined
         }
       >
         <span

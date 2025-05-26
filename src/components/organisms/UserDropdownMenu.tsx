@@ -8,6 +8,7 @@ interface Props {
   onLogout: () => void;
   onConfig: () => void;
   className?: string;
+  isAdmin?: boolean; // ← nuevo
 }
 
 const UserDropdownMenu: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const UserDropdownMenu: React.FC<Props> = ({
   onLogout,
   onConfig,
   className = "",
+  isAdmin
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -38,6 +40,18 @@ const UserDropdownMenu: React.FC<Props> = ({
 
       {isOpen && (
         <div className="absolute right-0 mt-2 w-44 bg-neutral-800 border border-neutral-600 rounded-md shadow-lg text-sm overflow-hidden">
+          {isAdmin && (
+            <button
+              onClick={() => {
+                window.location.href = "/admin/reports";
+                setIsOpen(false);
+              }}
+              className="w-full px-4 py-2 text-yellow-400 bg-yellow-900 hover:bg-yellow-800 flex items-center gap-2"
+            >
+              ⚠️ Admin
+            </button>
+          )}
+
           <button
             onClick={() => {
               onConfig();

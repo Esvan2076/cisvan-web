@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import SearchResultItem from "../../molecules/search/PersonResultItem";
+import PersonResultItem from "../../molecules/search/PersonResultItem";
 import MovieResultItem from "../../molecules/search/MovieResultItem";
 import SerieResultItem from "../../molecules/search/SerieResultItem";
 import { SearchResult } from "../../../models/searchResult";
@@ -31,7 +31,7 @@ const SearchResultDropdown: React.FC<Props> = ({
   const renderItem = (result: SearchResult, index: number, recent = false) => {
     if ("nconst" in result) {
       return (
-        <SearchResultItem
+        <PersonResultItem
           key={`person-${result.nconst}-${index}`}
           result={result}
           onSelect={() => onSelect?.(result)}

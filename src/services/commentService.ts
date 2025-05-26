@@ -2,6 +2,7 @@
 import { Comment } from "../models/Comment";
 import { BASE_API } from "../constants/api";
 import { Reply } from "../models/Reply";
+import { ReportedComment } from "../models/ReportedComment";
 
 export const commentService = {
   getByTitleId: async (tconst: string): Promise<Comment[]> => {
@@ -118,5 +119,58 @@ export const commentService = {
     if (!res.ok) {
       throw new Error("No se pudo enviar la respuesta");
     }
+  },
+
+  report: async (commentId: number) => {
+    const token = localStorage.getItem("auth_token"); // Asumiendo que lo guardas así
+    if (!token) throw new Error("No auth token found");
+
+
+    const response = await fetch(`${BASE_API}/comments/${commentId}/report`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) throw new Error("Failed to report comment");
+    return response.json();
+  },
+
+  getReportedComments: async (token: string): Promise<ReportedComment[]> => {
+    const response = await fetch(`${BASE_API}/comments/admin/reported`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch reported comments");
+    }
+
+    return response.json();
+  },
+
+  // src/services/commentService.ts
+  unreportComment: async (commentId: number) => {
+    const token = localStorage.getItem("auth_token");
+    if (!token) throw new Error("No auth token found");
+
+    const response = await fetch(
+      `${BASE_API}/comments/admin/unreport/${commentId}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to unreport comment");
+    }
+
+    return await response.json();
   },
 };

@@ -45,7 +45,12 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, tconst }) => {
   // ✅ Move conditional rendering after all hooks
   if (!open) return null;
   if (loading) return <div className="text-white">{t("loading")}</div>;
-  if (error) return <div className="text-red-500">{t("error")}: {error}</div>;
+  if (error)
+    return (
+      <div className="text-red-500">
+        {t("error")}: {error}
+      </div>
+    );
 
   // Rest of your component logic unchanged...
   const handleSelect = (id: string, name: string) => {
@@ -63,33 +68,44 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, tconst }) => {
       toast.error(t("empty_comment"));
       return;
     }
-  
+
+    if (text.length > 4096) {
+      toast.error(t("comment_too_long")); // Asegúrate de tener esta clave en i18n
+      return;
+    }
+
     const movieRating = ratings[reviewData?.tconst || ""];
     if (!movieRating) {
       toast.error(t("rating_required"));
       return;
     }
-  
+
     if (![...text].every((char) => char.charCodeAt(0) <= 255)) {
       toast.error(t("invalid_characters"));
       return;
     }
-  
+
     const filteredGenres =
       reviewData?.genres
         .filter((genre) => ratings[genre] !== undefined)
         .map((genre) => ({ genre, score: ratings[genre] })) || [];
-  
+
     const filteredActors =
       reviewData?.actors
         .filter((actor) => ratings[actor.nconst] !== undefined)
-        .map((actor) => ({ nconst: actor.nconst, score: ratings[actor.nconst] })) || [];
-  
+        .map((actor) => ({
+          nconst: actor.nconst,
+          score: ratings[actor.nconst],
+        })) || [];
+
     const filteredDirectors =
       reviewData?.directors
         .filter((director) => ratings[director.nconst] !== undefined)
-        .map((director) => ({ nconst: director.nconst, score: ratings[director.nconst] })) || [];
-  
+        .map((director) => ({
+          nconst: director.nconst,
+          score: ratings[director.nconst],
+        })) || [];
+
     const reviewJson = {
       tconst: tconst,
       score: movieRating,
@@ -99,7 +115,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, tconst }) => {
       actors: filteredActors,
       directors: filteredDirectors,
     };
-  
+
     try {
       await submitReview(reviewJson);
       toast.success(t("review_submitted"));
@@ -107,7 +123,7 @@ const RatingModal: React.FC<RatingModalProps> = ({ open, onClose, tconst }) => {
     } catch {
       toast.error(t("error_sending_review"));
     }
-  };  
+  };
 
   const handleRatingHover = (rating: number) => {
     setHoveredRating(rating);

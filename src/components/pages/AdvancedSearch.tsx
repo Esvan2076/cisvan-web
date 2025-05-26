@@ -6,11 +6,17 @@ import TextAtom from "../atoms/TextAtom";
 import AdvancedFilterPanel from "../organisms/AdvancedFilterPanel";
 import SearchRightPanel from "../organisms/SearchRightPanel";
 import { useTitleSearch, TitleSearchFilters } from "../../hooks/useTitleSearch";
-import { usePersonSearch, PersonSearchFilters } from "../../hooks/usePersonSearch";
+import {
+  usePersonSearch,
+  PersonSearchFilters,
+} from "../../hooks/usePersonSearch";
+import { useUserSearch } from "../../hooks/useUserSearch";
 
 const AdvancedSearch: React.FC = () => {
   const { t } = useTranslation();
-  const [currentPayload, setCurrentPayload] = useState<TitleSearchFilters | PersonSearchFilters | null>(null);
+  const [currentPayload, setCurrentPayload] = useState<
+    TitleSearchFilters | PersonSearchFilters | { name: string } | null
+  >(null);
   const [page, setPage] = useState(0);
 
   type TabOption = "titles" | "persons" | "users";
@@ -18,8 +24,12 @@ const AdvancedSearch: React.FC = () => {
 
   const titleSearch = useTitleSearch();
   const personSearch = usePersonSearch();
+  const userSearch = useUserSearch();
 
-  const handleSearch = (filters: TitleSearchFilters | PersonSearchFilters, tab: TabOption) => {
+  const handleSearch = (
+    filters: TitleSearchFilters | PersonSearchFilters | { name: string },
+    tab: TabOption
+  ) => {
     setCurrentPayload(filters);
     setPage(0);
     setActiveTab(tab);
@@ -28,6 +38,9 @@ const AdvancedSearch: React.FC = () => {
       titleSearch.search(filters as TitleSearchFilters, 0);
     } else if (tab === "persons") {
       personSearch.search(filters as PersonSearchFilters, 0);
+    } else if (tab === "users") {
+      const username = (filters as any).name || "";
+      userSearch.search(username, 0);
     }
   };
 
@@ -67,7 +80,10 @@ const AdvancedSearch: React.FC = () => {
                 <TextAtom as="h1" className="text-2xl font-bold mb-4">
                   {t("advanced_search.title")}
                 </TextAtom>
-                <TextAtom as="p" className="text-base leading-relaxed text-gray-300">
+                <TextAtom
+                  as="p"
+                  className="text-base leading-relaxed text-gray-300"
+                >
                   {t("advanced_search.description")}
                 </TextAtom>
               </div>
@@ -100,6 +116,18 @@ const AdvancedSearch: React.FC = () => {
                 onNext={handleNext}
                 onPrev={handlePrev}
                 type="persons"
+              />
+            )}
+
+            {activeTab === "users" && (
+              <SearchRightPanel
+                results={userSearch.results}
+                total={userSearch.total}
+                page={page}
+                totalPages={userSearch.totalPages}
+                onNext={handleNext}
+                onPrev={handlePrev}
+                type="users"
               />
             )}
           </div>

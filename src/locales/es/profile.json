@@ -29,6 +29,7 @@
     "followers": "Seguidores",
     "following": "Seguidos",
     "ranks": {
+        "0": "Espectador Casual",
         "1": "Novato del Cine",
         "2": "Aficionado Celuloide",
         "3": "Crítico Cinematográfico",
@@ -41,5 +42,7 @@
     "loading": "Cargando...",
     "no_notifications": "Sin notificaciones",
     "emails_activated": "Emails activados",
-    "emails_deactivated": "Emails desactivados"
+    "emails_deactivated": "Emails desactivados",
+    "reviews": "Reseñas",
+    "recommendations": "Recomendaciones"
 }

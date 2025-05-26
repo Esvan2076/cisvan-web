@@ -1,5 +1,3 @@
-export type SearchResult = PersonResult | MovieResult | SerieResult;
-
 export interface PersonResult {
   nconst: string;
   primaryName: string;
@@ -9,6 +7,7 @@ export interface PersonResult {
     startYear: number;
     endYear: number | null;
   };
+  wasSearched?: boolean;
 }
 
 export interface MovieResult {
@@ -16,6 +15,7 @@ export interface MovieResult {
   primaryTitle: string;
   startYear: number;
   actors: string;
+  wasSearched?: boolean;
 }
 
 export interface SerieResult {
@@ -24,4 +24,7 @@ export interface SerieResult {
   startYear: number;
   endYear: number | null;
   actors?: string;
+  wasSearched?: boolean;
 }
+
+export type SearchResult = PersonResult | MovieResult | SerieResult;

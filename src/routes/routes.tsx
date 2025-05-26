@@ -9,6 +9,7 @@ import EmailVerifyPage from "../components/pages/EmailVerifyPage";
 import ForgotPasswordPage from "../components/pages/auth/ForgotPasswordPage";
 import UserProfile from "../components/pages/UserProfile";
 import UserHistoryPage from "../components/pages/UserHistoryPage";
+import AdminReportsPage from "../components/pages/AdminReportsPage";
 import ScrollToTop from "../components/atoms/ScrollToTop";
 
 const AppRoutes = () => {
@@ -26,6 +27,7 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/config" element={<UserProfile />} />
         <Route path="/history/:id" element={<UserHistoryPage />} /> {/* nueva ruta */}
+        <Route path="/admin/reports" element={<AdminReportsPage />} />
       </Routes>
     </Router>
   );

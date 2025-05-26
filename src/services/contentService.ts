@@ -112,6 +112,32 @@ export const contentService = {
     return handleFetchError(res);
   },
 
+  getRecommendations: async (token: string): Promise<TopTitle[]> => {
+    const res = await fetch(`${BASE_API}/title/recommendations`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Accept-Language": "es",
+      },
+    });
+
+    if (!res.ok) throw new Error(errorMessages.content);
+
+    return await res.json();
+  },
+
+  getRecommendationsByUserId: async (userId: number, token: string): Promise<TopTitle[]> => {
+    const res = await fetch(`${BASE_API}/title/recommendations/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Accept-Language": "es",
+      },
+    });
+
+    if (!res.ok) throw new Error("error.loading_recommendations");
+
+    return await res.json();
+  },
+
   getUserList: async (token?: string): Promise<TopTitle[]> => {
     if (!token) return [];
     const res = await fetch(`${BASE_API}/title/user-list`, {

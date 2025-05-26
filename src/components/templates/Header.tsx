@@ -46,6 +46,7 @@ const Header: React.FC = () => {
               onLogout={logout}
               onConfig={() => navigate("/config")}
               className={user.admin ? "border-2 border-red-500 rounded-lg" : ""}
+              isAdmin={user.admin} // ← nuevo
             />
           ) : (
             <IconButton

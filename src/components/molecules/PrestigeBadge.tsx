@@ -2,12 +2,13 @@
 import { useTranslation } from "react-i18next";
 
 interface PrestigeBadgeProps {
-  rank: 1 | 2 | 3 | 4 | 5;
+  rank: 0 | 1 | 2 | 3 | 4 | 5;
   trend: "U" | "D" | "S";
   size?: number; // tamaño en px opcional
 }
 
-const rankIconMap: Record<1 | 2 | 3 | 4 | 5, string> = {
+const rankIconMap: Record<0 | 1 | 2 | 3 | 4 | 5, string> = {
+  0: "🔰",
   1: "🎬",
   2: "🍿",
   3: "🎥",

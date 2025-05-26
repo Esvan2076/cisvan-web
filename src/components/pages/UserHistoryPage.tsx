@@ -1,15 +1,38 @@
-// pages/UserHistoryPage.tsx (actualizado)
+import ReviewItem from "../organisms/ReviewItem";
+import { useUserPaginatedReviews } from "../../hooks/useUserPaginatedReviews"; // nuevo hook
+import Footer from "../templates/Footer";
+import PrestigeBadge from "../molecules/PrestigeBadge";
+import Header from "../templates/Header";
 import { useParams } from "react-router-dom";
 import { useUserPage } from "../../hooks/useUserPage";
-import PrestigeBadge from "../molecules/PrestigeBadge";
-import Footer from "../templates/Footer";
-import Header from "../templates/Header";
 import { useTranslation } from "react-i18next";
+
+import ContentCarousel from "../templates/ContentCarousel";
+import { useUserRecommendationsById } from "../../hooks/useUserRecommendationsById";
 
 const UserHistoryPage = () => {
   const { id } = useParams();
   const { userPage, loading, toggleFollow } = useUserPage(Number(id));
   const { t } = useTranslation("profile");
+  const { recommendations, loading: loadingRecommendations } = useUserRecommendationsById(Number(id));
+
+  const mapItems = (list: any[]) =>
+    list.map((item) => ({
+      imageUrl: item.posterUrl,
+      title: item.primaryTitle,
+      rating: item.averageRating,
+      inUserList: item.inUserList,
+      tconst: item.tconst,
+    }));
+
+  const {
+    reviews,
+    loading: reviewsLoading,
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+  } = useUserPaginatedReviews(Number(id));
 
   if (loading || !userPage) {
     return (
@@ -55,6 +78,43 @@ const UserHistoryPage = () => {
             </div>
           )}
         </div>
+
+        {/* Reseñas del usuario */}
+        <div className="w-full max-w-4xl mt-10">
+          <h3 className="text-2xl font-semibold mb-6">{t("reviews")}</h3>
+          {reviewsLoading ? (
+            <p className="text-gray-400">{t("loading")}</p>
+          ) : reviews?.content.length ? (
+            reviews.content.map((r) => (
+              <ReviewItem
+                key={r.reviewId}
+                titleName={r.titleName}
+                score={r.score}
+                genres={r.genres}
+                actors={r.actors}
+                directors={r.directors}
+                comments={[r.comment]}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onNext={nextPage}
+                onPrev={prevPage}
+              />
+            ))
+          ) : (
+            <p className="text-gray-400">{t("no_reviews")}</p>
+          )}
+        </div>
+
+        {recommendations.length > 0 && (
+          <div className="w-full max-w-4xl mt-12">
+            <h3 className="text-2xl font-semibold mb-4">{t("recommendations")}</h3>
+            {loadingRecommendations ? (
+              <p className="text-gray-400">{t("loading")}</p>
+            ) : (
+              <ContentCarousel items={mapItems(recommendations)} />
+            )}
+          </div>
+        )}
       </main>
       <Footer />
     </div>
