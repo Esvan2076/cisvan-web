@@ -1,29 +1,37 @@
 import { useTranslation } from "react-i18next";
-import { FaSearch, FaTrash } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import FilterDropdown from "./FilterDropdown";
 import SearchResultDropdown from "./SearchResultDropdown";
 import { useSearchLogic } from "../../../hooks/useSearchLogic";
+import { useState } from "react";
 
 const SearchBar: React.FC = () => {
   const { t } = useTranslation();
+  const [filter, setFilter] = useState(localStorage.getItem("selectedFilter") || "all");
   const {
     wrapperRef,
     searchTerm,
+    setSearchTerm,
     handleChange,
     handleKeyDown,
     handleSearch,
     isDropdownOpen,
     setIsDropdownOpen,
+    selectedFilter,
+    setFilter: updateFilter,
     currentResults,
     currentLoading,
-    recentResults,
     handleSelectResult,
     clearRecentSearches,
-    selectedFilter,
-    refreshRecentSearches, // ✅ nuevo hook helper
+    refreshRecentSearches,
   } = useSearchLogic();
 
-  const isGlobalFilter = selectedFilter === "all";
+  // Sync hook filter with local state
+  useState(() => {
+    if (filter !== selectedFilter) {
+      updateFilter(filter);
+    }
+  });
 
   return (
     <div ref={wrapperRef} className="relative w-full max-w-xl min-w-0">
@@ -33,6 +41,8 @@ const SearchBar: React.FC = () => {
       >
         <FilterDropdown
           options={["all", "person", "movie", "serie"]}
+          selected={selectedFilter}
+          onChange={updateFilter}
           redirectOption={{
             label: t("filters.advanced_search"),
             route: "/advanced-search",
@@ -50,23 +60,11 @@ const SearchBar: React.FC = () => {
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           onFocus={() => {
-            if (isGlobalFilter) {
-              refreshRecentSearches();
-            }
+            refreshRecentSearches();
             setIsDropdownOpen(true);
           }}
           maxLength={255}
         />
-
-        {recentResults.length > 0 && (
-          <button
-            onClick={clearRecentSearches}
-            className="px-2 h-full flex items-center hover:bg-neutral-700 transition-colors text-white"
-            title="Borrar recientes"
-          >
-            <FaTrash />
-          </button>
-        )}
 
         <button
           onClick={handleSearch}
@@ -83,9 +81,8 @@ const SearchBar: React.FC = () => {
 
       {isDropdownOpen && (
         <SearchResultDropdown
-          results={currentResults}
+          unifiedResults={currentResults}
           loading={currentLoading}
-          recentResults={recentResults}
           onSelect={handleSelectResult}
         />
       )}

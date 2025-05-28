@@ -1,87 +1,64 @@
 import { useTranslation } from "react-i18next";
-import PersonResultItem from "../../molecules/search/PersonResultItem";
-import MovieResultItem from "../../molecules/search/MovieResultItem";
-import SerieResultItem from "../../molecules/search/SerieResultItem";
-import { SearchResult } from "../../../models/searchResult";
+import { FaClock, FaStar } from "react-icons/fa";
+import { UnifiedSearchItem } from "../../../models/searchResult";
 
 interface Props {
-  results: SearchResult[];
+  unifiedResults: UnifiedSearchItem[];
   loading: boolean;
-  onSelect?: (item: SearchResult) => void;
-  recentResults?: SearchResult[];
+  onSelect?: (item: UnifiedSearchItem) => void;
 }
 
 const SearchResultDropdown: React.FC<Props> = ({
-  results,
+  unifiedResults,
   loading,
   onSelect,
-  recentResults = [],
 }) => {
   const { t } = useTranslation();
 
-  const isRecent = (item: SearchResult) =>
-    recentResults.some((r) =>
-      "nconst" in r && "nconst" in item
-        ? r.nconst === item.nconst
-        : "tconst" in r && "tconst" in item
-        ? r.tconst === item.tconst
-        : false
-    );
-
-  const renderItem = (result: SearchResult, index: number, recent = false) => {
-    if ("nconst" in result) {
-      return (
-        <PersonResultItem
-          key={`person-${result.nconst}-${index}`}
-          result={result}
-          onSelect={() => onSelect?.(result)}
-          isRecent={recent}
-        />
-      );
-    } else if ("endYear" in result) {
-      return (
-        <SerieResultItem
-          key={`serie-${result.tconst}-${index}`}
-          result={result}
-          onSelect={() => onSelect?.(result)}
-          isRecent={recent}
-        />
-      );
-    } else {
-      return (
-        <MovieResultItem
-          key={`movie-${result.tconst}-${index}`}
-          result={result}
-          onSelect={() => onSelect?.(result)}
-          isRecent={recent}
-        />
-      );
+  // En SearchResultDropdown.tsx - añadir logs para depuración
+  const getItemIcon = (item: UnifiedSearchItem) => {
+    console.log(`Item ${item.title}: recent=${item.recent}, popular=${item.popular}`);
+    
+    if (item.recent) {
+      return <FaClock className="ml-3 text-red-500 text-base" title="Reciente" />;
+    } else if (item.popular) {
+      return <FaStar className="ml-3 text-yellow-500 text-base" title="Popular" />;
     }
+    return null;
+  };
+
+  const getItemLink = (item: UnifiedSearchItem) => {
+    return item.type === "person" 
+      ? `/person/${item.id}` 
+      : `/content/${item.id}`;
   };
 
   return (
     <div className="absolute z-25 w-full bg-neutral-800 border-2 border-t-0 border-white rounded-b-lg shadow-md text-sm text-gray-300 max-h-72 overflow-y-auto">
       {loading ? (
         <div className="px-4 py-2 text-gray-400 italic">{t("loading")}</div>
-      ) : results.length === 0 && recentResults.length === 0 ? (
+      ) : unifiedResults.length === 0 ? (
         <div className="px-4 py-2 text-gray-400 italic">{t("no_data")}</div>
       ) : (
-        <>
-          {recentResults.length > 0 && (
-            <>
-              <div className="px-4 pt-2 pb-1 text-xs uppercase tracking-wider text-red-500 font-semibold">
-                {t("recent_searches")}
-              </div>
-              {recentResults.map((result, index) =>
-                renderItem(result, index, true)
+        unifiedResults.map((item, index) => (
+          <a
+            key={`${item.type}-${item.id}-${index}`}
+            href={getItemLink(item)}
+            onClick={(e) => {
+              e.preventDefault();
+              onSelect?.(item);
+            }}
+            className="flex justify-between items-center w-full px-4 py-2 hover:bg-neutral-700 transition-colors text-white"
+          >
+            <div className="flex flex-col text-sm">
+              <span className="font-semibold">{item.title}</span>
+              {item.subtitle && (
+                <span className="text-gray-400">{item.subtitle}</span>
               )}
-              <hr className="border-gray-600 my-2" />
-            </>
-          )}
-          {results.map((result, index) =>
-            renderItem(result, index, isRecent(result))
-          )}
-        </>
+            </div>
+            {getItemIcon(item)}
+          </a>
+        ))
       )}
     </div>
   );

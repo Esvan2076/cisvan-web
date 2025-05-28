@@ -1,13 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useGlobalSearch } from "./search/useGlobalSearch";
-import { useMovieSearch } from "./search/useMovieSearch";
-import { usePersonSearch } from "./search/usePersonSearch";
-import { useSerieSearch } from "./search/useSerieSearch";
 import { useClickOutside } from "./shared/useClickOutside";
-import { SearchResult } from "../models/searchResult";
-import { isPersonResult } from "../utils/typeGuards";
-import { searchService, SearchSuggestion } from "../services/searchService";
+import { SearchResult, UnifiedSearchItem } from "../models/searchResult";
+import { searchService } from "../services/searchService";
 import { useAuth } from "./useAuth";
 
 export const useSearchLogic = () => {
@@ -16,131 +11,93 @@ export const useSearchLogic = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const [recentResults, setRecentResults] = useState<SearchResult[]>([]);
-  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
+  const [unifiedResults, setUnifiedResults] = useState<UnifiedSearchItem[]>([]);
+  const [loadingUnified, setLoadingUnified] = useState(false);
+  const [filter, setFilter] = useState(localStorage.getItem("selectedFilter") || "all");
+  const token = localStorage.getItem("auth_token");
 
   useClickOutside(wrapperRef, () => setIsDropdownOpen(false));
 
-  const selectedFilter = localStorage.getItem("selectedFilter") || "all";
-  const isPersonFilter = selectedFilter === "person";
-  const isMovieFilter = selectedFilter === "movie";
-  const isSerieFilter = selectedFilter === "serie";
-  const isGlobalFilter = selectedFilter === "all";
-
   useEffect(() => {
-    if (isGlobalFilter && user) {
-      loadSuggestions();
-    }
-  }, [isGlobalFilter, user]);
+    performUnifiedSearch(searchTerm);
+  }, [searchTerm, filter]);
 
-  const loadSuggestions = async () => {
+  const performUnifiedSearch = async (query: string) => {
+    setLoadingUnified(true);
     try {
-      const response = await searchService.getSuggestions();
-      const transformedResults: SearchResult[] = response.suggestions.map(
-        (s) => {
-          if (s.resultType === "person") {
-            return {
-              nconst: s.resultId,
-              primaryName: s.resultTitle,
-              primaryProfession: "",
-              principalTitle: {
-                primaryTitle: "",
-                startYear: 0,
-                endYear: null,
-              },
-              wasSearched: s.wasSearched,
-            };
-          } else if (s.resultType === "serie") {
-            return {
-              tconst: s.resultId,
-              primaryTitle: s.resultTitle,
-              startYear: 0,
-              endYear: null,
-              actors: "",
-              wasSearched: s.wasSearched,
-            };
-          } else {
-            return {
-              tconst: s.resultId,
-              primaryTitle: s.resultTitle,
-              startYear: 0,
-              actors: "",
-              wasSearched: s.wasSearched,
-            };
-          }
-        }
-      );
-      setRecentResults(transformedResults);
-      setSuggestions(response.suggestions);
+      const response = await searchService.getUnifiedSearch(query, filter, token || "");
+      setUnifiedResults(response.items);
     } catch (error) {
-      console.error("Error loading suggestions:", error);
+      console.error("Error performing unified search:", error);
+      setUnifiedResults([]);
+    } finally {
+      setLoadingUnified(false);
     }
   };
 
-  const { results: personResults, loading: loadingPersons } = usePersonSearch(
-    searchTerm,
-    isPersonFilter
-  );
-  const { results: movieResults, loading: loadingMovies } = useMovieSearch(
-    searchTerm,
-    isMovieFilter
-  );
-  const { results: serieResults, loading: loadingSeries } = useSerieSearch(
-    searchTerm,
-    isSerieFilter
-  );
-  const { results: globalResults, loading: loadingGlobal } = useGlobalSearch(
-    searchTerm,
-    isGlobalFilter
-  );
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    setIsDropdownOpen(true);
+    performUnifiedSearch(value);
+  };
 
-  const currentResults = isPersonFilter
-    ? personResults
-    : isMovieFilter
-      ? movieResults
-      : isSerieFilter
-        ? serieResults
-        : isGlobalFilter
-          ? globalResults
-          : [];
+  const refreshRecentSearches = () => {
+    performUnifiedSearch("");
+  };
 
-  const currentLoading = isPersonFilter
-    ? loadingPersons
-    : isMovieFilter
-      ? loadingMovies
-      : isSerieFilter
-        ? loadingSeries
-        : isGlobalFilter
-          ? loadingGlobal
-          : false;
+  const currentResults = unifiedResults;
+  const currentLoading = loadingUnified;
+
+  const transformUnifiedToSearchResult = (item: UnifiedSearchItem): SearchResult => {
+    if (item.type === "person") {
+      return {
+        nconst: item.id,
+        primaryName: item.title,
+        primaryProfession: "",
+        principalTitle: {
+          primaryTitle: "",
+          startYear: 0,
+          endYear: null,
+        },
+      };
+    } else if (item.type === "serie") {
+      return {
+        tconst: item.id,
+        primaryTitle: item.title,
+        startYear: 0,
+        endYear: null,
+        actors: "",
+      };
+    } else {
+      return {
+        tconst: item.id,
+        primaryTitle: item.title,
+        startYear: 0,
+        actors: "",
+      };
+    }
+  };
 
   const recordSearchClick = async (item: SearchResult) => {
-    if (!user) {
-      console.log("No user logged in, skipping search recording");
+    if (!token) {
+      console.log("No auth token available, skipping search recording");
       return;
     }
 
     const clickData = {
       searchTerm: searchTerm || "suggestion",
       resultType:
-        "nconst" in item
-          ? "person"
-          : "endYear" in item && item.endYear !== null
-            ? "serie"
-            : "movie",
+        "nconst" in item ? "person" : "endYear" in item && item.endYear !== null ? "serie" : "movie",
       resultId: "nconst" in item ? item.nconst : item.tconst,
       resultTitle: "nconst" in item ? item.primaryName : item.primaryTitle,
     };
 
-    console.log("Preparing to record search click:", clickData);
-
     try {
-      await searchService.recordClick(clickData);
-      console.log("Search click recorded, refreshing suggestions");
-      // Recargar sugerencias después de registrar una búsqueda
-      await loadSuggestions();
+      await searchService.recordClick(clickData, token);
+      console.log("Search click recorded successfully");
     } catch (error) {
-      console.error("Error recording search click:", error);
+      console.log("Could not record search click:", error);
     }
   };
 
@@ -148,17 +105,13 @@ export const useSearchLogic = () => {
     if (currentResults.length === 0) return;
 
     const first = currentResults[0];
-    await recordSearchClick(first);
+    const searchResult = transformUnifiedToSearchResult(first);
+    await recordSearchClick(searchResult);
 
-    if (isPersonFilter && "nconst" in first) {
-      navigate(`/person/${first.nconst}`);
-    } else if (
-      (isMovieFilter || isSerieFilter || isGlobalFilter) &&
-      "tconst" in first
-    ) {
-      navigate(`/content/${first.tconst}`);
-    } else if (isGlobalFilter && "nconst" in first) {
-      navigate(`/person/${first.nconst}`);
+    if (first.type === "person") {
+      navigate(`/person/${first.id}`);
+    } else {
+      navigate(`/content/${first.id}`);
     }
 
     setSearchTerm("");
@@ -171,29 +124,15 @@ export const useSearchLogic = () => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    setIsDropdownOpen(true);
-
-    if (value.trim() === "" && isGlobalFilter && user) {
-      loadSuggestions();
-    }
-  };
-
-  // useSearchLogic.ts - Modificar la función handleSelectResult
-  // Modificar handleSelectResult para asegurar que se espere por recordSearchClick
-  const handleSelectResult = async (item: SearchResult) => {
-    console.log("Selected search result:", item);
-
+  const handleSelectResult = async (item: UnifiedSearchItem) => {
     try {
-      await recordSearchClick(item);
-      console.log("Navigating to result page");
+      const searchResult = transformUnifiedToSearchResult(item);
+      await recordSearchClick(searchResult);
 
-      if ("nconst" in item) {
-        navigate(`/person/${item.nconst}`);
-      } else if ("tconst" in item) {
-        navigate(`/content/${item.tconst}`);
+      if (item.type === "person") {
+        navigate(`/person/${item.id}`);
+      } else {
+        navigate(`/content/${item.id}`);
       }
 
       setSearchTerm("");
@@ -204,14 +143,7 @@ export const useSearchLogic = () => {
   };
 
   const clearRecentSearches = () => {
-    setRecentResults([]);
-    setSuggestions([]);
-  };
-
-  const refreshRecentSearches = () => {
-    if (user) {
-      loadSuggestions();
-    }
+    console.log("Clear recent searches called - no longer implemented in unified search");
   };
 
   return {
@@ -223,10 +155,11 @@ export const useSearchLogic = () => {
     handleSearch,
     isDropdownOpen,
     setIsDropdownOpen,
-    selectedFilter,
+    selectedFilter: filter,
+    setFilter,
     currentResults,
     currentLoading,
-    recentResults,
+    recentResults: [],
     handleSelectResult,
     clearRecentSearches,
     refreshRecentSearches,
