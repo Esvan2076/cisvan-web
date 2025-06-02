@@ -123,7 +123,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({
             {/* Paginación */}
             <div className="flex items-center gap-2 ml-0 sm:ml-4">
               <span className="text-gray-300 text-sm">
-                {t("page")} {currentPage + 1}/{totalPages}
+                {t("review")} {currentPage + 1}/{totalPages}
               </span>
               <button
                 onClick={onPrev}
